@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10251d">
+<title>Smart Money — Simple Finance Tools</title>
+<meta name="description" content="Free EMI, home loan, SIP and personal finance calculators. Simple tools for smarter money decisions.">
+<style>
+:root{--ink:#12271d;--green:#176b45;--mint:#e5f4e9;--paper:#f6f8f5;--muted:#66756c}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+header{background:#10251d;color:#fff;padding:16px clamp(16px,5vw,64px);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{font-weight:850;font-size:23px;letter-spacing:-.7px}.logo span{color:#78e0a5}
+nav{display:flex;gap:18px;flex-wrap:wrap}nav a{color:#eaf5ee;text-decoration:none;font-size:14px}
+.hero{padding:clamp(32px,7vw,76px) clamp(16px,5vw,64px);background:linear-gradient(120deg,#e5f4e9,#f4f8f3)}
+.hero h1{font-size:clamp(32px,6vw,58px);line-height:1.05;letter-spacing:-1.8px;margin:0 0 16px;max-width:760px}
+.hero p{max-width:650px;color:#41574a;font-size:18px}.pill{display:inline-block;background:#d0ead8;color:#175b3b;padding:6px 11px;border-radius:99px;font-size:12px;font-weight:700}
+main{max-width:1180px;margin:auto;padding:32px clamp(16px,5vw,64px)}.section-head{margin-bottom:18px}.section-head h2{margin:0;font-size:26px}.section-head p{color:var(--muted);margin:4px 0}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:18px}
+.card{background:white;border:1px solid #e5ebe6;border-radius:18px;padding:22px;box-shadow:0 8px 28px #13291b08}
+.card h3{margin:0 0 12px;font-size:20px}.tag{font-size:12px;color:var(--green);font-weight:750}
+label{display:block;font-size:13px;font-weight:650;margin:14px 0 5px}
+input,select{width:100%;padding:12px;border:1px solid #d5dfd7;border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+button{border:0;border-radius:10px;background:var(--green);color:#fff;font-weight:750;padding:12px 16px;font:inherit;cursor:pointer;width:100%;margin-top:15px}
+.result{background:var(--mint);padding:14px;border-radius:12px;margin-top:14px;font-size:14px;min-height:72px}
+.big{font-size:25px;font-weight:850;color:var(--green);display:block}
+.note{color:var(--muted);font-size:12px}.coming{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}
+.coming div{background:#f4f8f4;border:1px solid #e6eee7;padding:12px;border-radius:10px;font-size:14px;font-weight:650}
+footer{padding:24px clamp(16px,5vw,64px);background:#10251d;color:#c8d7cd;font-size:12px}
+@media(min-width:850px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style></head>
+<body>
+<header><div class="logo">Smart<span>Money</span></div><nav><a href="#calculators">Calculators</a><a href="#tools">More tools</a><a href="#about">About</a></nav></header>
+<section class="hero"><span class="pill">FREE FINANCIAL TOOLS</span><h1>Make your money work smarter.</h1><p>Simple calculators to understand loans, savings and your financial future — built for everyday decisions.</p><strong>आपके पैसों की प्लानिंग, अब आसान।</strong></section>
+<main id="calculators"><div class="section-head"><h2>Financial Calculators</h2><p>Enter your details to get an instant estimate.</p></div>
+<div class="tools">
+<section class="card"><span class="tag">LOAN PLANNER</span><h3>🏠 EMI Calculator</h3>
+<label for="loan">Loan amount (₹)</label><input id="loan" type="number" min="1" value="1000000">
+<label for="rate">Annual interest rate (%)</label><input id="rate" type="number" min="0" step=".1" value="9">
+<label for="years">Tenure (years)</label><input id="years" type="number" min=".1" step=".5" value="20">
+<button onclick="calcEMI()">Calculate EMI</button><div class="result" id="emiResult" aria-live="polite">Your estimate will appear here.</div></section>
+
+<section class="card"><span class="tag">HOME BUYER PLANNER</span><h3>🏡 Home Loan Calculator</h3>
+<label for="homePrice">Property price (₹)</label><input id="homePrice" type="number" min="1" value="5000000">
+<label for="downPayment">Down payment (₹)</label><input id="downPayment" type="number" min="0" value="1000000">
+<label for="homeRate">Annual interest rate (%)</label><input id="homeRate" type="number" min="0" step=".1" value="8.5">
+<label for="homeYears">Loan tenure (years)</label><input id="homeYears" type="number" min=".1" step=".5" value="20">
+<button onclick="calcHome()">Calculate Home Loan</button><div class="result" id="homeResult" aria-live="polite">Enter property details to estimate your home loan.</div>
+<p class="note">Estimate excludes stamp duty, registration, insurance and lender fees. Actual loan eligibility and terms depend on the lender.</p></section>
+
+<section class="card"><span class="tag">INVESTMENT PLANNER</span><h3>📈 SIP Calculator</h3>
+<label for="sipAmt">Monthly investment (₹)</label><input id="sipAmt" type="number" min="1" value="5000">
+<label for="sipRate">Expected annual return (%)</label><input id="sipRate" type="number" min="0" step=".1" value="12">
+<label for="sipYears">Investment period (years)</label><input id="sipYears" type="number" min=".1" step=".5" value="15">
+<button onclick="calcSIP()">Calculate SIP</button><div class="result" id="sipResult" aria-live="polite">Your estimate will appear here.</div><p class="note">Returns are illustrative, not guaranteed.</p></section>
+<section class="card" id="tools"><span class="tag">COMING NEXT</span><h3>🧰 More Smart Money Tools</h3><div class="coming"><div>Debt-Free Planner</div><div>Credit Card Payoff</div><div>Compound Interest</div><div>FD Calculator</div><div>Salary Calculator</div><div>Credit Score Guide</div></div><p class="note">We’ll add and test each tool in future versions.</p></section>
+<section class="card" id="about"><span class="tag">ABOUT SMART MONEY</span><h3>Clear numbers. Smarter choices.</h3><p>Smart Money is planned as a simple financial education and calculator website for India, with tools that work on mobile and desktop.</p><p class="note">Disclaimer: Estimates are for educational purposes only. Actual lender terms, taxes, fees and investment returns may differ. This website does not provide personalized financial, tax or investment advice.</p></section>
+</div></main>
+<footer>© 2026 Smart Money · Financial education made simple</footer>
+<script>
+const el=id=>document.getElementById(id), money=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+function loanMath(P,a,y){let n=Math.round(y*12),r=a/1200,e=r===0?P/n:P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);return {n,e,total:e*n,interest:e*n-P}}
+function calcEMI(){let P=+el('loan').value,a=+el('rate').value,y=+el('years').value;
+if(!(P>0&&a>=0&&y>0&&[P,a,y].every(Number.isFinite))){el('emiResult').textContent='Please enter valid values.';return}
+let x=loanMath(P,a,y);
+el('emiResult').innerHTML='Monthly EMI <span class="big">'+money(x.e)+'</span>Total interest: <b>'+money(x.interest)+'</b><br>Total repayment: <b>'+money(x.total)+'</b>'}
+function calcHome(){let price=+el('homePrice').value,down=+el('downPayment').value,a=+el('homeRate').value,y=+el('homeYears').value;
+if(!(price>0&&down>=0&&down<price&&a>=0&&y>0&&[price,down,a,y].every(Number.isFinite))){el('homeResult').textContent='Please enter valid values. Down payment must be less than property price.';return}
+let P=price-down,x=loanMath(P,a,y);
+el('homeResult').innerHTML='Estimated loan amount <span class="big">'+money(P)+'</span>Monthly EMI: <b>'+money(x.e)+'</b><br>Total interest: <b>'+money(x.interest)+'</b><br>Total loan repayment: <b>'+money(x.total)+'</b><br>Down payment: <b>'+money(down)+'</b><br>Estimated total property outlay: <b>'+money(down+x.total)+'</b>'}
+function calcSIP(){let p=+el('sipAmt').value,a=+el('sipRate').value,y=+el('sipYears').value;
+if(!(p>0&&a>=0&&y>0&&[p,a,y].every(Number.isFinite))){el('sipResult').textContent='Please enter valid values.';return}
+let n=Math.round(y*12),r=a/1200,invested=p*n,total=r===0?invested:p*(Math.pow(1+r,n)-1)/r*(1+r);
+el('sipResult').innerHTML='Estimated value <span class="big">'+money(total)+'</span>Invested: <b>'+money(invested)+'</b><br>Estimated gain: <b>'+money(total-invested)+'</b>'}
+calcEMI();calcHome();calcSIP();
+</script></body></html>
