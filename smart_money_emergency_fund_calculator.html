@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10251d">
+<title>Smart Money — Emergency Fund Calculator</title>
+<meta name="description" content="Free Emergency Fund Calculator for India. Estimate your emergency savings target and track progress.">
+<style>
+:root{--ink:#12271f;--green:#176b45;--mint:#eaf5ee;--muted:#68766f;--line:#dfe8e2;--bg:#f4f7f4;--white:#fff;--amber:#fff4dc}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5}
+header{background:#10251d;color:#fff;padding:17px 20px}.header-inner{max-width:980px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:21px;font-weight:850}.tag{font-size:12px;color:#c5d8cc}main{max-width:980px;margin:24px auto;padding:0 14px 32px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:clamp(18px,4vw,30px);margin-bottom:18px;box-shadow:0 5px 20px #10251d08}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--green);text-transform:uppercase}h1{font-size:clamp(27px,5vw,40px);line-height:1.15;margin:8px 0 10px}h2{font-size:22px;margin:0 0 8px}
+p{margin:6px 0 14px;color:var(--muted)}.mode-note{background:var(--mint);padding:12px 14px;border-radius:12px;color:#275b42;font-size:14px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}.field label{display:block;font-size:14px;font-weight:700;margin-bottom:7px}
+.field input,.field select{width:100%;min-width:0;border:1px solid #cfdad2;border-radius:12px;padding:14px 13px;font-size:17px;background:#fff;color:var(--ink);outline:none}
+.field input:focus,.field select:focus{border-color:var(--green);box-shadow:0 0 0 3px #176b4518}.hint{font-size:12px;color:var(--muted);margin-top:5px}
+.actions{display:grid;grid-template-columns:1.3fr 1fr;gap:12px;margin-top:20px}button{border:0;border-radius:12px;padding:14px 16px;font-size:16px;font-weight:750;cursor:pointer}
+.primary{background:var(--green);color:#fff}.secondary{background:var(--mint);color:var(--green)}.results{margin-top:22px}
+.result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.metric{background:var(--mint);border-radius:15px;padding:15px}
+.metric span{display:block;color:var(--muted);font-size:13px}.metric strong{display:block;font-size:clamp(21px,4vw,29px);color:var(--green);line-height:1.25;margin-top:5px;overflow-wrap:anywhere}
+.progress-wrap{margin-top:18px}.progress-label{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);margin-bottom:7px}
+.track{height:12px;background:#e8eee9;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:var(--green);border-radius:99px;transition:width .2s}
+.status{padding:13px 15px;border-radius:12px;background:#f1f7f2;margin-top:15px;font-weight:650}.breakdown{display:grid;gap:10px;margin-top:14px}
+.break-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #edf1ee;padding:8px 0;font-size:14px}.break-row strong{text-align:right}
+.tip{background:var(--amber);border-radius:13px;padding:14px;color:#6e521b;font-size:14px;margin-top:14px}footer{text-align:center;color:var(--muted);font-size:12px;padding:12px 18px 28px}
+@media(max-width:560px){.fields{grid-template-columns:1fr;gap:13px}.actions{grid-template-columns:1fr 1fr}.result-grid{grid-template-columns:1fr 1fr}.card{border-radius:18px}header{padding:14px 16px}}
+@media(max-width:360px){.result-grid,.actions{grid-template-columns:1fr}}
+</style></head>
+<body>
+<header><div class="header-inner"><div><div class="logo">Smart Money</div><div class="tag">Clear numbers. Smarter choices.</div></div><div class="tag">Emergency Fund</div></div></header>
+<main>
+<section class="card">
+<div class="eyebrow">Savings planner</div><h1>Emergency Fund Calculator</h1>
+<p>Find out how much money you may want to keep aside for unexpected events like a job gap, medical expense or urgent repair.</p>
+<div class="mode-note">A common planning range is 3–6 months of essential expenses. Consider a larger buffer if income is irregular or others depend on you.</div>
+<div class="fields">
+<div class="field"><label for="expenses">Monthly essential expenses (₹)</label><input id="expenses" type="number" min="0" step="500" value="25000" inputmode="decimal"><div class="hint">Rent, groceries, bills, essential EMIs, medicines, etc.</div></div>
+<div class="field"><label for="months">Target coverage</label><select id="months"><option value="3">3 months</option><option value="6" selected>6 months</option><option value="9">9 months</option><option value="12">12 months</option></select><div class="hint">Choose based on your situation.</div></div>
+<div class="field"><label for="saved">Emergency savings already set aside (₹)</label><input id="saved" type="number" min="0" step="500" value="0" inputmode="decimal"></div>
+<div class="field"><label for="monthly">Planned monthly contribution (₹)</label><input id="monthly" type="number" min="0" step="500" value="5000" inputmode="decimal"><div class="hint">Amount you can regularly save.</div></div>
+</div>
+<div class="actions"><button class="primary" id="calculate">Calculate my fund</button><button class="secondary" id="reset" type="button">Reset</button></div>
+<div class="results" aria-live="polite"><div class="result-grid">
+<div class="metric"><span>Emergency fund target</span><strong id="target">₹1,50,000</strong></div>
+<div class="metric"><span>Amount still needed</span><strong id="gap">₹1,50,000</strong></div>
+<div class="metric"><span>Current coverage</span><strong id="coverage">0 months</strong></div>
+<div class="metric"><span>Estimated time to goal</span><strong id="time">30 months</strong></div>
+</div>
+<div class="progress-wrap"><div class="progress-label"><span>Fund progress</span><strong id="percent">0%</strong></div><div class="track"><div class="fill" id="fill"></div></div></div>
+<div class="status" id="status">Build your emergency fund gradually, based on your budget.</div>
+<div class="breakdown">
+<div class="break-row"><span>Selected coverage</span><strong id="selected">6 months</strong></div>
+<div class="break-row"><span>Monthly essential expenses</span><strong id="monthlyExpense">₹25,000</strong></div>
+<div class="break-row"><span>Suggested monthly saving to reach goal in 12 months</span><strong id="suggested">₹12,500</strong></div>
+</div>
+<div class="tip" id="tip">Keep emergency savings accessible and separate from everyday spending. Avoid counting credit-card limits as emergency savings.</div>
+</div></section>
+<section class="card"><div class="eyebrow">How to use it</div><h2>Build your safety buffer</h2>
+<p>1. Enter essential monthly expenses—not every optional purchase.</p><p>2. Select a target period. A 3-month target can be a starting milestone; 6–12 months may suit some households better.</p>
+<p>3. Add only money already reserved for emergencies, then enter a realistic monthly contribution.</p>
+<p><strong>Note:</strong> This calculator provides an estimate for education and planning. It does not connect to your bank or provide personalized financial advice. Actual needs vary by household and circumstances.</p></section>
+</main><footer>© 2026 Smart Money · Financial education made simple</footer>
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Math.round(n));
+const number=id=>Math.max(0,Number($(id).value)||0);
+function calculate(){
+ const expenses=number('expenses'),months=Number($('months').value)||6,saved=number('saved'),contribution=number('monthly');
+ const target=expenses*months,gap=Math.max(0,target-saved),coverage=expenses>0?saved/expenses:0,pct=target>0?Math.min(100,saved/target*100):(saved>0?100:0);
+ $('target').textContent=money(target);$('gap').textContent=money(gap);$('coverage').textContent=expenses>0?coverage.toFixed(1)+' months':'N/A';
+ $('time').textContent=gap===0?'Goal reached':contribution>0?Math.ceil(gap/contribution)+' months':'Add a monthly contribution';
+ $('percent').textContent=pct.toFixed(0)+'%';$('fill').style.width=pct+'%';$('selected').textContent=months+' months';
+ $('monthlyExpense').textContent=money(expenses);$('suggested').textContent=money(gap/12);
+ $('status').textContent=gap===0?'You have reached your selected emergency fund target. Review it when your expenses or household needs change.':contribution===0?'Enter a monthly contribution to estimate how long reaching your goal may take.':'You are '+pct.toFixed(0)+'% of the way to your selected target. Keep the monthly contribution realistic and consistent.';
+ $('tip').textContent=expenses===0?'Enter your essential monthly expenses to calculate a meaningful target.':'For a practical approach, you can build a smaller starter buffer first, then work toward your full target. Keep this money accessible and separate from everyday spending.';
+}
+$('calculate').addEventListener('click',calculate);['expenses','months','saved','monthly'].forEach(id=>$(id).addEventListener('input',calculate));
+$('reset').addEventListener('click',()=>{$('expenses').value=25000;$('months').value='6';$('saved').value=0;$('monthly').value=5000;calculate()});calculate();
+</script></body></html>
