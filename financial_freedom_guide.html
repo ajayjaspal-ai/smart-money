@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10251d">
+<title>Financial Freedom Guide | Smart Money</title>
+<meta name="description" content="A practical step-by-step guide to debt reduction, saving and financial growth.">
+<style>
+:root{--ink:#14251e;--green:#176b45;--mint:#e8f5ec;--line:#dce7df;--muted:#617168;--paper:#f5f8f5}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header,footer{background:#10251d;color:white;padding:16px 20px}.top,main,.hero-in{max-width:1050px;margin:auto}.top{font-weight:800;font-size:21px}.top span{color:#8ce0a8}
+.hero{background:linear-gradient(135deg,#10251d,#1b5d3e);color:white;padding:48px 20px}.eyebrow{color:#9ce2b3;font-weight:800;font-size:12px;letter-spacing:1.5px}.hero h1{font-size:clamp(32px,6vw,52px);line-height:1.1;margin:10px 0}.hero p{max-width:720px;color:#e0eee4}.btn,.links a{display:inline-block;background:var(--green);color:white;padding:10px 15px;border-radius:9px;text-decoration:none;font-weight:750}.hero .btn{background:white;color:#14452e}
+main{padding:22px 14px}.intro,.guide{background:white;border:1px solid var(--line);border-radius:16px;padding:22px;margin:16px 0}.pill{display:inline-block;background:var(--mint);color:var(--green);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}.navcard{background:white;border:1px solid var(--line);border-radius:12px;padding:14px;text-decoration:none;color:var(--ink)}.navcard b{display:block;color:var(--green);font-size:12px}.navcard strong{display:block}.navcard small{color:var(--muted)}
+.stephead{display:flex;gap:12px;align-items:flex-start}.num{background:var(--mint);color:var(--green);border-radius:12px;padding:6px 13px;font-weight:900;font-size:20px}.stephead h2{margin:0;line-height:1.25;font-size:24px}.stephead p{margin:5px 0;color:var(--muted)}h3{margin:18px 0 6px;font-size:18px}
+.callout,.action{padding:13px 15px;background:var(--mint);border-left:4px solid var(--green);border-radius:8px;margin:14px 0}.warning{padding:13px 15px;background:#fff7e5;border-left:4px solid #d89a17;border-radius:8px;margin:14px 0}
+.checklist{display:grid;gap:8px}.check{display:flex;gap:10px;background:#f8faf8;border:1px solid #e4ece5;border-radius:9px;padding:10px}.check input{margin-top:6px;accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.links a.alt{background:#edf5ef;color:var(--green);border:1px solid #d4e6d8}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}td,th{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:#f1f7f2}
+.progress{height:9px;background:#e5eee7;border-radius:20px;overflow:hidden;flex:1;min-width:130px}.fill{height:100%;width:0;background:var(--green)}.progrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.small{font-size:13px;color:var(--muted)}
+details{border:1px solid var(--line);border-radius:9px;padding:12px;margin:8px 0}summary{font-weight:750;cursor:pointer}
+@media(max-width:600px){.hero{padding:36px 17px}.intro,.guide{padding:17px}.stephead h2{font-size:21px}}
+</style></head><body>
+<header><div class="top">Smart <span>Money</span></div></header>
+<div class="hero"><div class="hero-in"><div class="eyebrow">YOUR PRACTICAL MONEY ROADMAP</div><h1>Financial Freedom Guide</h1><p>कर्ज़ से राहत पाने, बचत बनाने और पैसे को समझदारी से बढ़ाने के लिए आसान step-by-step guide.</p><p>छोटे कदम, साफ़ हिसाब और लगातार अमल—यहीं से शुरुआत होती है।</p><a class="btn" href="#start">Start My Journey ↓</a></div></div>
+<main>
+<div class="intro" id="start"><span class="pill">पहले यह समझें</span><p><b>Financial freedom एक दिन में नहीं आती।</b> इसका मतलब है जरूरी खर्च, कर्ज़ और भविष्य के लक्ष्यों को संभालने की क्षमता बनाना—बिना हर महीने पैसों के दबाव में फँसे। हर व्यक्ति की स्थिति और समय अलग होता है।</p>
+<p class="small">यह सामान्य financial education है, व्यक्तिगत निवेश/कर/कानूनी सलाह नहीं। किसी भी लोन या निवेश से पहले उसकी शर्तें, जोखिम, शुल्क और अपनी भुगतान क्षमता जाँचें।</p>
+<div class="progrow"><b id="progressText">0 / 14 actions completed</b><div class="progress"><div class="fill" id="progressFill"></div></div><button class="btn" type="button" onclick="resetChecks()">Reset checklist</button></div></div>
+<h2>Your 7-step roadmap</h2><div class="grid">
+<a class="navcard" href="#s1"><b>STEP 01</b><strong>Know your numbers</strong><small>Income, expenses and debt</small></a>
+<a class="navcard" href="#s2"><b>STEP 02</b><strong>Make a debt exit plan</strong><small>Snowball, avalanche, due dates</small></a>
+<a class="navcard" href="#s3"><b>STEP 03</b><strong>Build an emergency fund</strong><small>Prepare for unexpected costs</small></a>
+<a class="navcard" href="#s4"><b>STEP 04</b><strong>Control monthly spending</strong><small>A budget you can follow</small></a>
+<a class="navcard" href="#s5"><b>STEP 05</b><strong>Save and invest wisely</strong><small>Goals, risk and compounding</small></a>
+<a class="navcard" href="#s6"><b>STEP 06</b><strong>Grow your income</strong><small>Career, skills and side income</small></a>
+<a class="navcard" href="#s7"><b>STEP 07</b><strong>Review your plan</strong><small>Protect progress and stay consistent</small></a></div>
+
+<section class="guide" id="s1"><div class="stephead"><div class="num">01</div><div><h2>अपनी आर्थिक स्थिति समझें</h2><p>Know your numbers before making big decisions.</p></div></div>
+<p>अनुमान के बजाय वास्तविक आंकड़े लिखें। इससे पता चलेगा कि पैसा कहाँ से आ रहा है और कहाँ जा रहा है।</p><h3>एक जगह ये 4 चीज़ें लिखें</h3><ul><li>कुल मासिक in-hand income.</li><li>जरूरी खर्च: किराया, राशन, बिजली, स्कूल, यात्रा, दवाइयाँ।</li><li>हर loan/card का बकाया, ब्याज दर, EMI/minimum due और due date.</li><li>बैंक बैलेंस, बचत और सालाना/अनियमित खर्च।</li></ul>
+<div class="callout"><b>उदाहरण:</b> ₹45,000 income और ₹25,000 जरूरी खर्च होने पर EMI, अतिरिक्त repayment और बचत के लिए अधिकतम ₹20,000 बचते हैं—वह भी अन्य खर्चों से पहले।</div>
+<h3>आज की चेकलिस्ट</h3><div class="checklist"><label class="check"><input class="task" type="checkbox">मैंने अपनी मासिक in-hand income लिखी।</label><label class="check"><input class="task" type="checkbox">मैंने पिछले 30 दिनों के खर्च नोट किए।</label><label class="check"><input class="task" type="checkbox">मैंने सभी कर्ज़ों का बकाया, ब्याज और due date लिखी।</label></div>
+<div class="action"><b>आज का एक्शन:</b> 20 मिनट में अपना “Money Snapshot” बनाएं। आंकड़े जाने बिना नया लोन या निवेश निर्णय न लें।</div></section>
+
+<section class="guide" id="s2"><div class="stephead"><div class="num">02</div><div><h2>कर्ज़ से बाहर निकलने की रणनीति</h2><p>Debt repayment needs a plan—not panic.</p></div></div>
+<p>सभी जरूरी payments समय पर करते रहें। इसके बाद उपलब्ध अतिरिक्त रकम चुनी हुई रणनीति के अनुसार एक कर्ज़ पर केंद्रित करें।</p>
+<table><tr><th>तरीका</th><th>कैसे काम करता है</th><th>ध्यान दें</th></tr><tr><td><b>Debt Avalanche</b></td><td>Extra रकम सबसे ऊँची ब्याज दर वाले कर्ज़ पर लगाएँ; चुकने पर अगली ऊँची दर पर।</td><td>ब्याज खर्च कम करने में मदद कर सकता है, यदि योजना जारी रख सकें।</td></tr><tr><td><b>Debt Snowball</b></td><td>Extra रकम सबसे छोटे बकाये पर लगाएँ; फिर अगला छोटा बकाया।</td><td>जल्दी एक कर्ज़ बंद होने से प्रेरणा मिल सकती है; कुल ब्याज अधिक हो सकता है।</td></tr></table>
+<h3>जरूरी नियम</h3><ul><li>Credit card का सिर्फ minimum due लंबे समय तक भरना महँगा पड़ सकता है। ब्याज और शुल्क समझें।</li><li>नया लोन लेकर पुराना चुकाने से पहले total cost, processing fee, tenure और EMI की तुलना करें।</li><li>भुगतान छूटने की आशंका हो तो due date से पहले lender से विकल्प पूछें और शर्तें लिखित में लें।</li><li>ऐसी EMI न चुनें जिससे भोजन, किराया, दवा या काम पर जाने का खर्च प्रभावित हो।</li></ul>
+<div class="warning"><b>सावधानी:</b> “गारंटीड कर्ज़ माफी”, upfront fee लेकर settlement का वादा, या OTP/PIN माँगने वालों से सतर्क रहें। किसी समझौते का लिखित प्रमाण लें और credit report पर असर समझें।</div>
+<div class="checklist"><label class="check"><input class="task" type="checkbox">मैंने Avalanche या Snowball रणनीति चुनी।</label><label class="check"><input class="task" type="checkbox">मैंने सभी due dates कैलेंडर में डालीं।</label></div>
+<div class="action"><b>आज का एक्शन:</b> कर्ज़ों को ब्याज दर या बकाये के अनुसार क्रम में लगाएँ और अतिरिक्त repayment की संभव रकम तय करें।</div></section>
+
+<section class="guide" id="s3"><div class="stephead"><div class="num">03</div><div><h2>इमरजेंसी फंड बनाएं</h2><p>Unexpected expenses should not push you into fresh debt.</p></div></div>
+<p>इमरजेंसी फंड नौकरी/आय रुकने, जरूरी इलाज या अनपेक्षित मरम्मत जैसे खर्चों के लिए अलग रखी रकम है।</p><ul><li>पहले अपनी स्थिति के अनुसार छोटा शुरुआती लक्ष्य तय करें।</li><li>धीरे-धीरे 3–6 महीने के जरूरी खर्च तक पहुँचने का लक्ष्य रख सकते हैं; सही लक्ष्य आय की स्थिरता और परिवार की जिम्मेदारियों पर निर्भर है।</li><li>पैसा ऐसी जगह रखें जहाँ जरूरत पर आसानी से मिल सके; liquidity, सुरक्षा और शर्तें देखें।</li></ul>
+<div class="links"><a href="smart_money_emergency_fund_calculator.html">Open Emergency Fund Calculator ↗</a></div>
+<div class="checklist"><label class="check"><input class="task" type="checkbox">मैंने अपने जरूरी खर्च के आधार पर emergency-fund target निकाला।</label><label class="check"><input class="task" type="checkbox">मैंने हर महीने की संभव contribution तय की।</label></div>
+<div class="action"><b>आज का एक्शन:</b> अलग savings space/account में छोटी रकम से शुरुआत करें और salary के बाद नियमित transfer तय करें।</div></section>
+
+<section class="guide" id="s4"><div class="stephead"><div class="num">04</div><div><h2>ऐसा बजट बनाएं जिसे निभा सकें</h2><p>Budgeting is a plan for your money—not punishment.</p></div></div>
+<p>एक ही budget rule सब पर लागू नहीं होता। पहले जरूरी खर्च और required debt payments सुरक्षित करें; फिर अपनी स्थिति के अनुसार बचत और discretionary spending तय करें।</p>
+<ol><li>Income आते ही किराया, utilities, food, travel और जरूरी bills अलग करें।</li><li>कर्ज़ की required payments और तय extra repayment रखें।</li><li>संभव छोटी बचत/इमरजेंसी contribution तय करें।</li><li>बाकी खर्च के लिए साप्ताहिक सीमा रखें।</li><li>हर हफ्ते actual बनाम planned खर्च देखें।</li></ol>
+<div class="links"><a href="smart_money_monthly_budget_planner.html">Open Budget Planner ↗</a></div>
+<div class="checklist"><label class="check"><input class="task" type="checkbox">मैंने अगले महीने का budget बनाया।</label><label class="check"><input class="task" type="checkbox">मैंने एक ऐसा खर्च चुना जिसे सुरक्षित रूप से घटा सकता/सकती हूँ।</label></div>
+<div class="action"><b>आज का एक्शन:</b> अगले 7 दिनों की spending limit तय करें और हर छोटी खरीद लिखें—बिना खुद को दोष दिए।</div></section>
+
+<section class="guide" id="s5"><div class="stephead"><div class="num">05</div><div><h2>बचत और निवेश समझदारी से बढ़ाएं</h2><p>Match the product to your goal, time horizon and risk.</p></div></div>
+<p>बचत और निवेश के उद्देश्य अलग हैं। निकट अवधि में चाहिए पैसा आमतौर पर अधिक स्थिर और सुलभ जगह पर रखा जाता है। लंबी अवधि के लक्ष्यों के लिए निवेश पर विचार किया जा सकता है, लेकिन बाजार जोखिम बना रहता है।</p>
+<table><tr><th>विकल्प</th><th>क्या समझें</th></tr><tr><td>Bank savings / FD</td><td>ब्याज, अवधि, समय से पहले निकासी की शर्तें और कर।</td></tr><tr><td>PPF / long-term savings</td><td>लॉक-इन, योगदान नियम, ब्याज/कर नियम और लक्ष्य की अवधि।</td></tr><tr><td>Mutual Funds / SIP</td><td>SIP निवेश का तरीका है, guaranteed return नहीं। बाजार जोखिम, expense ratio और fund category समझें।</td></tr><tr><td>Equity / market products</td><td>मूलधन घट सकता है। जरूरी अल्पकालिक रकम या उधार के पैसे से जोखिम न लें।</td></tr></table>
+<div class="warning"><b>याद रखें:</b> किसी return को guaranteed मानकर योजना न बनाएं। लक्ष्य, समय-सीमा और जोखिम सहने की क्षमता समझें। जरूरत हो तो SEBI-registered investment adviser से सलाह लें।</div>
+<ul><li>एक लक्ष्य तय करें: कब और कितनी रकम चाहिए?</li><li>विविधीकरण समझें; एक ही asset पर निर्भर न रहें।</li><li>“जल्द अमीर” और guaranteed high-return दावों से बचें।</li></ul>
+<div class="checklist"><label class="check"><input class="task" type="checkbox">मैंने अपना लक्ष्य और समय-सीमा लिखी।</label><label class="check"><input class="task" type="checkbox">मैं निवेश से पहले जोखिम और शुल्क समझूँगा/समझूँगी।</label></div>
+<div class="action"><b>आज का एक्शन:</b> कोई निवेश चुनने से पहले लिखें कि पैसा कब चाहिए और कितना जोखिम स्वीकार कर सकते हैं।</div></section>
+
+<section class="guide" id="s6"><div class="stephead"><div class="num">06</div><div><h2>कमाई बढ़ाने के रास्ते बनाएं</h2><p>Grow earning power while protecting stability.</p></div></div>
+<ul><li><b>Career:</b> अपने measurable results लिखें, CV अपडेट करें और target roles की skills/salary समझें।</li><li><b>Skill:</b> मांग वाली एक skill चुनें; low-cost learning और छोटे projects से अभ्यास करें।</li><li><b>Side income:</b> tutoring, freelancing, local services या छोटे व्यापार को पहले सीमित स्तर पर validate करें।</li><li><b>Small business:</b> ग्राहक, लागत, margin, working capital, permissions और worst-case loss का हिसाब लगाएँ।</li></ul>
+<div class="callout">बिक्री को पक्का profit न मानें। Product cost, delivery, returns, tax, marketing और समय की लागत घटाकर वास्तविक कमाई समझें।</div>
+<div class="checklist"><label class="check"><input class="task" type="checkbox">मैंने एक income-growth goal चुना।</label><label class="check"><input class="task" type="checkbox">मैंने इस हफ्ते का पहला छोटा कदम तय किया।</label></div>
+<div class="action"><b>आज का एक्शन:</b> एक रास्ता चुनें और 30 दिनों का छोटा experiment बनाएं—बिना बड़ा कर्ज़ लिए।</div></section>
+
+<section class="guide" id="s7"><div class="stephead"><div class="num">07</div><div><h2>अपनी प्रगति की समीक्षा करें</h2><p>Consistency beats a perfect plan you never follow.</p></div></div>
+<p>हर महीने एक तय दिन अपनी स्थिति देखें। अगर कोई महीना बिगड़ जाए, तो योजना अपडेट करें—इसे असफलता न मानें।</p><ul><li>इस महीने कितना कर्ज़ कम हुआ?</li><li>क्या कोई payment late हुई? अगली बार कैसे रोकेंगे?</li><li>Emergency fund और savings में कितना जोड़ा?</li><li>क्या budget वास्तविक था या बदलाव चाहिए?</li><li>अगले महीने का सबसे जरूरी money action क्या है?</li></ul>
+<div class="checklist"><label class="check"><input class="task" type="checkbox">मैंने monthly review की तारीख तय की।</label></div>
+<div class="action"><b>आज का एक्शन:</b> हर महीने salary के बाद 15 मिनट की Money Review calendar में डालें।</div></section>
+
+<section class="guide" id="plan"><div class="stephead"><div class="num">✓</div><div><h2>आपका पहला 30-दिन का एक्शन प्लान</h2><p>Keep it simple. Start with what you can control.</p></div></div>
+<table><tr><th>समय</th><th>फोकस</th><th>क्या पूरा करें</th></tr><tr><td>दिन 1–3</td><td>जानकारी</td><td>Income, खर्च और कर्ज़ की सूची।</td></tr><tr><td>दिन 4–7</td><td>योजना</td><td>Budget, repayment method और due-date calendar।</td></tr><tr><td>सप्ताह 2</td><td>सुरक्षा</td><td>Emergency fund का शुरुआती लक्ष्य।</td></tr><tr><td>सप्ताह 3</td><td>कमाई/खर्च</td><td>एक खर्च सुधार और एक income-growth कदम।</td></tr><tr><td>सप्ताह 4</td><td>रिव्यू</td><td>प्रगति देखें और अगले महीने का plan अपडेट करें।</td></tr></table>
+<div class="links"><a href="smart_money_monthly_budget_planner.html">Budget Planner ↗</a><a class="alt" href="smart_money_emergency_fund_calculator.html">Emergency Fund Calculator ↗</a></div>
+<h3>Common questions</h3>
+<details><summary>पहले कर्ज़ चुकाऊँ या emergency fund बनाऊँ?</summary><p>यह आपकी स्थिति पर निर्भर है। जरूरी bills और required debt payments प्राथमिकता दें। छोटी emergency savings नए कर्ज़ से बचा सकती है; साथ ही ऊँची ब्याज दर वाले कर्ज़ को घटाना भी महत्वपूर्ण हो सकता है। अपने cash-flow के अनुसार संतुलन बनाएं।</p></details>
+<details><summary>क्या SIP से निश्चित रिटर्न मिलता है?</summary><p>नहीं। SIP नियमित निवेश का तरीका है, return की गारंटी नहीं। Mutual fund का मूल्य ऊपर-नीचे हो सकता है और नुकसान संभव है।</p></details>
+<details><summary>मेरी income कम है—क्या मैं शुरू कर सकता/सकती हूँ?</summary><p>हाँ। पहले cash-flow समझें, जरूरी खर्च सुरक्षित रखें और एक छोटा, टिकाऊ कदम चुनें। शुरुआत बड़ी रकम से होना जरूरी नहीं।</p></details>
+</section>
+<p class="small">Smart Money financial education के लिए है। यह किसी खास loan, investment, fund या stock की सिफारिश नहीं करता। नियम और product terms बदल सकते हैं—निर्णय से पहले आधिकारिक स्रोतों से पुष्टि करें।</p>
+</main><footer><b>Smart Money</b> · Clear numbers. Smarter choices.<br><span class="small">Financial education only</span></footer>
+<script>
+const tasks=[...document.querySelectorAll('.task')];
+function updateProgress(){let done=tasks.filter(t=>t.checked).length;document.getElementById('progressText').textContent=`${done} / ${tasks.length} actions completed`;document.getElementById('progressFill').style.width=(done/tasks.length*100)+'%'}
+tasks.forEach(t=>t.addEventListener('change',updateProgress));
+function resetChecks(){tasks.forEach(t=>t.checked=false);updateProgress()}updateProgress();
+</script></body></html>
