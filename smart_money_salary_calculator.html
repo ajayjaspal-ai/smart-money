@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Smart Money Salary Calculator - estimate gross salary, deductions and monthly in-hand salary.">
+<title>Salary Calculator | Smart Money</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033;line-height:1.5}
+header{background:#172554;color:#fff;padding:28px 18px;border-radius:0 0 18px 18px}header .wrap,main{max-width:980px;margin:auto}
+main{padding:18px}.card{background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 18px #00000012}
+h1{margin:0 0 6px;font-size:28px}h2{font-size:21px;margin:0 0 16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{font-weight:700;font-size:14px;display:block;margin-bottom:6px}input,select{width:100%;padding:13px;border:1px solid #ccd3df;border-radius:10px;font-size:16px;background:#fff}
+button{border:0;border-radius:10px;padding:13px 18px;font-size:16px;font-weight:700;cursor:pointer;background:#2563eb;color:#fff}.secondary{background:#e8eefc;color:#17306b}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.results{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.result{background:#f1f5ff;border-radius:12px;padding:14px}.result small{display:block;color:#526078}.result strong{display:block;font-size:20px;margin-top:4px}
+.table{overflow-x:auto}table{width:100%;min-width:620px;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid #e2e7ef}th{background:#f4f6fa}
+.note{background:#fff7e6;border-left:4px solid #f59e0b;padding:12px;border-radius:8px}.good{background:#ecfdf5;border-left:4px solid #10b981;padding:12px;border-radius:8px}
+.footer{text-align:center;color:#64748b;padding:24px}@media(max-width:700px){.grid,.results{grid-template-columns:1fr}h1{font-size:24px}.card{padding:16px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>💼 Salary Calculator</h1><p>Estimate gross salary, deductions and monthly in-hand pay from your salary structure.</p></div></header>
+<main>
+<section class="card">
+<h2>1. Enter Salary Details</h2>
+<div class="grid">
+<div><label for="annual">Annual Gross Salary (₹)</label><input id="annual" type="number" min="0" step="1000" value="600000"></div>
+<div><label for="basicPct">Basic Salary (% of Gross)</label><input id="basicPct" type="number" min="0" max="100" step="1" value="40"></div>
+<div><label for="pfRate">Employee PF (% of Basic)</label><input id="pfRate" type="number" min="0" max="100" step="0.1" value="12"></div>
+<div><label for="pt">Professional Tax / Month (₹)</label><input id="pt" type="number" min="0" step="10" value="200"></div>
+<div><label for="tds">TDS / Income Tax per Month (₹)</label><input id="tds" type="number" min="0" step="100" value="0"></div>
+<div><label for="other">Other Deductions / Month (₹)</label><input id="other" type="number" min="0" step="100" value="0"></div>
+</div>
+<div class="actions"><button onclick="calculate()">Calculate Salary</button><button class="secondary" onclick="resetForm()">Reset</button></div>
+</section>
+
+<section class="card">
+<h2>2. Estimated Result</h2>
+<div class="results">
+<div class="result"><small>Monthly Gross</small><strong id="gross">—</strong></div>
+<div class="result"><small>Monthly Deductions</small><strong id="deductions">—</strong></div>
+<div class="result"><small>Monthly In-hand</small><strong id="net">—</strong></div>
+<div class="result"><small>Annual In-hand</small><strong id="annualNet">—</strong></div>
+</div>
+<div id="message" class="good" style="margin-top:14px">Enter your salary details and calculate.</div>
+</section>
+
+<section class="card">
+<h2>3. Salary Breakdown</h2>
+<div class="table"><table>
+<thead><tr><th>Component</th><th>Monthly</th><th>Annual</th></tr></thead>
+<tbody id="breakdown"></tbody>
+</table></div>
+</section>
+
+<section class="card">
+<h2>4. Important Salary Notes</h2>
+<ul>
+<li>Basic salary is estimated from the percentage you enter; actual employer structures can be different.</li>
+<li>PF is estimated from the Basic Salary and the employee PF rate entered above.</li>
+<li>Professional tax differs by state and may not apply to every employee.</li>
+<li>TDS is intentionally user-editable because actual income-tax liability depends on the applicable tax regime, deductions, exemptions, employer structure and current rules.</li>
+<li>Actual payslip figures can differ because of gratuity, insurance, variable pay, bonuses, reimbursements, salary caps and employer-specific policies.</li>
+</ul>
+<div class="note"><strong>Important:</strong> This is a salary-planning estimate, not a tax filing or payroll statement. Use your employer's payslip and current tax rules for exact figures.</div>
+</section>
+
+<div class="footer">Smart Money • Personal Finance Tools</div>
+</main>
+<script>
+function money(n){return "₹"+Math.round(n).toLocaleString("en-IN")}
+function calculate(){
+ const annual=+document.getElementById("annual").value;
+ const basicPct=+document.getElementById("basicPct").value;
+ const pfRate=+document.getElementById("pfRate").value;
+ const pt=+document.getElementById("pt").value;
+ const tds=+document.getElementById("tds").value;
+ const other=+document.getElementById("other").value;
+ if(annual<0||basicPct<0||basicPct>100||pfRate<0||pt<0||tds<0||other<0){
+   message.textContent="Please enter valid values."; return;
+ }
+ const gross=annual/12;
+ const basic=gross*basicPct/100;
+ const hra=gross-basic;
+ const pf=basic*pfRate/100;
+ const total=pf+pt+tds+other;
+ const net=Math.max(0,gross-total);
+ document.getElementById("gross").textContent=money(gross);
+ document.getElementById("deductions").textContent=money(total);
+ document.getElementById("net").textContent=money(net);
+ document.getElementById("annualNet").textContent=money(net*12);
+ message.innerHTML="Estimated monthly in-hand salary: <strong>"+money(net)+"</strong>.";
+ breakdown.innerHTML=
+ `<tr><td>Gross Salary</td><td>${money(gross)}</td><td>${money(annual)}</td></tr>
+ <tr><td>Basic Salary (estimated)</td><td>${money(basic)}</td><td>${money(basic*12)}</td></tr>
+ <tr><td>Other Gross Components (estimated)</td><td>${money(hra)}</td><td>${money(hra*12)}</td></tr>
+ <tr><td>Employee PF</td><td>-${money(pf)}</td><td>-${money(pf*12)}</td></tr>
+ <tr><td>Professional Tax</td><td>-${money(pt)}</td><td>-${money(pt*12)}</td></tr>
+ <tr><td>TDS / Income Tax</td><td>-${money(tds)}</td><td>-${money(tds*12)}</td></tr>
+ <tr><td>Other Deductions</td><td>-${money(other)}</td><td>-${money(other*12)}</td></tr>
+ <tr><th>Estimated In-hand</th><th>${money(net)}</th><th>${money(net*12)}</th></tr>`;
+}
+function resetForm(){
+ annual.value=600000;basicPct.value=40;pfRate.value=12;pt.value=200;tds.value=0;other.value=0;calculate();
+}
+calculate();
+</script>
+</body>
+</html>
