@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Smart Money FD Calculator - calculate fixed deposit maturity amount and interest.">
+<title>FD Calculator | Smart Money</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033;line-height:1.5}
+header{background:#172554;color:#fff;padding:28px 18px;border-radius:0 0 18px 18px}header .wrap{max-width:980px;margin:auto}
+main{max-width:980px;margin:auto;padding:18px}.card{background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 18px #00000012}
+h1{margin:0 0 6px;font-size:28px}h2{font-size:21px;margin:0 0 16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{font-weight:700;font-size:14px;display:block;margin-bottom:6px}input,select{width:100%;padding:13px;border:1px solid #ccd3df;border-radius:10px;font-size:16px;background:#fff}
+button{border:0;border-radius:10px;padding:13px 18px;font-size:16px;font-weight:700;cursor:pointer;background:#2563eb;color:#fff}.secondary{background:#e8eefc;color:#17306b}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.results{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.result{background:#f1f5ff;border-radius:12px;padding:14px}.result small{display:block;color:#526078}.result strong{display:block;font-size:21px;margin-top:4px}
+.note{background:#fff7e6;border-left:4px solid #f59e0b;padding:12px;border-radius:8px}.good{background:#ecfdf5;border-left:4px solid #10b981;padding:12px;border-radius:8px}
+.table{overflow-x:auto}table{width:100%;min-width:620px;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid #e2e7ef}th{background:#f4f6fa}
+.footer{text-align:center;color:#64748b;padding:24px}
+@media(max-width:700px){.grid,.results{grid-template-columns:1fr}h1{font-size:24px}.card{padding:16px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>🏦 FD Calculator</h1><p>Estimate your Fixed Deposit maturity amount, interest earned and effective returns.</p></div></header>
+<main>
+<section class="card">
+<h2>1. Enter FD Details</h2>
+<div class="grid">
+<div><label for="principal">Deposit Amount (₹)</label><input id="principal" type="number" min="1" step="1000" value="100000"></div>
+<div><label for="rate">Annual Interest Rate (%)</label><input id="rate" type="number" min="0" step="0.01" value="7"></div>
+<div><label for="years">Tenure (Years)</label><input id="years" type="number" min="0.01" step="0.01" value="5"></div>
+<div><label for="frequency">Compounding</label>
+<select id="frequency"><option value="4">Quarterly</option><option value="2">Half-yearly</option><option value="1">Yearly</option><option value="12">Monthly</option></select></div>
+</div>
+<div class="actions"><button onclick="calculate()">Calculate FD</button><button class="secondary" onclick="resetForm()">Reset</button></div>
+</section>
+
+<section class="card">
+<h2>2. Your Result</h2>
+<div class="results">
+<div class="result"><small>Principal</small><strong id="outPrincipal">—</strong></div>
+<div class="result"><small>Interest Earned</small><strong id="outInterest">—</strong></div>
+<div class="result"><small>Maturity Amount</small><strong id="outMaturity">—</strong></div>
+</div>
+<div id="message" class="good" style="margin-top:14px">Enter your details and calculate.</div>
+</section>
+
+<section class="card">
+<h2>3. Compounding Comparison</h2>
+<p>See how the estimated maturity changes when the same deposit is compounded at different frequencies.</p>
+<div class="table"><table><thead><tr><th>Compounding</th><th>Maturity Amount</th><th>Interest Earned</th></tr></thead><tbody id="comparison"></tbody></table></div>
+</section>
+
+<section class="card">
+<h2>4. How FD Interest Is Calculated</h2>
+<p>For a standard compound-interest estimate, the calculator uses: <strong>A = P × (1 + r/n)<sup>nt</sup></strong>, where P is principal, r is annual interest rate, n is compounding frequency and t is tenure in years.</p>
+<div class="note"><strong>Important:</strong> Actual bank FD returns can differ because banks may use specific compounding conventions, payout options, tax rules, premature-closure rules and product terms. Check the bank's current FD terms for the exact amount.</div>
+</section>
+
+<section class="card">
+<h2>5. FD Planning Tips</h2>
+<ul>
+<li>Compare the interest rate and tenure before booking.</li>
+<li>Check whether the quoted rate is for cumulative or non-cumulative FD.</li>
+<li>Check premature withdrawal penalties and lock-in conditions.</li>
+<li>Consider tax/TDS implications when estimating your net return.</li>
+<li>Don't choose a tenure solely for a higher rate if you may need the money earlier.</li>
+</ul>
+</section>
+<div class="footer">Smart Money • Personal Finance Tools</div>
+</main>
+<script>
+function money(n){return "₹"+Math.round(n).toLocaleString("en-IN")}
+function calc(P,r,t,n){let A=P*Math.pow(1+(r/100)/n,n*t);return{A,interest:A-P}}
+function calculate(){
+ const P=+principal.value,r=+rate.value,t=+years.value,n=+frequency.value;
+ if(P<=0||r<0||t<=0){message.textContent="Please enter valid values.";return}
+ const x=calc(P,r,t,n);
+ outPrincipal.textContent=money(P);outInterest.textContent=money(x.interest);outMaturity.textContent=money(x.A);
+ message.innerHTML="Estimated maturity after <strong>"+t+" years</strong>: <strong>"+money(x.A)+"</strong>.";
+ const opts=[[1,"Yearly"],[2,"Half-yearly"],[4,"Quarterly"],[12,"Monthly"]];
+ comparison.innerHTML=opts.map(o=>{let q=calc(P,r,t,o[0]);return `<tr><td>${o[1]}</td><td>${money(q.A)}</td><td>${money(q.interest)}</td></tr>`}).join("");
+}
+function resetForm(){principal.value=100000;rate.value=7;years.value=5;frequency.value=4;calculate()}
+calculate();
+</script>
+</body>
+</html>
