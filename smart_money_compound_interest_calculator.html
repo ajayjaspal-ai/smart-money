@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Smart Money Compound Interest Calculator">
+<title>Compound Interest Calculator | Smart Money</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033;line-height:1.5}
+header{background:#172554;color:#fff;padding:28px 18px;border-radius:0 0 18px 18px}.wrap,main{max-width:980px;margin:auto}main{padding:18px}
+.card{background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 18px #0001}
+h1{margin:0 0 6px;font-size:28px}h2{font-size:21px;margin:0 0 16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{font-weight:700;font-size:14px;display:block;margin-bottom:6px}input,select{width:100%;padding:13px;border:1px solid #ccd3df;border-radius:10px;font-size:16px;background:#fff}
+button{border:0;border-radius:10px;padding:13px 18px;font-size:16px;font-weight:700;cursor:pointer;background:#2563eb;color:#fff}.secondary{background:#e8eefc;color:#17306b}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.results{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.result{background:#f1f5ff;border-radius:12px;padding:14px}.result small{display:block;color:#526078}.result strong{display:block;font-size:20px;margin-top:4px}
+.table{overflow-x:auto}table{width:100%;min-width:620px;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid #e2e7ef}th{background:#f4f6fa}
+.note{background:#fff7e6;border-left:4px solid #f59e0b;padding:12px;border-radius:8px}.good{background:#ecfdf5;border-left:4px solid #10b981;padding:12px;border-radius:8px}
+canvas{width:100%;height:260px;border:1px solid #e2e7ef;border-radius:12px;background:#fafbff}.footer{text-align:center;color:#64748b;padding:24px}
+@media(max-width:700px){.grid,.results{grid-template-columns:1fr}h1{font-size:24px}.card{padding:16px}}
+</style></head>
+<body>
+<header><div class="wrap"><h1>📈 Compound Interest Calculator</h1><p>See how money can grow through compounding and regular contributions.</p></div></header>
+<main>
+<section class="card"><h2>1. Enter Investment Details</h2>
+<div class="grid">
+<div><label>Initial Investment (₹)</label><input id="principal" type="number" min="0" step="1000" value="100000"></div>
+<div><label>Regular Contribution (₹)</label><input id="contribution" type="number" min="0" step="100" value="5000"></div>
+<div><label>Annual Interest / Return Rate (%)</label><input id="rate" type="number" min="0" step="0.1" value="8"></div>
+<div><label>Time Period (Years)</label><input id="years" type="number" min="0.01" step="0.5" value="10"></div>
+<div><label>Compounding Frequency</label><select id="frequency"><option value="12">Monthly</option><option value="4" selected>Quarterly</option><option value="2">Half-yearly</option><option value="1">Yearly</option></select></div>
+<div><label>Contribution Frequency</label><select id="contribFreq"><option value="12" selected>Monthly</option><option value="4">Quarterly</option><option value="2">Half-yearly</option><option value="1">Yearly</option></select></div>
+</div><div class="actions"><button onclick="calculate()">Calculate Growth</button><button class="secondary" onclick="resetForm()">Reset</button></div></section>
+<section class="card"><h2>2. Your Result</h2><div class="results">
+<div class="result"><small>Total Invested</small><strong id="invested">—</strong></div>
+<div class="result"><small>Interest Earned</small><strong id="interest">—</strong></div>
+<div class="result"><small>Final Value</small><strong id="finalValue">—</strong></div>
+</div><div id="message" class="good" style="margin-top:14px">Enter your details and calculate.</div></section>
+<section class="card"><h2>3. Growth Chart</h2><canvas id="chart"></canvas></section>
+<section class="card"><h2>4. Year-by-Year Growth</h2><div class="table"><table><thead><tr><th>Year</th><th>Invested</th><th>Interest</th><th>Value</th></tr></thead><tbody id="tableBody"></tbody></table></div></section>
+<section class="card"><h2>5. How Compound Interest Works</h2><p>Compound growth allows accumulated interest to become part of the balance used for future calculations. Regular contributions can also increase the projected value over time.</p>
+<div class="note"><strong>Important:</strong> This is a mathematical projection, not a guaranteed return. Actual rates, fees, taxes and investment outcomes depend on the product and applicable terms. Market-linked returns are not guaranteed.</div></section>
+<section class="card"><h2>6. Simple vs Compound Interest</h2><p>Simple interest generally uses the original principal for interest calculations. Compound interest allows accumulated interest to contribute to the balance used for future calculations.</p></section>
+<div class="footer">Smart Money • Personal Finance Tools</div>
+</main>
+<script>
+function money(n){return "₹"+Math.round(n).toLocaleString("en-IN")}
+function calculate(){
+ const P=+principal.value,C=+contribution.value,r=+rate.value/100,y=+years.value,n=+frequency.value,cf=+contribFreq.value;
+ if(P<0||C<0||r<0||y<=0){message.textContent="Please enter valid values.";return}
+ const periods=Math.ceil(y*n), every=Math.max(1,Math.round(n/cf)); let bal=P,total=P,rows=[];
+ for(let k=1;k<=periods;k++){bal*=1+r/n;if(k%every===0&&k<=periods){bal+=C;total+=C}if(k%n===0||k===periods){let yr=Math.ceil(k/n);rows.push({year:yr,invested:total,value:bal,interest:bal-total})}}
+ invested.textContent=money(total);interest.textContent=money(bal-total);finalValue.textContent=money(bal);
+ message.innerHTML="Projected value after <strong>"+y+" years</strong>: <strong>"+money(bal)+"</strong>.";
+ tableBody.innerHTML=rows.map(x=>"<tr><td>"+x.year+"</td><td>"+money(x.invested)+"</td><td>"+money(x.interest)+"</td><td>"+money(x.value)+"</td></tr>").join("");
+ drawChart(rows)
+}
+function drawChart(rows){const c=chart,ctx=c.getContext("2d"),d=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;c.width=w*d;c.height=h*d;ctx.scale(d,d);ctx.clearRect(0,0,w,h);if(!rows.length)return;let p=28,max=Math.max(...rows.map(x=>x.value),1);ctx.beginPath();ctx.lineWidth=3;rows.forEach((x,i)=>{let xx=p+(w-2*p)*(i/Math.max(rows.length-1,1)),yy=h-p-(h-2*p)*x.value/max;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)});ctx.stroke();ctx.fillStyle="#172554";ctx.font="12px Arial";ctx.fillText("Year 1",p,h-8);ctx.fillText("Final",Math.max(p,w-55),h-8);ctx.fillText(money(max),p,16)}
+function resetForm(){principal.value=100000;contribution.value=5000;rate.value=8;years.value=10;frequency.value=4;contribFreq.value=12;calculate()}calculate();
+</script></body></html>
