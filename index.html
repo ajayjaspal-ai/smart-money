@@ -621,7 +621,30 @@ body{
 <label for="loan">Loan amount (₹)</label><input id="loan" type="number" min="1" value="1000000">
 <label for="rate">Annual interest rate (%)</label><input id="rate" type="number" min="0" step=".1" value="9">
 <label for="years">Tenure (years)</label><input id="years" type="number" min=".1" step=".5" value="20">
-<button onclick="calcEMI()">Calculate EMI</button><div class="result" id="emiResult" aria-live="polite">Your estimate will appear here.</div></section>
+<button onclick="calcEMI()">Calculate EMI</button><div class="result" id="emiResult" aria-live="polite">Your estimate will appear here.</div></section><section class="card">
+<span class="tag">EMI GUIDE</span>
+<h3>📘 EMI Calculator — How Does It Work?</h3>
+
+<p>An EMI (Equated Monthly Instalment) is the fixed monthly amount paid towards a loan. Your EMI depends mainly on the loan amount, interest rate and repayment tenure.</p>
+
+<h4>How EMI is calculated</h4>
+<p>The EMI calculation uses the loan amount, monthly interest rate and total number of monthly payments. A longer tenure can reduce the monthly EMI, but it can increase the total interest paid over the loan period.</p>
+
+<h4>Example</h4>
+<p>For example, a ₹10 lakh loan at 9% annual interest for 20 years will have a different EMI and total interest cost compared with a shorter tenure. Change the amount, interest rate and tenure above to compare different scenarios.</p>
+
+<h4>What affects your EMI?</h4>
+<ul>
+<li><strong>Loan amount:</strong> A higher loan generally means a higher EMI.</li>
+<li><strong>Interest rate:</strong> A higher rate generally increases EMI and total interest.</li>
+<li><strong>Tenure:</strong> A longer tenure can reduce monthly EMI but may increase total interest.</li>
+</ul>
+
+<h4>Before taking a loan</h4>
+<p>Compare the interest rate, processing charges, insurance and other applicable fees. Also check whether the loan has fixed or floating interest and understand the lender's prepayment conditions.</p>
+
+<p class="note">Smart Money EMI Calculator provides an educational estimate. Actual EMI, fees, interest and loan terms depend on the lender and final loan agreement.</p>
+</section>
 <section class="card"><span class="tag">HOME BUYER PLANNER</span><h3>🏡 Home Loan Calculator</h3>
 <label for="homePrice">Property price (₹)</label><input id="homePrice" type="number" min="1" value="5000000">
 <label for="downPayment">Down payment (₹)</label><input id="downPayment" type="number" min="0" value="1000000">
