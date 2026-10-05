@@ -126,7 +126,14 @@ $('reset').addEventListener('click',()=>{$('expenses').value='';$('months').valu
 </script>
 <script>
 /* Smart Money: start every calculator session with empty user inputs */
-window.addEventListener('pageshow',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+window.addEventListener('pageshow',function(){
+  if(typeof resetForm==='function'){resetForm();return;}
+  document.querySelectorAll('input').forEach(function(i){i.value='';});
+  ['emiResult','homeResult','sipResult'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent='Your estimate will appear here.';});
+  var rows=document.getElementById('debtRows');if(rows)rows.innerHTML='';
+  var details=document.getElementById('debtDetails');if(details)details.innerHTML='';
+  var debtResult=document.getElementById('debtResult');if(debtResult)debtResult.textContent='Add your debts and select “Build my debt-free plan”.';
+});
 window.addEventListener('pagehide',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
 </script>
 </body></html>
