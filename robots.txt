@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ajayjaspal-ai.github.io/smart-money/sitemap.xml
+Sitemap: https://smartmoneycalculator.in/sitemap.xml
