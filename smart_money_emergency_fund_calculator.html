@@ -37,10 +37,10 @@ p{margin:6px 0 14px;color:var(--muted)}.mode-note{background:var(--mint);padding
 <p>Find out how much money you may want to keep aside for unexpected events like a job gap, medical expense or urgent repair.</p>
 <div class="mode-note">A common planning range is 3–6 months of essential expenses. Consider a larger buffer if income is irregular or others depend on you.</div>
 <div class="fields">
-<div class="field"><label for="expenses">Monthly essential expenses (₹)</label><input id="expenses" type="number" min="0" step="500" value="25000" inputmode="decimal"><div class="hint">Rent, groceries, bills, essential EMIs, medicines, etc.</div></div>
+<div class="field"><label for="expenses">Monthly essential expenses (₹)</label><input autocomplete="off" id="expenses" type="number" min="0" step="500" inputmode="decimal"><div class="hint">Rent, groceries, bills, essential EMIs, medicines, etc.</div></div>
 <div class="field"><label for="months">Target coverage</label><select id="months"><option value="3">3 months</option><option value="6" selected>6 months</option><option value="9">9 months</option><option value="12">12 months</option></select><div class="hint">Choose based on your situation.</div></div>
-<div class="field"><label for="saved">Emergency savings already set aside (₹)</label><input id="saved" type="number" min="0" step="500" value="0" inputmode="decimal"></div>
-<div class="field"><label for="monthly">Planned monthly contribution (₹)</label><input id="monthly" type="number" min="0" step="500" value="5000" inputmode="decimal"><div class="hint">Amount you can regularly save.</div></div>
+<div class="field"><label for="saved">Emergency savings already set aside (₹)</label><input autocomplete="off" id="saved" type="number" min="0" step="500" inputmode="decimal"></div>
+<div class="field"><label for="monthly">Planned monthly contribution (₹)</label><input autocomplete="off" id="monthly" type="number" min="0" step="500" inputmode="decimal"><div class="hint">Amount you can regularly save.</div></div>
 </div>
 <div class="actions"><button class="primary" id="calculate">Calculate my fund</button><button class="secondary" id="reset" type="button">Reset</button></div>
 <div class="results" aria-live="polite"><div class="result-grid">
@@ -122,5 +122,11 @@ function calculate(){
  $('tip').textContent=expenses===0?'Enter your essential monthly expenses to calculate a meaningful target.':'For a practical approach, you can build a smaller starter buffer first, then work toward your full target. Keep this money accessible and separate from everyday spending.';
 }
 $('calculate').addEventListener('click',calculate);['expenses','months','saved','monthly'].forEach(id=>$(id).addEventListener('input',calculate));
-$('reset').addEventListener('click',()=>{$('expenses').value=25000;$('months').value='6';$('saved').value=0;$('monthly').value=5000;calculate()});calculate();
-</script></body></html>
+$('reset').addEventListener('click',()=>{$('expenses').value='';$('months').value='6';$('saved').value='';$('monthly').value='';calculate()});
+</script>
+<script>
+/* Smart Money: start every calculator session with empty user inputs */
+window.addEventListener('pageshow',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+window.addEventListener('pagehide',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+</script>
+</body></html>
