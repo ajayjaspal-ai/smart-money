@@ -629,9 +629,9 @@ body{
 </section>
 <div class="tools">
 <section class="card"><span class="tag">LOAN PLANNER</span><h3>🏠 EMI Calculator</h3>
-<label for="loan">Loan amount (₹)</label><input id="loan" type="number" min="1" value="1000000">
-<label for="rate">Annual interest rate (%)</label><input id="rate" type="number" min="0" step=".1" value="9">
-<label for="years">Tenure (years)</label><input id="years" type="number" min=".1" step=".5" value="20">
+<label for="loan">Loan amount (₹)</label><input autocomplete="off" id="loan" type="number" min="1">
+<label for="rate">Annual interest rate (%)</label><input autocomplete="off" id="rate" type="number" min="0" step=".1">
+<label for="years">Tenure (years)</label><input autocomplete="off" id="years" type="number" min=".1" step=".5">
 <button onclick="calcEMI()">Calculate EMI</button><div class="result" id="emiResult" aria-live="polite">Your estimate will appear here.</div></section><section class="card">
 <span class="tag">EMI GUIDE</span>
 <h3>📘 EMI Calculator — How Does It Work?</h3>
@@ -657,10 +657,10 @@ body{
 <p class="note">Smart Money EMI Calculator provides an educational estimate. Actual EMI, fees, interest and loan terms depend on the lender and final loan agreement.</p>
 </section>
 <section class="card"><span class="tag">HOME BUYER PLANNER</span><h3>🏡 Home Loan Calculator</h3>
-<label for="homePrice">Property price (₹)</label><input id="homePrice" type="number" min="1" value="5000000">
-<label for="downPayment">Down payment (₹)</label><input id="downPayment" type="number" min="0" value="1000000">
-<label for="homeRate">Annual interest rate (%)</label><input id="homeRate" type="number" min="0" step=".1" value="8.5">
-<label for="homeYears">Loan tenure (years)</label><input id="homeYears" type="number" min=".1" step=".5" value="20">
+<label for="homePrice">Property price (₹)</label><input autocomplete="off" id="homePrice" type="number" min="1">
+<label for="downPayment">Down payment (₹)</label><input autocomplete="off" id="downPayment" type="number" min="0">
+<label for="homeRate">Annual interest rate (%)</label><input autocomplete="off" id="homeRate" type="number" min="0" step=".1">
+<label for="homeYears">Loan tenure (years)</label><input autocomplete="off" id="homeYears" type="number" min=".1" step=".5">
 <button onclick="calcHome()">Calculate Home Loan</button><div class="result" id="homeResult" aria-live="polite">Enter property details to estimate your home loan.</div>
 <p class="note">Estimate excludes stamp duty, registration, insurance and lender fees. Actual eligibility and terms depend on the lender.</p></section><section class="card">
   <span class="tag">HOME LOAN GUIDE</span>
@@ -687,9 +687,9 @@ body{
   <p class="note">Smart Money Home Loan Calculator provides an educational estimate. Actual EMI, interest, fees, taxes and other costs depend on the lender and the final loan agreement.</p>
 </section>
 <section class="card"><span class="tag">INVESTMENT PLANNER</span><h3>📈 SIP Calculator</h3>
-<label for="sipAmt">Monthly investment (₹)</label><input id="sipAmt" type="number" min="1" value="5000">
-<label for="sipRate">Expected annual return (%)</label><input id="sipRate" type="number" min="0" step=".1" value="12">
-<label for="sipYears">Investment period (years)</label><input id="sipYears" type="number" min=".1" step=".5" value="15">
+<label for="sipAmt">Monthly investment (₹)</label><input autocomplete="off" id="sipAmt" type="number" min="1">
+<label for="sipRate">Expected annual return (%)</label><input autocomplete="off" id="sipRate" type="number" min="0" step=".1">
+<label for="sipYears">Investment period (years)</label><input autocomplete="off" id="sipYears" type="number" min=".1" step=".5">
 <button onclick="calcSIP()">Calculate SIP</button><div class="result" id="sipResult" aria-live="polite">Your estimate will appear here.</div><p class="note">Returns are illustrative, not guaranteed.</p></section><section class="card">
   <span class="tag">SIP GUIDE</span>
   <h3>📈 SIP Calculator — How Does It Work?</h3>
@@ -745,7 +745,7 @@ body{
 <div class="debt-head"><span>Debt name</span><span>Balance ₹</span><span>APR %</span><span>Min. ₹/mo</span><span></span></div>
 <div id="debtRows"></div>
 <button class="secondary" type="button" onclick="addDebt()">+ Add another debt</button>
-<label for="extra">Extra amount available per month (₹)</label><input id="extra" type="number" min="0" value="0">
+<label for="extra">Extra amount available per month (₹)</label><input autocomplete="off" id="extra" type="number" min="0">
 <label for="strategy">Payoff strategy</label><select id="strategy"><option value="avalanche">Avalanche — highest interest first</option><option value="snowball">Snowball — smallest balance first</option></select>
 <button onclick="calcDebt()">Build my debt-free plan</button>
 <div class="result" id="debtResult" aria-live="polite">Add your debts and select “Build my debt-free plan”.</div>
@@ -782,7 +782,7 @@ if(!(p>0&&a>=0&&y>0&&[p,a,y].every(Number.isFinite))){el('sipResult').textConten
 let n=Math.round(y*12),r=a/1200,invested=p*n,total=r===0?invested:p*(Math.pow(1+r,n)-1)/r;
 el('sipResult').innerHTML='Estimated value <span class="big">'+money(total)+'</span>Invested: <b>'+money(invested)+'</b><br>Estimated gain: <b>'+money(total-invested)+'</b>'}
 let debtId=0;
-function addDebt(name='',bal='',apr='',min=''){debtId++;let d=document.createElement('div');d.className='debt-row';d.innerHTML=`<div class="debt-name"><label>Debt name</label><input class="dname" placeholder="e.g. Personal loan" value="${name}"></div><div><label>Balance (₹)</label><input class="dbal" type="number" min="0.01" step="any" placeholder="100000" value="${bal}"></div><div><label>APR (%)</label><input class="dapr" type="number" min="0" step=".01" placeholder="18" value="${apr}"></div><div><label>Minimum (₹/mo)</label><input class="dmin" type="number" min="0" step="any" placeholder="5000" value="${min}"></div><button type="button" aria-label="Remove debt" onclick="this.parentElement.remove()">Remove</button>`;el('debtRows').appendChild(d)}
+function addDebt(name='',bal='',apr='',min=''){debtId++;let d=document.createElement('div');d.className='debt-row';d.innerHTML=`<div class="debt-name"><label>Debt name</label><input autocomplete="off" class="dname" placeholder="e.g. Personal loan"></div><div><label>Balance (₹)</label><input autocomplete="off" class="dbal" type="number" min="0.01" step="any" placeholder="100000"></div><div><label>APR (%)</label><input autocomplete="off" class="dapr" type="number" min="0" step=".01" placeholder="18"></div><div><label>Minimum (₹/mo)</label><input autocomplete="off" class="dmin" type="number" min="0" step="any" placeholder="5000"></div><button type="button" aria-label="Remove debt" onclick="this.parentElement.remove()">Remove</button>`;el('debtRows').appendChild(d)}
 function calcDebt(){
  const rows=[...el('debtRows').querySelectorAll('.debt-row')];
  let debts=rows.map((r,i)=>({name:r.querySelector('.dname').value.trim()||`Debt ${i+1}`,bal:+r.querySelector('.dbal').value,apr:+r.querySelector('.dapr').value,min:+r.querySelector('.dmin').value,paid:0,interest:0}));
@@ -822,6 +822,11 @@ function calcDebt(){
  el('debtDetails').innerHTML=`<div class="summary-grid"><div><small>Monthly minimums entered</small><strong>${money(totalMin)}</strong></div><div><small>Extra per month</small><strong>${money(extra)}</strong></div><div><small>Months simulated</small><strong>${months}</strong></div></div><h4>Debt-by-debt payment estimate</h4><div class="table-wrap"><table><thead><tr><th>Debt</th><th>Paid toward debt</th><th>Interest accrued</th></tr></thead><tbody>${payoff}</tbody></table></div><h4>Progress checkpoints</h4><div class="table-wrap"><table><thead><tr><th>Month</th><th>Remaining balance</th><th>Cumulative interest</th></tr></thead><tbody>${checkpoints}</tbody></table></div>`;
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-addDebt('Personal Loan',100000,18,5000);addDebt('Credit Card',50000,36,3000);
-calcEMI();calcHome();calcSIP();
-</script></body></html>
+
+</script>
+<script>
+/* Smart Money: start every calculator session with empty user inputs */
+window.addEventListener('pageshow',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+window.addEventListener('pagehide',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+</script>
+</body></html>
