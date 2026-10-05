@@ -27,12 +27,12 @@ button{border:0;border-radius:10px;padding:13px 18px;font-size:16px;font-weight:
 <section class="card">
 <h2>1. Enter Salary Details</h2>
 <div class="grid">
-<div><label for="annual">Annual Gross Salary (₹)</label><input id="annual" type="number" min="0" step="1000" value="600000"></div>
-<div><label for="basicPct">Basic Salary (% of Gross)</label><input id="basicPct" type="number" min="0" max="100" step="1" value="40"></div>
-<div><label for="pfRate">Employee PF (% of Basic)</label><input id="pfRate" type="number" min="0" max="100" step="0.1" value="12"></div>
-<div><label for="pt">Professional Tax / Month (₹)</label><input id="pt" type="number" min="0" step="10" value="200"></div>
-<div><label for="tds">TDS / Income Tax per Month (₹)</label><input id="tds" type="number" min="0" step="100" value="0"></div>
-<div><label for="other">Other Deductions / Month (₹)</label><input id="other" type="number" min="0" step="100" value="0"></div>
+<div><label for="annual">Annual Gross Salary (₹)</label><input autocomplete="off" id="annual" type="number" min="0" step="1000"></div>
+<div><label for="basicPct">Basic Salary (% of Gross)</label><input autocomplete="off" id="basicPct" type="number" min="0" max="100" step="1"></div>
+<div><label for="pfRate">Employee PF (% of Basic)</label><input autocomplete="off" id="pfRate" type="number" min="0" max="100" step="0.1"></div>
+<div><label for="pt">Professional Tax / Month (₹)</label><input autocomplete="off" id="pt" type="number" min="0" step="10"></div>
+<div><label for="tds">TDS / Income Tax per Month (₹)</label><input autocomplete="off" id="tds" type="number" min="0" step="100"></div>
+<div><label for="other">Other Deductions / Month (₹)</label><input autocomplete="off" id="other" type="number" min="0" step="100"></div>
 </div>
 <div class="actions"><button onclick="calculate()">Calculate Salary</button><button class="secondary" onclick="resetForm()">Reset</button></div>
 </section>
@@ -135,10 +135,13 @@ function calculate(){
  <tr><td>Other Deductions</td><td>-${money(other)}</td><td>-${money(other*12)}</td></tr>
  <tr><th>Estimated In-hand</th><th>${money(net)}</th><th>${money(net*12)}</th></tr>`;
 }
-function resetForm(){
- annual.value=600000;basicPct.value=40;pfRate.value=12;pt.value=200;tds.value=0;other.value=0;calculate();
-}
-calculate();
+function resetForm(){annual.value='';basicPct.value='';pfRate.value='';pt.value='';tds.value='';other.value='';message.textContent='Enter your details and calculate.';gross.textContent='—';deductions.textContent='—';net.textContent='—';annualNet.textContent='—';breakdown.innerHTML='';}
+</script>
+
+<script>
+/* Smart Money: start every calculator session with empty user inputs */
+window.addEventListener('pageshow',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+window.addEventListener('pagehide',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
 </script>
 </body>
 </html>
