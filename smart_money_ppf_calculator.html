@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PPF Calculator India | Smart Money</title>
+<meta name="description" content="Free PPF Calculator for India. Estimate Public Provident Fund maturity value, total contributions and interest using an editable annual interest rate.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://smartmoneycalculator.in/smart_money_ppf_calculator.html">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#f4f8f5;color:#10251d;line-height:1.6}
+.nav{max-width:980px;margin:16px auto;padding:11px 15px;text-align:center;background:#eaf5ed;border:1px solid #d4e7d9;border-radius:11px;font-size:14px;font-weight:700}.nav a{color:#176b45;text-decoration:none}
+header{background:linear-gradient(135deg,#10251d,#176b45);color:#fff;padding:34px 18px;border-radius:0 0 22px 22px}.wrap{max-width:980px;margin:auto}
+h1{font-size:clamp(27px,5vw,40px);line-height:1.1;margin:0 0 8px}h2{font-size:22px;margin:0 0 16px}h3{font-size:18px}
+main{max-width:980px;margin:auto;padding:18px}.card{background:#fff;border:1px solid #dfe9e2;border-radius:17px;padding:20px;margin:16px 0;box-shadow:0 7px 22px rgba(16,37,29,.06)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;font-size:14px;font-weight:750;margin-bottom:6px}input{width:100%;padding:13px;border:1px solid #ccd9d0;border-radius:10px;font:inherit;background:#fff;color:#10251d}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}button{border:0;border-radius:10px;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;background:#176b45;color:#fff}.secondary{background:#eaf5ed;color:#176b45}
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.result{background:#eef8f1;border:1px solid #d8eadc;border-radius:12px;padding:14px}.result small{display:block;color:#68776f}.result strong{display:block;font-size:21px;margin-top:4px;color:#176b45}
+.note{background:#fff8e8;border-left:4px solid #d49b24;padding:12px;border-radius:8px}.good{background:#ecf8f0;border-left:4px solid #2f8b5b;padding:12px;border-radius:8px}
+ul{padding-left:21px}.footer{text-align:center;color:#68776f;padding:25px}.tag{color:#176b45;font-size:11px;font-weight:900;letter-spacing:.8px}
+@media(max-width:700px){.grid,.results{grid-template-columns:1fr}main{padding:12px}.card{padding:16px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PPF Calculator","url":"https://smartmoneycalculator.in/smart_money_ppf_calculator.html","description":"Free PPF Calculator for India. Estimate PPF maturity value, contributions and interest.","applicationCategory":"FinanceApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}</script>
+</head>
+<body>
+<div class="nav"><a href="index.html">← Smart Money Home</a> &nbsp;·&nbsp; <a href="index.html#calculators">All Calculators</a> &nbsp;·&nbsp; <a href="index.html#tools">More Tools</a></div>
+<header><div class="wrap"><h1>📈 PPF Calculator</h1><p>Estimate your Public Provident Fund maturity value using annual contributions and an editable interest rate.</p></div></header>
+<main>
+<section class="card">
+<h2>Calculator</h2>
+<div class="grid"><div><label for="annual">Annual Investment (₹)</label><input id="annual" type="number" min="500" max="150000" step="500" autocomplete="off"></div><div><label for="rate">Annual Interest Rate (%)</label><input id="rate" type="number" min="0" step=".01" value="7.1" autocomplete="off"></div><div><label for="years">Investment Period (Years)</label><input id="years" type="number" min="1" max="50" step="1" value="15" autocomplete="off"></div></div><p class="note">The current PPF rate is subject to government notification. The calculator keeps the rate editable; 7.1% is used as the default based on the rate shown in Government of India small-savings material. citeturn0search13</p>
+<div class="actions"><button onclick="calculate()">Calculate</button><button class="secondary" onclick="resetForm()">Reset</button></div>
+</section>
+<section class="card"><h2>Your Result</h2><div class="results"><div class="result"><small>Total Investment</small><strong id="investOut">—</strong></div><div class="result"><small>Estimated Interest</small><strong id="interestOut">—</strong></div><div class="result"><small>Estimated Maturity</small><strong id="maturityOut">—</strong></div></div><div id="message" class="good">Enter your details and calculate.</div></section>
+<section class="card"><span class="tag">PPF GUIDE</span><h2>How does the PPF calculation work?</h2><p>This calculator estimates the future value of yearly PPF contributions using an assumed annual interest rate and annual compounding. PPF interest is governed by government rules, so the actual rate and account calculation should always be checked against the latest official notification.</p><h3>Why the rate is editable</h3><p>PPF interest rates can be revised by the Government of India. Keeping the rate editable means you can update the calculator when an official rate changes.</p><h3>Planning tips</h3><ul><li>Use an amount you can contribute consistently.</li><li>Check the current government rules for contribution limits, withdrawals and extensions.</li><li>Compare the estimated maturity with your long-term goals.</li></ul><p class="note">This is a mathematical estimate, not an official PPF maturity quote. Government rules and rates prevail.</p></section>
+<section class="card"><h2>Important Note</h2><p class="note">Smart Money calculators provide educational estimates only. Actual rates, rules, taxes, fees, investment returns and product terms can change. Verify important financial decisions with the relevant bank, government source, pension provider or qualified professional.</p></section>
+<div class="footer">Smart Money • Personal Finance Tools</div>
+</main>
+<script>function money(n){return "₹"+Math.round(n).toLocaleString("en-IN")}function calculate(){const a=+annual.value,r=+rate.value,y=Math.round(+years.value);if(!(a>0&&a<=150000&&r>=0&&y>0)){message.textContent="Please enter valid values. Annual investment should be between ₹500 and ₹1,50,000.";return}let bal=0,total=0;for(let i=0;i<y;i++){bal+=a;total+=a;bal*=1+r/100}const interest=bal-total;investOut.textContent=money(total);interestOut.textContent=money(interest);maturityOut.textContent=money(bal);message.innerHTML="Estimated maturity after <strong>"+y+" years</strong>: <strong>"+money(bal)+"</strong> at an assumed "+r.toFixed(2)+"% annual rate."}function resetForm(){annual.value='';rate.value='7.1';years.value='15';investOut.textContent='—';interestOut.textContent='—';maturityOut.textContent='—';message.textContent='Enter your details and calculate.'}window.addEventListener('pageshow',resetForm);window.addEventListener('pagehide',resetForm);</script>
+</body></html>
