@@ -26,10 +26,10 @@ button{border:0;border-radius:10px;padding:13px 18px;font-size:16px;font-weight:
 <main>
 <section class="card"><h2>1. Enter Credit Card Details</h2>
 <div class="grid">
-<div><label>Current Outstanding (₹)</label><input id="balance" type="number" min="0" step="100" value="100000"></div>
-<div><label>Annual Interest Rate (%)</label><input id="apr" type="number" min="0" step="0.1" value="36"></div>
-<div><label>Monthly Payment You Can Make (₹)</label><input id="payment" type="number" min="1" step="100" value="10000"></div>
-<div><label>One-time Extra Payment (₹)</label><input id="extra" type="number" min="0" step="100" value="0"></div>
+<div><label>Current Outstanding (₹)</label><input autocomplete="off" id="balance" type="number" min="0" step="100"></div>
+<div><label>Annual Interest Rate (%)</label><input autocomplete="off" id="apr" type="number" min="0" step="0.1"></div>
+<div><label>Monthly Payment You Can Make (₹)</label><input autocomplete="off" id="payment" type="number" min="1" step="100"></div>
+<div><label>One-time Extra Payment (₹)</label><input autocomplete="off" id="extra" type="number" min="0" step="100"></div>
 </div><div class="actions"><button onclick="calculate()">Calculate Payoff</button><button class="secondary" onclick="resetForm()">Reset</button></div>
 <p id="error" class="error"></p></section>
 
@@ -108,5 +108,11 @@ function calculate(){
  let opts=[5000,10000,15000,20000,25000].filter(x=>x>0);
  comparison.innerHTML=opts.map(x=>{let q=payoff(b,a,x,e);return q?`<tr><td>${money(x)}</td><td>${q.months} months</td><td>${money(q.interest)}</td><td>${money(q.total)}</td></tr>`:`<tr><td>${money(x)}</td><td colspan="3">Payment does not cover estimated monthly interest</td></tr>`}).join("");
 }
-function resetForm(){balance.value=100000;apr.value=36;payment.value=10000;extra.value=0;calculate()}calculate();
-</script></body></html>
+function resetForm(){balance.value='';apr.value='';payment.value='';extra.value='';error.textContent='';months.textContent='—';interest.textContent='—';total.textContent='—';initialInterest.textContent='—';message.textContent='Enter your details and calculate.';comparison.innerHTML=''}
+</script>
+<script>
+/* Smart Money: start every calculator session with empty user inputs */
+window.addEventListener('pageshow',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+window.addEventListener('pagehide',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+</script>
+</body></html>
