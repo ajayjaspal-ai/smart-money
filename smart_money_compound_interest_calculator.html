@@ -24,10 +24,10 @@ canvas{width:100%;height:260px;border:1px solid #e2e7ef;border-radius:12px;backg
 <main>
 <section class="card"><h2>1. Enter Investment Details</h2>
 <div class="grid">
-<div><label>Initial Investment (₹)</label><input id="principal" type="number" min="0" step="1000" value="100000"></div>
-<div><label>Regular Contribution (₹)</label><input id="contribution" type="number" min="0" step="100" value="5000"></div>
-<div><label>Annual Interest / Return Rate (%)</label><input id="rate" type="number" min="0" step="0.1" value="8"></div>
-<div><label>Time Period (Years)</label><input id="years" type="number" min="0.01" step="0.5" value="10"></div>
+<div><label>Initial Investment (₹)</label><input autocomplete="off" id="principal" type="number" min="0" step="1000"></div>
+<div><label>Regular Contribution (₹)</label><input autocomplete="off" id="contribution" type="number" min="0" step="100"></div>
+<div><label>Annual Interest / Return Rate (%)</label><input autocomplete="off" id="rate" type="number" min="0" step="0.1"></div>
+<div><label>Time Period (Years)</label><input autocomplete="off" id="years" type="number" min="0.01" step="0.5"></div>
 <div><label>Compounding Frequency</label><select id="frequency"><option value="12">Monthly</option><option value="4" selected>Quarterly</option><option value="2">Half-yearly</option><option value="1">Yearly</option></select></div>
 <div><label>Contribution Frequency</label><select id="contribFreq"><option value="12" selected>Monthly</option><option value="4">Quarterly</option><option value="2">Half-yearly</option><option value="1">Yearly</option></select></div>
 </div><div class="actions"><button onclick="calculate()">Calculate Growth</button><button class="secondary" onclick="resetForm()">Reset</button></div></section>
@@ -87,5 +87,11 @@ function calculate(){
  drawChart(rows)
 }
 function drawChart(rows){const c=chart,ctx=c.getContext("2d"),d=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;c.width=w*d;c.height=h*d;ctx.scale(d,d);ctx.clearRect(0,0,w,h);if(!rows.length)return;let p=28,max=Math.max(...rows.map(x=>x.value),1);ctx.beginPath();ctx.lineWidth=3;rows.forEach((x,i)=>{let xx=p+(w-2*p)*(i/Math.max(rows.length-1,1)),yy=h-p-(h-2*p)*x.value/max;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)});ctx.stroke();ctx.fillStyle="#172554";ctx.font="12px Arial";ctx.fillText("Year 1",p,h-8);ctx.fillText("Final",Math.max(p,w-55),h-8);ctx.fillText(money(max),p,16)}
-function resetForm(){principal.value=100000;contribution.value=5000;rate.value=8;years.value=10;frequency.value=4;contribFreq.value=12;calculate()}calculate();
-</script></body></html>
+function resetForm(){principal.value='';contribution.value='';rate.value='';years.value='';message.textContent='Enter your details and calculate.';invested.textContent='—';interest.textContent='—';finalValue.textContent='—';tableBody.innerHTML='';}
+</script>
+<script>
+/* Smart Money: start every calculator session with empty user inputs */
+window.addEventListener('pageshow',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+window.addEventListener('pagehide',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+</script>
+</body></html>
