@@ -28,9 +28,9 @@ button{border:0;border-radius:10px;padding:13px 18px;font-size:16px;font-weight:
 <section class="card">
 <h2>1. Enter FD Details</h2>
 <div class="grid">
-<div><label for="principal">Deposit Amount (₹)</label><input id="principal" type="number" min="1" step="1000" value="100000"></div>
-<div><label for="rate">Annual Interest Rate (%)</label><input id="rate" type="number" min="0" step="0.01" value="7"></div>
-<div><label for="years">Tenure (Years)</label><input id="years" type="number" min="0.01" step="0.01" value="5"></div>
+<div><label for="principal">Deposit Amount (₹)</label><input autocomplete="off" id="principal" type="number" min="1" step="1000"></div>
+<div><label for="rate">Annual Interest Rate (%)</label><input autocomplete="off" id="rate" type="number" min="0" step="0.01"></div>
+<div><label for="years">Tenure (Years)</label><input autocomplete="off" id="years" type="number" min="0.01" step="0.01"></div>
 <div><label for="frequency">Compounding</label>
 <select id="frequency"><option value="4">Quarterly</option><option value="2">Half-yearly</option><option value="1">Yearly</option><option value="12">Monthly</option></select></div>
 </div>
@@ -119,8 +119,13 @@ function calculate(){
  const opts=[[1,"Yearly"],[2,"Half-yearly"],[4,"Quarterly"],[12,"Monthly"]];
  comparison.innerHTML=opts.map(o=>{let q=calc(P,r,t,o[0]);return `<tr><td>${o[1]}</td><td>${money(q.A)}</td><td>${money(q.interest)}</td></tr>`}).join("");
 }
-function resetForm(){principal.value=100000;rate.value=7;years.value=5;frequency.value=4;calculate()}
-calculate();
+function resetForm(){principal.value='';rate.value='';years.value='';message.textContent='Enter your details and calculate.';outPrincipal.textContent='—';outInterest.textContent='—';outMaturity.textContent='—';comparison.innerHTML='';}
+</script>
+
+<script>
+/* Smart Money: start every calculator session with empty user inputs */
+window.addEventListener('pageshow',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+window.addEventListener('pagehide',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
 </script>
 </body>
 </html>
