@@ -623,6 +623,15 @@ body{
     padding:18px;
   }
 }
+
+/* Smart Money: responsive, non-intrusive AdSense placements */
+.ad-placement{min-width:0;max-width:100%;margin:22px auto;padding:8px 10px;border:1px solid #dfe9e2;border-radius:14px;background:#fff;overflow:hidden;text-align:center}
+.ad-placement .ad-label{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#718278;margin-bottom:6px}
+.ad-placement ins.adsbygoogle{display:block;width:100%;min-height:0}
+.ad-placement--banner{max-width:970px}
+.ad-placement--sidebar{max-width:320px}
+@media(min-width:1100px){main{position:relative}.ad-placement--sidebar{margin-left:auto;margin-right:0}}
+@media(max-width:650px){.ad-placement{margin:14px auto;padding:6px;border-radius:10px}}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4183351109071590"
      crossorigin="anonymous"></script>
@@ -665,7 +674,7 @@ body{
 <p>You can also use the <strong>Home Loan Calculator</strong>, <strong>Credit Card Payoff Calculator</strong>, <strong>Emergency Fund Calculator</strong>, <strong>Salary Calculator</strong>, and <strong>Debt-Free Planner</strong> to understand different parts of your personal finances.</p>
 <p class="note">These tools provide educational estimates. Actual loan rates, investment returns, taxes, fees and lender terms may differ.</p>
 </section>
-<div class="tools">
+<aside class="ad-placement ad-placement--banner" aria-label="Advertisement"><span class="ad-label">Advertisement</span><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4183351109071590" data-ad-format="auto" data-full-width-responsive="true"></ins></aside><div class="tools">
 <section class="card"><span class="tag">LOAN PLANNER</span><h3>🏠 EMI Calculator</h3>
 <label for="loan">Loan amount (₹)</label><input autocomplete="off" id="loan" type="number" min="1">
 <label for="rate">Annual interest rate (%)</label><input autocomplete="off" id="rate" type="number" min="0" step=".1">
@@ -800,7 +809,7 @@ body{
 <p class="note"><strong>Important:</strong> Smart Money provides educational information and calculator estimates, not personalized financial, tax or investment advice. Always verify important financial decisions with the relevant lender, provider or qualified professional.</p>
 </section>
 <section class="card" id="about"><span class="tag">ABOUT SMART MONEY</span><h3>Clear numbers. Smarter choices.</h3><p>Smart Money is planned as a simple financial education and calculator website for India, with tools that work on mobile and desktop.</p><p class="note">Disclaimer: Estimates are for educational purposes only. Actual lender terms, taxes, fees and investment returns may differ. This website does not provide personalized financial, tax or investment advice.</p></section>
-</div></main>
+</div><aside class="ad-placement ad-placement--sidebar" aria-label="Advertisement"><span class="ad-label">Advertisement</span><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4183351109071590" data-ad-format="auto" data-full-width-responsive="true"></ins></aside></main>
 <footer>
   © 2026 Smart Money · Financial education made simple<br>
   <a href="privacy-policy.html" style="color:#c8d7cd;margin:0 8px;">Privacy Policy</a> ·
@@ -958,5 +967,15 @@ window.addEventListener('pageshow',function(){
   var debtResult=document.getElementById('debtResult');if(debtResult)debtResult.textContent='Add your debts and select “Build my debt-free plan”.';
 });
 window.addEventListener('pagehide',function(){document.querySelectorAll('input').forEach(function(i){i.value='';});});
+</script>
+<script>
+window.addEventListener('load',function(){
+  document.querySelectorAll('.ad-placement').forEach(function(slot){
+    var ins=slot.querySelector('ins.adsbygoogle');
+    if(!ins || slot.getBoundingClientRect().width<250){slot.hidden=true;return;}
+    try{(window.adsbygoogle=window.adsbygoogle||[]).push({});}
+    catch(e){slot.hidden=true;}
+  });
+});
 </script>
 </body></html>
