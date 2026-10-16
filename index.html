@@ -837,8 +837,10 @@ function showSmartMoneyTab(tab){
     card.hidden=view!==tab;
   });
   if(tab!=='home')window.scrollTo({top:0,behavior:'smooth'});
-  if(tab==='home')history.replaceState(null,'',location.pathname+location.search);
-  else history.replaceState(null,'','#'+tab);
+  const nextUrl=tab==='home'?(location.pathname+location.search):(location.pathname+location.search+'#'+tab);
+  if(location.pathname+location.search+location.hash!==nextUrl){
+    history.pushState({smartMoneyTab:tab},'',nextUrl);
+  }
 }
 document.querySelectorAll('.quick-strip [data-quick-tab]').forEach(button=>{
   button.addEventListener('click',()=>showSmartMoneyTab(button.dataset.quickTab));
@@ -854,8 +856,41 @@ document.querySelectorAll('.top-tabs [data-tab]').forEach((button,index)=>{
     }
   });
 });
+function restoreSmartMoneyTabFromUrl(){
+  const requested=location.hash.slice(1);
+  const tab=['home','loans','investments','debt','tools','guides','about'].includes(requested)?requested:'home';
+  // Avoid creating another history entry when restoring Back/Forward navigation.
+  const buttons=[...document.querySelectorAll('.top-tabs [data-tab]')];
+  buttons.forEach(button=>{
+    const active=button.dataset.tab===tab;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-selected',active?'true':'false');
+    button.tabIndex=active?0:-1;
+  });
+  const hero=document.getElementById('home');
+  const quick=document.querySelector('.quick-strip');
+  const intro=document.getElementById('search-guide');
+  const heading=document.querySelector('main .section-head');
+  const titles={home:'Financial planning made simple',loans:'Loan Calculators',investments:'Investment Calculators',debt:'Debt-Free Planner',tools:'Budget & More Financial Tools',guides:'Financial Guides',about:'About Smart Money'};
+  if(hero)hero.hidden=tab!=='home';
+  if(quick)quick.hidden=tab!=='home';
+  if(intro)intro.hidden=tab!=='home';
+  if(heading){heading.hidden=tab==='home';heading.querySelector('h2').textContent=titles[tab]||'Smart Money';heading.querySelector('p').textContent=tab==='home'?'Choose a purpose from the tabs above.':'Choose a tool below. Your other sections stay tucked away in their own tabs.';}
+  document.querySelectorAll('.tools > .card').forEach(card=>{
+    const tag=(card.querySelector('.tag')?.textContent||'').trim().toUpperCase();
+    let view='tools';
+    if(tag==='LOAN PLANNER'||tag==='EMI GUIDE'||tag==='HOME BUYER PLANNER'||tag==='HOME LOAN GUIDE')view='loans';
+    else if(tag==='INVESTMENT PLANNER'||tag==='SIP GUIDE')view='investments';
+    else if(tag==='DEBT-FREE GUIDE'||card.id==='debt')view='debt';
+    else if(tag==='MORE TOOLS')view='tools';
+    else if(tag==='MONEY GUIDES')view='guides';
+    else if(tag==='ABOUT & TRUST'||tag==='ABOUT SMART MONEY')view='about';
+    card.hidden=view!==tab;
+  });
+}
+window.addEventListener('popstate',restoreSmartMoneyTabFromUrl);
 const initialTab=location.hash.slice(1);
-showSmartMoneyTab(['home','loans','investments','debt','tools','guides','about'].includes(initialTab)?initialTab:'home');
+restoreSmartMoneyTabFromUrl();
 
 const el=id=>document.getElementById(id), money=n=>'₹'+Math.round(n).toLocaleString('en-IN');
 function loanMath(P,a,y){let n=Math.round(y*12),r=a/1200,e=r===0?P/n:P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);return {n,e,total:e*n,interest:e*n-P}}
