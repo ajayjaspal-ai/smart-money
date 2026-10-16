@@ -336,6 +336,19 @@ header{
   background:rgba(255,255,255,.07);
   border:1px solid rgba(255,255,255,.10);
 }
+.top-tabs{max-width:100%;overflow-x:auto;scrollbar-width:thin}
+.top-tabs .tab{
+  border:0;
+  background:transparent;
+  width:auto;
+  margin:0;
+  box-shadow:none;
+  font:inherit;
+}
+.top-tabs .tab:focus-visible{outline:2px solid #78e0a5;outline-offset:2px}
+.tools > .card[hidden], #search-guide[hidden], .quick-strip[hidden], .section-head[hidden], .hero[hidden]{display:none!important}
+.tools > .card{animation:tabReveal .16s ease-out}
+@keyframes tabReveal{from{opacity:.65;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
 .top-tabs .tab{
   color:#dcebe2;
   text-decoration:none;
@@ -607,12 +620,14 @@ body{
     <div class="logo">Smart<span>Money</span></div>
     <div class="brand-sub">PERSONAL FINANCE DASHBOARD</div>
   </div>
-  <nav class="top-tabs" aria-label="Main navigation">
-    <a class="tab active" href="#home">⌂ Home</a>
-    <a class="tab" href="#calculators">▦ Calculators</a>
-    <a class="tab" href="#debt">↘ Debt Planner</a>
-    <a class="tab" href="#tools">✦ More Tools</a>
-    <a class="tab" href="#about">ⓘ About</a>
+  <nav class="top-tabs" role="tablist" aria-label="Main navigation">
+    <button class="tab active" type="button" role="tab" aria-selected="true" data-tab="home">⌂ Home</button>
+    <button class="tab" type="button" role="tab" aria-selected="false" data-tab="loans">🏠 Loans</button>
+    <button class="tab" type="button" role="tab" aria-selected="false" data-tab="investments">📈 Investments</button>
+    <button class="tab" type="button" role="tab" aria-selected="false" data-tab="debt">↘ Debt Planner</button>
+    <button class="tab" type="button" role="tab" aria-selected="false" data-tab="tools">✦ Budget &amp; Tools</button>
+    <button class="tab" type="button" role="tab" aria-selected="false" data-tab="guides">📚 Guides</button>
+    <button class="tab" type="button" role="tab" aria-selected="false" data-tab="about">ⓘ About</button>
   </nav>
 </header>
 <section class="hero" id="home"><span class="pill">FREE FINANCIAL TOOLS</span><h1>Make your money work smarter.</h1><p>Simple calculators to understand loans, savings and your financial future — built for everyday decisions.</p><strong>आपके पैसों की प्लानिंग, अब आसान।</strong>
@@ -779,6 +794,52 @@ body{
   <a href="contact.html" style="color:#c8d7cd;margin:0 8px;">Contact</a>
 </footer>
 <script>
+function showSmartMoneyTab(tab){
+  const buttons=[...document.querySelectorAll('.top-tabs [data-tab]')];
+  buttons.forEach(button=>{
+    const active=button.dataset.tab===tab;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-selected',active?'true':'false');
+    button.tabIndex=active?0:-1;
+  });
+  const hero=document.getElementById('home');
+  const quick=document.querySelector('.quick-strip');
+  const intro=document.getElementById('search-guide');
+  const heading=document.querySelector('main .section-head');
+  const titles={home:'Financial planning made simple',loans:'Loan Calculators',investments:'Investment Calculators',debt:'Debt-Free Planner',tools:'Budget & More Financial Tools',guides:'Financial Guides',about:'About Smart Money'};
+  if(hero)hero.hidden=tab!=='home';
+  if(quick)quick.hidden=tab!=='home';
+  if(intro)intro.hidden=tab!=='home';
+  if(heading){heading.hidden=tab==='home';heading.querySelector('h2').textContent=titles[tab]||'Smart Money';heading.querySelector('p').textContent=tab==='home'?'Choose a purpose from the tabs above.':'Choose a tool below. Your other sections stay tucked away in their own tabs.';}
+  document.querySelectorAll('.tools > .card').forEach(card=>{
+    const tag=(card.querySelector('.tag')?.textContent||'').trim().toUpperCase();
+    let view='tools';
+    if(tag==='LOAN PLANNER'||tag==='EMI GUIDE'||tag==='HOME BUYER PLANNER'||tag==='HOME LOAN GUIDE')view='loans';
+    else if(tag==='INVESTMENT PLANNER'||tag==='SIP GUIDE')view='investments';
+    else if(tag==='DEBT-FREE GUIDE'||card.id==='debt')view='debt';
+    else if(tag==='MORE TOOLS')view='tools';
+    else if(tag==='MONEY GUIDES')view='guides';
+    else if(tag==='ABOUT & TRUST'||tag==='ABOUT SMART MONEY')view='about';
+    card.hidden=view!==tab;
+  });
+  if(tab!=='home')window.scrollTo({top:0,behavior:'smooth'});
+  if(tab==='home')history.replaceState(null,'',location.pathname+location.search);
+  else history.replaceState(null,'','#'+tab);
+}
+document.querySelectorAll('.top-tabs [data-tab]').forEach((button,index)=>{
+  button.addEventListener('click',()=>showSmartMoneyTab(button.dataset.tab));
+  button.addEventListener('keydown',event=>{
+    if(event.key==='ArrowRight'||event.key==='ArrowLeft'){
+      event.preventDefault();
+      const tabs=[...document.querySelectorAll('.top-tabs [data-tab]')];
+      const next=(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+      tabs[next].focus();tabs[next].click();
+    }
+  });
+});
+const initialTab=location.hash.slice(1);
+showSmartMoneyTab(['home','loans','investments','debt','tools','guides','about'].includes(initialTab)?initialTab:'home');
+
 const el=id=>document.getElementById(id), money=n=>'₹'+Math.round(n).toLocaleString('en-IN');
 function loanMath(P,a,y){let n=Math.round(y*12),r=a/1200,e=r===0?P/n:P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);return {n,e,total:e*n,interest:e*n-P}}
 function calcEMI(){let P=+el('loan').value,a=+el('rate').value,y=+el('years').value;
