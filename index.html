@@ -417,12 +417,26 @@ main{padding-top:34px}
   gap:10px;
   margin:0 0 24px;
 }
-.quick-strip div{
-  background:rgba(255,255,255,.78);
+.quick-strip .quick-link{
+  display:block;
+  width:100%;
+  margin:0;
+  text-align:left;
+  font:inherit;
+  background:rgba(255,255,255,.88);
+  color:var(--ink);
   border:1px solid var(--line);
   border-radius:14px;
   padding:12px 14px;
   box-shadow:0 5px 18px rgba(16,37,29,.04);
+  cursor:pointer;
+}
+.quick-strip .quick-link:hover,.quick-strip .quick-link:focus-visible{
+  background:#fff;
+  border-color:#a8d5b7;
+  transform:translateY(-2px);
+  outline:2px solid rgba(23,107,69,.18);
+  outline-offset:2px;
 }
 .quick-strip strong{display:block;font-size:14px;color:var(--green)}
 .quick-strip span{font-size:11px;color:var(--muted)}
@@ -638,11 +652,11 @@ body{
   <div class="mp-foot"><span>Money clarity</span><span>↗ Long-term growth</span></div>
 </div>
 </section>
-<main id="calculators"><div class="quick-strip" aria-label="Smart Money highlights">
-  <div><strong>₹ Smart Planning</strong><span>Loans • Savings • Wealth</span></div>
-  <div><strong>⚡ Instant Estimates</strong><span>Know your numbers</span></div>
-  <div><strong>📱 Money Dashboard</strong><span>Phone & desktop ready</span></div>
-  <div><strong>📈 Financial Growth</strong><span>Plan • track • improve</span></div>
+<main id="calculators"><div class="quick-strip" aria-label="Quick access to Smart Money features">
+  <button type="button" class="quick-link" data-quick-tab="tools"><strong>₹ Smart Planning</strong><span>Loans • Savings • Wealth</span></button>
+  <button type="button" class="quick-link" data-quick-tab="loans"><strong>⚡ Instant Estimates</strong><span>Calculate EMI &amp; loan costs</span></button>
+  <button type="button" class="quick-link" data-quick-tab="tools"><strong>📱 Money Dashboard</strong><span>Open all money tools</span></button>
+  <button type="button" class="quick-link" data-quick-tab="investments"><strong>📈 Financial Growth</strong><span>Explore SIP &amp; compounding</span></button>
 </div><div class="section-head"><h2>Financial Calculators</h2><p>Enter your details to get an instant estimate.</p></div>
 <section class="card" id="search-guide">
 <span class="tag">FREE FINANCIAL CALCULATORS INDIA</span>
@@ -826,6 +840,9 @@ function showSmartMoneyTab(tab){
   if(tab==='home')history.replaceState(null,'',location.pathname+location.search);
   else history.replaceState(null,'','#'+tab);
 }
+document.querySelectorAll('.quick-strip [data-quick-tab]').forEach(button=>{
+  button.addEventListener('click',()=>showSmartMoneyTab(button.dataset.quickTab));
+});
 document.querySelectorAll('.top-tabs [data-tab]').forEach((button,index)=>{
   button.addEventListener('click',()=>showSmartMoneyTab(button.dataset.tab));
   button.addEventListener('keydown',event=>{
