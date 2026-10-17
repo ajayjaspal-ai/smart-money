@@ -19,6 +19,7 @@ header{background:#10251d;color:#fff;padding:15px max(18px,calc((100% - 1100px)/
 .brand{font-size:24px;font-weight:900;letter-spacing:-.8px}.brand span{color:#78e0a5}header a{color:#eaf5ee;text-decoration:none;font-weight:700;font-size:14px}
 main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linear-gradient(125deg,#e2f3e8,#fff);border:1px solid #d7e8dc;border-radius:24px;padding:clamp(22px,5vw,42px);margin-bottom:22px;position:relative;overflow:hidden}.eyebrow{display:inline-block;background:#cfe9d7;color:#175b3b;padding:6px 11px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.6px}.intro h1{font-size:clamp(30px,5vw,48px);line-height:1.08;letter-spacing:-1.5px;margin:15px 0 12px;max-width:760px}.intro p{max-width:750px;color:#40574b;margin:0}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}.step{background:rgba(255,255,255,.82);border:1px solid #dbe9df;border-radius:13px;padding:12px;font-size:13px;font-weight:750}.step b{display:block;color:var(--green);font-size:12px;margin-bottom:3px}
 .layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:20px;align-items:start}.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(17px,3vw,26px);box-shadow:0 8px 25px rgba(16,37,29,.05);margin-bottom:18px}.panel h2{font-size:21px;letter-spacing:-.4px;margin:0 0 5px}.sub{font-size:13px;color:var(--muted);margin:0 0 17px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;font-size:13px;font-weight:750;margin-bottom:6px}.field input,.row-input{width:100%;min-width:0;border:1px solid #ceddd2;border-radius:11px;padding:12px;font:inherit;color:var(--ink);background:#fff}.field input:focus,.row-input:focus{outline:3px solid #d6efe0;border-color:#4b9b70}.field small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.items{display:grid;gap:10px}.item{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(90px,.8fr) minmax(105px,.8fr) 38px;gap:8px;align-items:center}.item .row-input{padding:10px;font-size:13px}.remove{border:0;background:#fff0f0;color:#a33131;border-radius:9px;height:40px;font-size:20px;cursor:pointer}.smallbtn{border:1px solid #d1e5d7;background:#eff8f1;color:var(--green);border-radius:10px;padding:10px 13px;font-weight:800;cursor:pointer;margin-top:12px}.primary{width:100%;background:linear-gradient(135deg,var(--green),var(--dark));color:#fff;border:0;border-radius:12px;padding:15px;font:inherit;font-weight:850;cursor:pointer;margin-top:16px}.primary:hover{filter:brightness(1.06)}.result{position:sticky;top:16px}.status{display:inline-block;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:850;background:#edf3ef;color:#3f5a49}.status.bad{background:#fff0f0;color:var(--red)}.status.good{background:#e3f6e9;color:var(--green)}.big{font-size:clamp(30px,4vw,40px);font-weight:950;letter-spacing:-1px;line-height:1.15;margin:8px 0;color:var(--green);overflow-wrap:anywhere}.big.bad{color:var(--red)}.metric{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #edf1ed;font-size:14px}.metric strong{text-align:right;overflow-wrap:anywhere}.plan{background:#f5f9f6;border:1px solid #e1ece4;border-radius:13px;padding:14px;margin-top:14px;font-size:14px}.plan h3{font-size:15px;margin:0 0 8px}.plan ul{padding-left:19px;margin:8px 0}.plan li{margin:5px 0}.warning{font-size:12px;color:var(--muted);margin-top:13px}.actions{display:flex;gap:8px}.actions button{flex:1}.plain{background:#fff;border:1px solid #d6e4da;color:var(--green);border-radius:10px;padding:10px;font-weight:800;cursor:pointer}footer{text-align:center;padding:24px 18px;color:var(--muted);font-size:12px}footer a{color:var(--green)}.hidden{display:none!important}
+.field select{width:100%;min-width:0;border:1px solid #ceddd2;border-radius:11px;padding:12px;font:inherit;color:var(--ink);background:#fff}.plan ol{padding-left:20px}.plan li{margin:7px 0}
 @media(max-width:780px){.layout{grid-template-columns:1fr}.result{position:static}.steps{grid-template-columns:1fr}.item{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.item .name{grid-column:1/-1}.item .amount{grid-column:1/-1;min-height:52px;font-size:16px!important}.item .due{grid-column:1/-1;min-height:48px}.item .remove{grid-column:1/-1;width:100%;height:40px}.fields{grid-template-columns:1fr 1fr}}
 @media(max-width:420px){.fields{grid-template-columns:1fr}.item{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.intro h1{letter-spacing:-.8px}.item .amount{font-size:16px!important;min-height:52px}}
 </style>
@@ -55,6 +56,17 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
 <div id="debts" class="items">
 <div class="item debt"><input class="row-input name" aria-label="Debt or lender name" placeholder="Loan / card / person" value="Loan / EMI"><input class="row-input amount" aria-label="Required payment in rupees" type="number" min="0" step="100" placeholder="₹ payment" value="7000"><input class="row-input due" aria-label="Payment due date" type="date"></div>
 </div><button class="smallbtn" type="button" id="addDebt">+ Add debt payment</button>
+</section>
+<section class="panel">
+<h2>5. Increase your income</h2><p class="sub">Tell us what you can already do. The planner will suggest realistic next steps—not guaranteed earnings or paid courses.</p>
+<div class="fields">
+<div class="field"><label for="skills">Your current skills / experience</label><input id="skills" type="text" placeholder="e.g. sales, Excel, teaching"></div>
+<div class="field"><label for="hours">Time available each week</label><select id="hours" class="row-input"><option value="2">1–3 hours</option><option value="5" selected>4–6 hours</option><option value="10">7–10 hours</option><option value="15">More than 10 hours</option></select></div>
+<div class="field"><label for="device">Tools you can use</label><select id="device" class="row-input"><option value="phone" selected>Phone only</option><option value="computer">Phone and computer</option></select></div>
+<div class="field"><label for="incomeGoal">Priority</label><select id="incomeGoal" class="row-input"><option value="quick" selected>Earn sooner</option><option value="career">Build a better career</option><option value="both">Both</option></select></div>
+</div>
+<button class="smallbtn" type="button" id="incomePlanBtn">Build my income action plan</button>
+<div class="plan"><h3>Income action plan</h3><div id="incomeSteps">Add your skills and choose your available time, then build your money plan.</div></div>
 </section>
 <section class="panel">
 <h2>4. Optional extra debt payment</h2><p class="sub">Only enter an extra amount if it is genuinely affordable after essentials and required payments.</p>
@@ -130,9 +142,37 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
    recovery.push('<li><strong>3. Build a starter emergency reserve.</strong> Set aside a small repeatable amount each payday, then grow it gradually before investing.</li>');
    recovery.push('<li><strong>4. Reduce expensive debt.</strong> Compare interest rates and fees; after minimums, prioritize the highest-cost balance.</li>');
   }
-  $('recoverySteps').innerHTML='<ol style="padding-left:20px;margin:10px 0">'+recovery.join('')+'</ol>';
+  $('recoverySteps').innerHTML='<ol style="padding-left:20px;margin:10px 0">'+recovery.join('')+'</ol>'; incomePlan();
   $('nextSteps').innerHTML='<ul>'+steps.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
  }
+ function incomePlan(){
+  const skills=$('skills').value.trim(),hours=Number($('hours').value)||5,device=$('device').value,goal=$('incomeGoal').value;
+  const list=[];
+  const low=skills.toLowerCase();
+  if(low.includes('sales')||low.includes('selling')||low.includes('marketing')||low.includes('client')){
+   list.push('<li><strong>Use existing sales experience first:</strong> contact 10 local businesses this week with a specific service they already buy (advertising, lead follow-up, appointment setting or customer acquisition). Agree commission and payment terms in writing before doing the work.</li>');
+  }
+  if(low.includes('excel')||low.includes('mis')||low.includes('computer')||device==='computer'){
+   list.push('<li><strong>Offer a small business admin service:</strong> create a clean sales/expense sheet, stock list or weekly report for one local shop. Prepare one sample file first; do not pay for a course or job placement.</li>');
+  }
+  if(low.includes('teach')||low.includes('teacher')||low.includes('tutor')){
+   list.push('<li><strong>Try a small tutoring batch:</strong> offer a subject you can confidently teach to nearby families, set a clear weekly schedule and collect payment terms upfront.</li>');
+  }
+  if(low.includes('video')||low.includes('edit')||low.includes('design')||low.includes('social')){
+   list.push('<li><strong>Build a tiny portfolio:</strong> make 2 sample posts or short edits for a local business, then offer a defined starter package. Avoid unpaid work beyond one agreed sample.</li>');
+  }
+  if(!list.length){
+   list.push('<li><strong>Start with a skill you already use:</strong> list three tasks you can do reliably, then ask five people or local businesses if they need one of those tasks. Choose work with no upfront fee.</li>');
+   list.push('<li><strong>Choose one practical skill only if needed:</strong> basic spreadsheet reporting, sales outreach, tutoring or simple social content. Make one sample project and test whether anyone will pay before buying a course.</li>');
+  }
+  if(device==='phone')list.push('<li><strong>Phone-only route:</strong> prioritize calling/WhatsApp client follow-up, local sales leads, tutoring coordination or simple social posts. Do not choose work that requires a computer you do not have.</li>');
+  if(hours<=3)list.push('<li><strong>Time limit:</strong> with only 1–3 hours weekly, focus on outreach to a few warm contacts and one repeatable paid task, not a long course or a complex side business.</li>');
+  else if(hours>=10)list.push('<li><strong>Weekly routine:</strong> reserve 2 sessions for outreach, 2 for delivering a sample/paid task, and 1 for follow-up. Track replies and actual money received.</li>');
+  if(goal==='career'||goal==='both')list.push('<li><strong>Career track:</strong> pick one job-relevant skill after checking 10 real job listings for the same requirement. Build one work sample; do not assume a certificate alone gets hired.</li>');
+  list.push('<li><strong>Safety rule:</strong> count income only after payment is received. Avoid jobs asking for registration fees, guaranteed-income schemes, trading tips or new high-interest borrowing.</li>');
+  $('incomeSteps').innerHTML='<ol style="padding-left:20px;margin:8px 0">'+list.join('')+'</ol>';
+ }
+ $('incomePlanBtn').addEventListener('click',incomePlan);
  $('buildPlan').addEventListener('click',build);$('printPlan').addEventListener('click',()=>{build();if(!$('formError')||$('formError').classList.contains('hidden'))window.print()});$('resetPlan').addEventListener('click',()=>{if(confirm('Clear entries and start again?'))location.reload()});
  build();
 })();
