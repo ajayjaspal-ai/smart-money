@@ -19,8 +19,8 @@ header{background:#10251d;color:#fff;padding:15px max(18px,calc((100% - 1100px)/
 .brand{font-size:24px;font-weight:900;letter-spacing:-.8px}.brand span{color:#78e0a5}header a{color:#eaf5ee;text-decoration:none;font-weight:700;font-size:14px}
 main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linear-gradient(125deg,#e2f3e8,#fff);border:1px solid #d7e8dc;border-radius:24px;padding:clamp(22px,5vw,42px);margin-bottom:22px;position:relative;overflow:hidden}.eyebrow{display:inline-block;background:#cfe9d7;color:#175b3b;padding:6px 11px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.6px}.intro h1{font-size:clamp(30px,5vw,48px);line-height:1.08;letter-spacing:-1.5px;margin:15px 0 12px;max-width:760px}.intro p{max-width:750px;color:#40574b;margin:0}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}.step{background:rgba(255,255,255,.82);border:1px solid #dbe9df;border-radius:13px;padding:12px;font-size:13px;font-weight:750}.step b{display:block;color:var(--green);font-size:12px;margin-bottom:3px}
 .layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:20px;align-items:start}.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(17px,3vw,26px);box-shadow:0 8px 25px rgba(16,37,29,.05);margin-bottom:18px}.panel h2{font-size:21px;letter-spacing:-.4px;margin:0 0 5px}.sub{font-size:13px;color:var(--muted);margin:0 0 17px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;font-size:13px;font-weight:750;margin-bottom:6px}.field input,.row-input{width:100%;min-width:0;border:1px solid #ceddd2;border-radius:11px;padding:12px;font:inherit;color:var(--ink);background:#fff}.field input:focus,.row-input:focus{outline:3px solid #d6efe0;border-color:#4b9b70}.field small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.items{display:grid;gap:10px}.item{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(90px,.8fr) minmax(105px,.8fr) 38px;gap:8px;align-items:center}.item .row-input{padding:10px;font-size:13px}.remove{border:0;background:#fff0f0;color:#a33131;border-radius:9px;height:40px;font-size:20px;cursor:pointer}.smallbtn{border:1px solid #d1e5d7;background:#eff8f1;color:var(--green);border-radius:10px;padding:10px 13px;font-weight:800;cursor:pointer;margin-top:12px}.primary{width:100%;background:linear-gradient(135deg,var(--green),var(--dark));color:#fff;border:0;border-radius:12px;padding:15px;font:inherit;font-weight:850;cursor:pointer;margin-top:16px}.primary:hover{filter:brightness(1.06)}.result{position:sticky;top:16px}.status{display:inline-block;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:850;background:#edf3ef;color:#3f5a49}.status.bad{background:#fff0f0;color:var(--red)}.status.good{background:#e3f6e9;color:var(--green)}.big{font-size:clamp(30px,4vw,40px);font-weight:950;letter-spacing:-1px;line-height:1.15;margin:8px 0;color:var(--green);overflow-wrap:anywhere}.big.bad{color:var(--red)}.metric{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #edf1ed;font-size:14px}.metric strong{text-align:right;overflow-wrap:anywhere}.plan{background:#f5f9f6;border:1px solid #e1ece4;border-radius:13px;padding:14px;margin-top:14px;font-size:14px}.plan h3{font-size:15px;margin:0 0 8px}.plan ul{padding-left:19px;margin:8px 0}.plan li{margin:5px 0}.warning{font-size:12px;color:var(--muted);margin-top:13px}.actions{display:flex;gap:8px}.actions button{flex:1}.plain{background:#fff;border:1px solid #d6e4da;color:var(--green);border-radius:10px;padding:10px;font-weight:800;cursor:pointer}footer{text-align:center;padding:24px 18px;color:var(--muted);font-size:12px}footer a{color:var(--green)}.hidden{display:none!important}
-@media(max-width:780px){.layout{grid-template-columns:1fr}.result{position:static}.steps{grid-template-columns:1fr}.item{grid-template-columns:minmax(0,1fr) minmax(80px,.8fr) 38px}.item .due{grid-column:1/3}.item .remove{grid-column:3;grid-row:1/3;height:100%}.item .name{grid-column:1/3}.fields{grid-template-columns:1fr 1fr}}
-@media(max-width:420px){.fields{grid-template-columns:1fr}.item{grid-template-columns:minmax(0,1fr) minmax(80px,.8fr) 34px}.intro h1{letter-spacing:-.8px}}
+@media(max-width:780px){.layout{grid-template-columns:1fr}.result{position:static}.steps{grid-template-columns:1fr}.item{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.item .name{grid-column:1/-1}.item .amount{grid-column:1/-1;min-height:52px;font-size:16px!important}.item .due{grid-column:1/-1;min-height:48px}.item .remove{grid-column:1/-1;width:100%;height:40px}.fields{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.fields{grid-template-columns:1fr}.item{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.intro h1{letter-spacing:-.8px}.item .amount{font-size:16px!important;min-height:52px}}
 </style>
 </head>
 <body>
@@ -80,62 +80,45 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
 <script>
 (function(){
  const $=id=>document.getElementById(id);
- const today=new Date();today.setMinutes(today.getMinutes()-today.getTimezoneOffset());
- const iso=today.toISOString().slice(0,10);
- $('salaryDate').value=iso;
- document.querySelectorAll('.due').forEach(el=>el.value=iso);
+ const localISO=d=>{const x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)};
+ const today=localISO(new Date()),nextDefault=new Date();nextDefault.setDate(nextDefault.getDate()+30);
+ $('salaryDate').value=localISO(nextDefault);
+ document.querySelectorAll('.due').forEach(el=>el.value=localISO(new Date(Date.now()+86400000)));
  const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number.isFinite(n)?n:0);
  const num=id=>Math.max(0,Number($(id).value)||0);
- function addRow(kind){
-  const container=$(kind==='expense'?'expenses':'debts');
-  const row=document.createElement('div');row.className='item '+kind;
-  row.innerHTML='<input class="row-input name" aria-label="'+(kind==='expense'?'Expense':'Debt')+' name" placeholder="'+(kind==='expense'?'Rent / bills / groceries':'Loan / card / lender')+'"><input class="row-input amount" aria-label="Amount in rupees" type="number" min="0" step="100" inputmode="decimal" placeholder="₹ amount"><input class="row-input due" aria-label="Due date" type="date" value="'+iso+'"><button type="button" class="remove" aria-label="Remove row">×</button>';
-  row.querySelector('.remove').addEventListener('click',()=>row.remove());container.appendChild(row);
- }
- $('addExpense').addEventListener('click',()=>addRow('expense'));
- $('addDebt').addEventListener('click',()=>addRow('debt'));
- function rows(container){
-  return [...$(container).querySelectorAll('.item')].map(r=>({name:r.querySelector('.name').value.trim()||'Unnamed item',amount:Math.max(0,Number(r.querySelector('.amount').value)||0),due:r.querySelector('.due').value})).filter(r=>r.amount>0);
- }
+ const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+ const fmt=d=>new Date(d+'T12:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+ function addRow(kind){const row=document.createElement('div');row.className='item '+kind;row.innerHTML='<input class="row-input name" aria-label="Name" placeholder="'+(kind==='expense'?'Rent, groceries or bill':'Loan, card or lender')+'"><input class="row-input amount" aria-label="Amount in rupees" type="number" min="0" step="100" inputmode="decimal" placeholder="Enter amount ₹"><input class="row-input due" aria-label="Due date" type="date"><button class="remove" type="button" aria-label="Remove row">Remove</button>';row.querySelector('.remove').addEventListener('click',()=>row.remove());$(kind==='expense'?'expenses':'debts').appendChild(row)}
+ $('addExpense').addEventListener('click',()=>addRow('expense'));$('addDebt').addEventListener('click',()=>addRow('debt'));
+ function rows(id,kind){return [...$(id).querySelectorAll('.item')].map(r=>({name:r.querySelector('.name').value.trim()||(kind==='expense'?'Expense':'Debt payment'),amount:Number(r.querySelector('.amount').value)||0,due:r.querySelector('.due').value,kind})).filter(x=>x.amount>0)}
  function build(){
-  const salary=num('salary'),cash=num('cash'),buffer=num('buffer'),extra=num('extra');
-  const nextDate=$('salaryDate').value;
-  const expenses=rows('expenses'),debts=rows('debts');
-  const exp=expenses.reduce((s,r)=>s+r.amount,0),debt=debts.reduce((s,r)=>s+r.amount,0);
-  const available=cash;
-  const afterRequired=available-exp-debt;
-  const afterBuffer=afterRequired-buffer;
-  const afterExtra=afterBuffer-extra;
-  $('available').textContent=money(available);
-  $('expenseTotal').textContent=money(exp);
-  $('debtTotal').textContent=money(debt);
-  $('bufferTotal').textContent=money(buffer);
-  $('extraTotal').textContent=money(extra);
-  const leftover=$('leftover'),status=$('status');
-  leftover.textContent=money(afterExtra);leftover.classList.toggle('bad',afterExtra<0);
-  const shortfall=Math.max(0,-afterExtra);
-  status.className='status '+(shortfall>0?'bad':'good');
-  status.textContent=shortfall>0?'SHORTFALL ESTIMATE':'PLAN BALANCES';
-  const dateText=nextDate?new Date(nextDate+'T12:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'your next salary date';
-  $('resultIntro').textContent=shortfall>0?'Your entered commitments exceed the available cash by '+money(shortfall)+'. Review the plan before making optional payments.':'After the amounts entered, the estimated balance is '+money(afterExtra)+'. This is not a guarantee of future cash availability.';
-  const steps=[];
-  if(!nextDate)steps.push('Add your next salary date so you can review the period you are planning for.');
-  else steps.push('Review all payments due before '+dateText+' and make sure each amount and date is correct.');
-  if(afterRequired<0)steps.push('Your listed essentials and required debt payments exceed cash available by '+money(-afterRequired)+'. Recheck amounts and dates, contact lenders or bill providers early if needed, and avoid promising payments you cannot afford.');
-  else steps.push('After listed essentials and required debt payments, estimated cash is '+money(afterRequired)+'.');
-  if(afterBuffer<0)steps.push('Your safety buffer target is not fully covered. Consider reducing optional spending or adjusting the buffer realistically; do not skip contractual minimums without understanding the consequences.');
-  if(extra>0&&afterExtra<0)steps.push('The extra debt payment you entered makes the plan go below zero. Reduce the optional extra payment to an amount that fits after essentials and required payments.');
-  else if(extra>0)steps.push('Your extra debt payment fits the numbers entered, but confirm all upcoming essentials and due dates first.');
-  if(debts.length){
-   const sorted=[...debts].sort((a,b)=>(a.due||'9999-12-31').localeCompare(b.due||'9999-12-31'));
-   steps.push('Earliest listed debt payment: '+sorted[0].name+' — '+money(sorted[0].amount)+(sorted[0].due?' due '+new Date(sorted[0].due+'T12:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'}):' (add a due date)').+'. Due dates alone do not determine which debt is financially best to repay first.');
-  }
-  steps.push('Money available for this plan uses only cash entered today; the monthly salary is shown for context and is not added again because it may not arrive before the period ends.');
-  $('nextSteps').innerHTML='<ul>'+steps.map(s=>'<li>'+s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</li>').join('')+'</ul>';
+  const err=$('formError');if(err){err.classList.add('hidden');err.textContent=''}
+  const next=$('salaryDate').value,cash=num('cash'),buffer=num('buffer'),extra=num('extra');
+  if(!next||next<=today){if(err){err.textContent='Choose a next salary date after today.';err.classList.remove('hidden')}return}
+  if($('cash').value.trim()===''){if(err){err.textContent='Enter the money available today (enter 0 if none).';err.classList.remove('hidden')}return}
+  const all=[...rows('expenses','expense'),...rows('debts','debt')];
+  const invalid=[...document.querySelectorAll('.item')].some(r=>{const amount=Number(r.querySelector('.amount').value)||0;return amount>0&&(!r.querySelector('.due').value||r.querySelector('.due').value<today)});
+  if(invalid){if(err){err.textContent='For each payment with an amount, choose a due date that is today or later.';err.classList.remove('hidden')}return}
+  const items=all.filter(x=>x.due>=today&&x.due<next).sort((a,b)=>a.due.localeCompare(b.due));
+  const exp=items.filter(x=>x.kind==='expense').reduce((s,x)=>s+x.amount,0),debt=items.filter(x=>x.kind==='debt').reduce((s,x)=>s+x.amount,0);
+  const afterRequired=cash-exp-debt,afterBuffer=afterRequired-buffer,final=afterBuffer-extra;
+  $('available').textContent=money(cash);$('expenseTotal').textContent=money(exp);$('debtTotal').textContent=money(debt);$('bufferTotal').textContent=money(buffer);$('extraTotal').textContent=money(extra);
+  $('leftover').textContent=money(final);$('leftover').classList.toggle('bad',final<0);$('status').className='status '+(final<0?'bad':'good');$('status').textContent=final<0?'SHORTFALL ESTIMATE':'PLAN BALANCES';
+  $('resultIntro').textContent=final<0?'The amounts entered exceed available cash by '+money(-final)+'. Review optional payments and contact providers early if you may miss a due date.':'Estimated balance after listed payments, buffer and optional extra payment: '+money(final)+'.';
+  let running=cash,firstGap=null;const timeline=items.map(x=>{running-=x.amount;if(running<0&&!firstGap)firstGap=x;return '<div style="display:grid;grid-template-columns:75px minmax(0,1fr) auto;gap:7px;padding:8px 0;border-bottom:1px solid #e0eae3;font-size:12px"><span>'+fmt(x.due)+'</span><strong style="overflow-wrap:anywhere">'+esc(x.name)+'</strong><strong style="color:'+(running<0?'#a33131':'#176b45')+'">'+money(running)+'</strong></div>'});
+  const timelineEl=$('timeline');if(timelineEl)timelineEl.innerHTML=(timeline.length?timeline.join(''):'No payments due before the next salary date were entered.')+'<p style="font-size:12px;color:#63746a">Running balance after each dated payment. The monthly salary is not added to current cash because it may not arrive before the next payday. Payments on or after salary day are excluded.</p>';
+  const steps=['Planning period: today through the day before '+fmt(next)+'. Monthly salary ('+money(num('salary'))+') is shown for reference only.'];
+  if(firstGap)steps.push('The first estimated shortfall appears after '+firstGap.name+' on '+fmt(firstGap.due)+'. Verify the date and contact the lender or bill provider early if needed.');
+  else steps.push('The listed dated payments fit within current cash before the buffer and optional extra payment, assuming no other spending.');
+  steps.push('After required payments, estimated cash is '+money(afterRequired)+'.');
+  if(afterBuffer<0)steps.push('Your selected safety buffer is not fully covered.');
+  if(extra>0&&final<0)steps.push('Reduce the optional extra debt payment until essential expenses and required payments are covered.');
+  if(all.some(x=>x.due>=next))steps.push('Some entered payments fall on or after the next salary date and are not included in this period.');
+  if(!items.length)steps.push('Add the expenses and required payments due before payday to get a useful plan.');
+  steps.push('This is an estimate, not a recommendation to skip payments. Check lender terms, minimum payments and urgent obligations before acting.');
+  $('nextSteps').innerHTML='<ul>'+steps.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
  }
- $('buildPlan').addEventListener('click',build);
- $('printPlan').addEventListener('click',()=>{build();window.print()});
- $('resetPlan').addEventListener('click',()=>{if(!confirm('Clear your entered amounts and return to the sample values?'))return;location.reload()});
+ $('buildPlan').addEventListener('click',build);$('printPlan').addEventListener('click',()=>{build();if(!$('formError')||$('formError').classList.contains('hidden'))window.print()});$('resetPlan').addEventListener('click',()=>{if(confirm('Clear entries and start again?'))location.reload()});
  build();
 })();
 </script>
