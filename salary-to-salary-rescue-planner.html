@@ -70,7 +70,7 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
 <div class="metric"><span>Required debt payments</span><strong id="debtTotal">₹ —</strong></div>
 <div class="metric"><span>Safety buffer target</span><strong id="bufferTotal">₹ —</strong></div>
 <div class="metric"><span>Extra debt payment entered</span><strong id="extraTotal">₹ —</strong></div>
-<div class="plan"><h3>Suggested next steps</h3><div id="nextSteps">Your personalized summary will appear here after calculation.</div></div>
+<div class="plan action-plan"><h3>Your action plan</h3><p style="font-size:12px;color:#63746a;margin:0 0 8px">Practical next steps based on the shortfall you entered—not a promise that money will appear.</p><div id="nextSteps">Build your plan to see prioritized actions.</div><div id="recoverySteps"></div></div>
 <div class="actions"><button type="button" class="plain" id="printPlan">Print / Save PDF</button><button type="button" class="plain" id="resetPlan">Reset</button></div>
 <p class="warning">Estimate only, based on the amounts and dates you enter. It does not access bank accounts or verify due dates. Prioritize contractual minimums, essentials and urgent obligations; contact your lender early if a payment may be missed. This is educational information, not individualized financial, legal or debt-settlement advice. Investments and new borrowing are not recommended by this tool.</p>
 </aside>
@@ -108,14 +108,29 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
   let running=cash,firstGap=null;const timeline=items.map(x=>{running-=x.amount;if(running<0&&!firstGap)firstGap=x;return '<div style="display:grid;grid-template-columns:75px minmax(0,1fr) auto;gap:7px;padding:8px 0;border-bottom:1px solid #e0eae3;font-size:12px"><span>'+fmt(x.due)+'</span><strong style="overflow-wrap:anywhere">'+esc(x.name)+'</strong><strong style="color:'+(running<0?'#a33131':'#176b45')+'">'+money(running)+'</strong></div>'});
   const timelineEl=$('timeline');if(timelineEl)timelineEl.innerHTML=(timeline.length?timeline.join(''):'No payments due before the next salary date were entered.')+'<p style="font-size:12px;color:#63746a">Running balance after each dated payment. The monthly salary is not added to current cash because it may not arrive before the next payday. Payments on or after salary day are excluded.</p>';
   const steps=['Planning period: today through the day before '+fmt(next)+'. Monthly salary ('+money(num('salary'))+') is shown for reference only.'];
-  if(firstGap)steps.push('The first estimated shortfall appears after '+firstGap.name+' on '+fmt(firstGap.due)+'. Verify the date and contact the lender or bill provider early if needed.');
-  else steps.push('The listed dated payments fit within current cash before the buffer and optional extra payment, assuming no other spending.');
+  if(firstGap)steps.push('First estimated cash shortfall: after '+firstGap.name+' on '+fmt(firstGap.due)+'. Confirm the date and exact minimum due before making decisions.');
+  else steps.push('Listed payments fit current cash before the buffer and optional extra payment, assuming no other spending.');
   steps.push('After required payments, estimated cash is '+money(afterRequired)+'.');
-  if(afterBuffer<0)steps.push('Your selected safety buffer is not fully covered.');
-  if(extra>0&&final<0)steps.push('Reduce the optional extra debt payment until essential expenses and required payments are covered.');
-  if(all.some(x=>x.due>=next))steps.push('Some entered payments fall on or after the next salary date and are not included in this period.');
-  if(!items.length)steps.push('Add the expenses and required payments due before payday to get a useful plan.');
-  steps.push('This is an estimate, not a recommendation to skip payments. Check lender terms, minimum payments and urgent obligations before acting.');
+  if(afterBuffer<0)steps.push('Your selected safety buffer is not covered by the entered cash.');
+  if(extra>0&&final<0)steps.push('Set optional extra debt payment to ₹0 until essentials and required payments are covered.');
+  $('nextSteps').innerHTML='<ul>'+steps.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
+  const recovery=[];
+  if(final<0){
+   recovery.push('<li><strong>1. Pause optional payments now.</strong> Set extra debt payment to ₹0. Do not use money needed for food, medicines, housing, utilities or travel to work for extra repayment.</li>');
+   recovery.push('<li><strong>2. Contact each lender before the due date.</strong> Ask for the exact minimum amount, a due-date change aligned with salary day, or hardship/restructuring options in writing. Ask about fees and total interest before agreeing. Do not simply skip a contractual payment.</li>');
+   recovery.push('<li><strong>3. Make a due-date cash list.</strong> Pay for essential living needs and contractual minimums first; check which obligations are due before payday. Do not promise the same rupee to two creditors.</li>');
+   recovery.push('<li><strong>4. Reduce only flexible spending.</strong> Temporarily pause non-essential shopping, subscriptions, eating out and discretionary purchases. Do not assume this alone can cover a large gap.</li>');
+   recovery.push('<li><strong>5. Bridge the gap safely.</strong> Check whether an employer salary advance, an agreed payment extension, or a trusted family bridge with clear written terms is possible. Avoid instant-loan apps, cash advances and borrowing at higher interest to pay another loan.</li>');
+   recovery.push('<li><strong>6. Create extra cash within 7 days.</strong> Choose work with no upfront fee: commission-based sales, local business/hospital advertising leads, weekend sales shifts, or selling unused non-essential items. Count income only after it is confirmed, not as guaranteed money.</li>');
+   recovery.push('<li><strong>7. After this month, restructure the monthly load.</strong> List every debt with outstanding balance, APR/interest, EMI, minimum due and due date. Request lower EMI/longer tenure only after comparing total interest and fees. Once essentials and minimums are current, direct extra money to the highest-cost debt first.</li>');
+   recovery.push('<li><strong>Reality check:</strong> this tool cannot invent funds. If the required payments genuinely exceed both cash and income, a due-date extension or formal lender hardship arrangement is needed; budgeting alone will not close the gap.</li>');
+  } else {
+   recovery.push('<li><strong>1. Protect essentials and required minimums.</strong> Keep the reserve only at a level your actual cash flow can support.</li>');
+   recovery.push('<li><strong>2. Avoid new high-interest borrowing.</strong> Do not make extra debt payments until all upcoming bills and minimums are covered.</li>');
+   recovery.push('<li><strong>3. Build a starter emergency reserve.</strong> Set aside a small repeatable amount each payday, then grow it gradually before investing.</li>');
+   recovery.push('<li><strong>4. Reduce expensive debt.</strong> Compare interest rates and fees; after minimums, prioritize the highest-cost balance.</li>');
+  }
+  $('recoverySteps').innerHTML='<ol style="padding-left:20px;margin:10px 0">'+recovery.join('')+'</ol>';
   $('nextSteps').innerHTML='<ul>'+steps.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
  }
  $('buildPlan').addEventListener('click',build);$('printPlan').addEventListener('click',()=>{build();if(!$('formError')||$('formError').classList.contains('hidden'))window.print()});$('resetPlan').addEventListener('click',()=>{if(confirm('Clear entries and start again?'))location.reload()});
