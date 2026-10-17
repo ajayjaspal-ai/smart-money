@@ -304,6 +304,18 @@ footer{
 }
 @media(min-width:850px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
+
+/* Featured primary tool */
+.featured-plan{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:22px;margin:0 0 22px;padding:clamp(20px,4vw,32px);border:1px solid #b9ddc5;border-radius:22px;background:linear-gradient(125deg,#103c2a 0%,#176b45 64%,#238253 100%);color:#fff;box-shadow:0 14px 32px rgba(16,60,42,.16);position:relative;overflow:hidden}
+.featured-plan:after{content:"₹";position:absolute;right:18%;top:-45px;font-size:180px;font-weight:950;color:rgba(255,255,255,.045);pointer-events:none}
+.featured-plan-copy{position:relative;z-index:1}.featured-badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#b9f2cc;color:#10452e;font-size:11px;font-weight:950;letter-spacing:.7px}
+.featured-plan h2{font-size:clamp(23px,3.5vw,34px);line-height:1.1;letter-spacing:-.8px;margin:13px 0 8px}.featured-plan p{max-width:740px;color:#e1f2e7;margin:0;font-size:15px}
+.featured-steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}.featured-steps span{font-size:12px;font-weight:750;color:#effaf2;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:6px 9px;border-radius:8px}
+.featured-cta{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap;text-decoration:none;background:#a8efbd;color:#103c2a;font-weight:900;padding:14px 18px;border-radius:12px;box-shadow:0 7px 16px rgba(0,0,0,.12)}
+.featured-cta:hover{background:#d2f7dd;transform:translateY(-1px)}
+.top-tabs a.tab{display:inline-flex;align-items:center}
+@media(max-width:700px){.featured-plan{grid-template-columns:1fr;gap:16px}.featured-cta{width:100%;white-space:normal}.featured-steps{display:grid;grid-template-columns:1fr}.featured-plan:after{right:-10px;top:-25px}}
+
 /* Smart Money financial dashboard styling */
 body{
   background:
@@ -641,6 +653,7 @@ body{
     <button class="tab" type="button" role="tab" aria-selected="false" data-tab="loans">🏠 Loans</button>
     <button class="tab" type="button" role="tab" aria-selected="false" data-tab="investments">📈 Investments</button>
     <button class="tab" type="button" role="tab" aria-selected="false" data-tab="debt">↘ Debt Planner</button>
+    <a class="tab" href="salary-to-salary-rescue-planner.html" aria-label="Open Salary-to-Salary Rescue Planner">★ Money Plan</a>
     <button class="tab" type="button" role="tab" aria-selected="false" data-tab="tools">✦ Budget &amp; Tools</button>
     <button class="tab" type="button" role="tab" aria-selected="false" data-tab="guides">📚 Guides</button>
     <button class="tab" type="button" role="tab" aria-selected="false" data-tab="about">ⓘ About</button>
@@ -654,7 +667,7 @@ body{
   <div class="mp-foot"><span>Money clarity</span><span>↗ Long-term growth</span></div>
 </div>
 </section>
-<main id="calculators"><div class="quick-strip" aria-label="Quick access to Smart Money features">
+<main id="calculators"><section class="featured-plan" aria-labelledby="featured-plan-title"><div class="featured-plan-copy"><span class="featured-badge">★ MOST IMPORTANT TOOL</span><h2 id="featured-plan-title">Salary-to-Salary Rescue Planner</h2><p>सैलरी, घर के खर्च और EMI को एक जगह जोड़ें। जानें अगली सैलरी तक कितना पैसा बचेगा और कहाँ कमी पड़ सकती है।</p><div class="featured-steps"><span>1. पैसा दर्ज करें</span><span>2. खर्च व EMI जोड़ें</span><span>3. अपनी योजना देखें</span></div></div><a class="featured-cta" href="salary-to-salary-rescue-planner.html">Build My Money Plan <span aria-hidden="true">→</span></a></section><div class="quick-strip" aria-label="Quick access to Smart Money features">
   <button type="button" class="quick-link" data-quick-tab="tools"><strong>₹ Smart Planning</strong><span>Loans • Savings • Wealth</span></button>
   <button type="button" class="quick-link" data-quick-tab="loans"><strong>⚡ Instant Estimates</strong><span>Calculate EMI &amp; loan costs</span></button>
   <button type="button" class="quick-link" data-quick-tab="tools"><strong>📱 Money Dashboard</strong><span>Open all money tools</span></button>
