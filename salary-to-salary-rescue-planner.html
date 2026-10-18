@@ -159,8 +159,13 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
   const skills=$('skills').value.trim(),hours=Number($('hours').value)||5,device=$('device').value,goal=$('incomeGoal').value;
   const list=[];
   const low=skills.toLowerCase();
+  const displayedBalance=Number(($('leftover').textContent||'').replace(/[^0-9-]/g,''))||0;
+  const urgentGap=Math.max(0,-displayedBalance);
+  if(urgentGap>0)list.push('<li><strong>पहले लक्ष्य साफ करें:</strong> इस प्लान में अनुमानित कमी '+money(urgentGap)+' है। पूरी रकम एक ही दिन कमाने की उम्मीद न रखें। पहले देय तारीख और वास्तविक EMI/जरूरी खर्च की पुष्टि करें; lender से आज ही लिखित extension या hardship विकल्प माँगें। अतिरिक्त EMI अभी ₹0 रखें।</li>');
   if(low.includes('sales')||low.includes('selling')||low.includes('marketing')||low.includes('client')){
-   list.push('<li><strong>Use existing sales experience first:</strong> contact 10 local businesses this week with a specific service they already buy (advertising, lead follow-up, appointment setting or customer acquisition). Agree commission and payment terms in writing before doing the work.</li>');
+   list.push('<li><strong>आपके Sales अनुभव के लिए व्यावहारिक रास्ता:</strong> आज 10 परिचित दुकानदारों, क्लिनिकों या कोचिंग सेंटरों को कॉल/WhatsApp करें। पुराने leads का follow-up, appointment confirmation या enquiry list बनाने जैसा छोटा काम ऑफर करें। काम, भुगतान और तारीख पहले लिखित में तय करें—कमाई की गारंटी नहीं।</li>');
+   list.push('<li><strong>अगले 3 दिन:</strong> Day 1: 10 businesses से संपर्क करें और उनकी जरूरत समझें। Day 2: एक छोटा paid trial और deliverable तय करें। Day 3: follow-up करके काम पूरा करें और भुगतान की पुष्टि लें। जवाब न मिले तो नए 10 contacts आजमाएँ। पैसा मिलने से पहले उसे बजट में न जोड़ें।</li>');
+   list.push('<li><strong>भेजने के लिए WhatsApp संदेश:</strong><div style="padding:10px;background:#fff;border:1px solid #dce8df;border-radius:10px;margin-top:6px">Namaste, main customer follow-up aur sales support ka chhota kaam kar sakta hoon—purani enquiries par call/WhatsApp follow-up, appointment confirmation aur response list. Agar zarurat ho to kaam aur payment terms pehle clear karke ek chhota paid trial kar sakte hain.</div></li>');
   }
   if(low.includes('excel')||low.includes('mis')||low.includes('computer')||device==='computer'){
    list.push('<li><strong>Offer a small business admin service:</strong> create a clean sales/expense sheet, stock list or weekly report for one local shop. Prepare one sample file first; do not pay for a course or job placement.</li>');
