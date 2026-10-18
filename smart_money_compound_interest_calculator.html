@@ -102,17 +102,22 @@ canvas{width:100%;height:260px;border:1px solid #e2e7ef;border-radius:12px;backg
 <script>
 function money(n){return "₹"+Math.round(n).toLocaleString("en-IN")}
 function calculate(){
- const P=+principal.value,C=+contribution.value,r=+rate.value/100,y=+years.value,n=+frequency.value,cf=+contribFreq.value;
- if(P<0||C<0||r<0||y<=0){message.textContent="Please enter valid values.";return}
- const periods=Math.ceil(y*n), every=Math.max(1,Math.round(n/cf)); let bal=P,total=P,rows=[];
- for(let k=1;k<=periods;k++){bal*=1+r/n;if(k%every===0&&k<=periods){bal+=C;total+=C}if(k%n===0||k===periods){let yr=Math.ceil(k/n);rows.push({year:yr,invested:total,value:bal,interest:bal-total})}}
+ const P=+principal.value,C=+contribution.value,annualRate=+rate.value/100,y=+years.value,n=+frequency.value,cf=+contribFreq.value;
+ if(!Number.isFinite(P)||!Number.isFinite(C)||!Number.isFinite(annualRate)||!Number.isFinite(y)||P<0||C<0||annualRate<0||annualRate>10||y<=0||y>100||![1,2,4,12].includes(n)||![1,2,4,12].includes(cf)){message.textContent="Enter valid values. Rate must be 0–10, duration must be above 0 and no more than 100 years.";return}
+ const months=Math.max(1,Math.round(y*12)),depositEvery=12/cf,monthlyGrowth=Math.pow(1+annualRate/n,n/12);
+ let bal=P,total=P,rows=[];
+ for(let m=1;m<=months;m++){
+  bal*=monthlyGrowth;
+  if(m%depositEvery===0){bal+=C;total+=C}
+  if(m%12===0||m===months){rows.push({year:Math.ceil(m/12),invested:total,value:bal,interest:bal-total})}
+ }
  invested.textContent=money(total);interest.textContent=money(bal-total);finalValue.textContent=money(bal);
- message.innerHTML="Projected value after <strong>"+y+" years</strong>: <strong>"+money(bal)+"</strong>.";
+ message.innerHTML="Projected value after <strong>"+(months/12).toLocaleString("en-IN",{maximumFractionDigits:2})+" years</strong>: <strong>"+money(bal)+"</strong>. Regular contributions are assumed at the end of each selected contribution interval; actual returns may differ.";
  tableBody.innerHTML=rows.map(x=>"<tr><td>"+x.year+"</td><td>"+money(x.invested)+"</td><td>"+money(x.interest)+"</td><td>"+money(x.value)+"</td></tr>").join("");
  drawChart(rows)
 }
 function drawChart(rows){const c=chart,ctx=c.getContext("2d"),d=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;c.width=w*d;c.height=h*d;ctx.scale(d,d);ctx.clearRect(0,0,w,h);if(!rows.length)return;let p=28,max=Math.max(...rows.map(x=>x.value),1);ctx.beginPath();ctx.lineWidth=3;rows.forEach((x,i)=>{let xx=p+(w-2*p)*(i/Math.max(rows.length-1,1)),yy=h-p-(h-2*p)*x.value/max;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)});ctx.stroke();ctx.fillStyle="#172554";ctx.font="12px Arial";ctx.fillText("Year 1",p,h-8);ctx.fillText("Final",Math.max(p,w-55),h-8);ctx.fillText(money(max),p,16)}
-function resetForm(){principal.value='';contribution.value='';rate.value='';years.value='';message.textContent='Enter your details and calculate.';invested.textContent='—';interest.textContent='—';finalValue.textContent='—';tableBody.innerHTML='';}
+function resetForm(){principal.value='';contribution.value='';rate.value='';years.value='';message.textContent='Enter your details and calculate.';invested.textContent='—';interest.textContent='—';finalValue.textContent='—';tableBody.innerHTML='';drawChart([]);}
 </script>
 <script>
 /* Smart Money: start every calculator session with empty user inputs */
