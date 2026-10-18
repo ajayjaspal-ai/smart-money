@@ -173,8 +173,26 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
   $('incomeSteps').innerHTML='<ol style="padding-left:20px;margin:8px 0">'+list.join('')+'</ol>';
  }
  $('incomePlanBtn').addEventListener('click',incomePlan);
- $('buildPlan').addEventListener('click',build);$('printPlan').addEventListener('click',()=>{build();if(!$('formError')||$('formError').classList.contains('hidden'))window.print()});$('resetPlan').addEventListener('click',()=>{if(confirm('Clear entries and start again?'))location.reload()});
- build();
+ $('buildPlan').addEventListener('click',build);$('printPlan').addEventListener('click',()=>{build();if(!$('formError')||$('formError').classList.contains('hidden'))window.print()});
+ function clearPlannerInputs(){
+  ['salary','cash','salaryDate','buffer','extra','skills'].forEach(id=>{const el=$(id);if(el)el.value=''});
+  ['hours','device','goal'].forEach(id=>{const el=$(id);if(el)el.selectedIndex=0});
+  ['expenses','debts'].forEach(id=>{
+   const container=$(id),kind=id==='expenses'?'expense':'debt',first=container.querySelector('.item');
+   [...container.querySelectorAll('.item')].slice(1).forEach(row=>row.remove());
+   const row=container.querySelector('.item');
+   if(row){row.querySelector('.name').value='';row.querySelector('.amount').value='';row.querySelector('.due').value='';}
+  });
+  const err=$('formError');if(err){err.textContent='';err.classList.add('hidden')}
+  ['available','expenseTotal','debtTotal','bufferTotal','extraTotal','leftover'].forEach(id=>{const el=$(id);if(el)el.textContent='—'});
+  const status=$('status');if(status){status.textContent='Awaiting your plan';status.className='status'}
+  ['actionPlan','incomeSteps'].forEach(id=>{const el=$(id);if(el)el.innerHTML=''});
+  const message=$('message');if(message)message.textContent='';
+ }
+ $('resetPlan').addEventListener('click',()=>{clearPlannerInputs()});
+ // Clear browser-restored form values whenever this page is opened or restored.
+ window.addEventListener('pageshow',clearPlannerInputs);
+ clearPlannerInputs();
 })();
 </script>
 </body></html>
