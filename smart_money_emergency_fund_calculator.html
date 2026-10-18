@@ -150,6 +150,7 @@ $('calculate').addEventListener('click',calculate);['expenses','months','saved',
 $('reset').addEventListener('click',()=>{$('expenses').value='';$('months').value='6';$('saved').value='';$('monthly').value='';calculate()});
 </script>
 <script>
+window.addEventListener('pageshow',function(){var b=document.getElementById('reset');if(b)b.click();});
 /* Smart Money: start every calculator session with empty user inputs */
 window.addEventListener('pageshow',function(){
   if(typeof resetForm==='function'){resetForm();return;}
