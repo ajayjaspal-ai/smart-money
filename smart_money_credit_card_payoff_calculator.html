@@ -125,11 +125,11 @@ function payoff(balance,apr,payment,extra){
  return{months:m,interest:iSum,total:total}
 }
 function calculate(){
- let b=+balance.value,a=+apr.value,p=+payment.value,e=+extra.value;error.textContent="";
- if(b<=0||p<=0||a<0||e<0){error.textContent="Please enter valid values.";return}
+ let b=Number(balance.value),a=Number(apr.value),p=Number(payment.value),e=Number(extra.value);error.textContent="";
+ if(![b,a,p,e].every(Number.isFinite)||b<=0||p<=0||a<0||a>100||e<0||e>=b){error.textContent="Enter a balance above ₹0, APR from 0% to 100%, a positive monthly payment, and an extra payment smaller than the balance.";return}
  let r=payoff(b,a,p,e);if(!r){error.textContent="This payment does not cover the estimated monthly interest. Increase the payment.";return}
  months.textContent=r.months+" months";interest.textContent=money(r.interest);total.textContent=money(r.total);initialInterest.textContent=money(Math.max(0,b-e)*a/100/12);
- message.innerHTML="Estimated payoff: <strong>"+r.months+" months</strong>. Increasing your payment may reduce estimated interest and repayment time.";
+ message.innerHTML="Estimated payoff: <strong>"+r.months+" months</strong>. This estimate assumes a constant APR, no new purchases or fees, and a fixed monthly payment.";
  let opts=[5000,10000,15000,20000,25000].filter(x=>x>0);
  comparison.innerHTML=opts.map(x=>{let q=payoff(b,a,x,e);return q?`<tr><td>${money(x)}</td><td>${q.months} months</td><td>${money(q.interest)}</td><td>${money(q.total)}</td></tr>`:`<tr><td>${money(x)}</td><td colspan="3">Payment does not cover estimated monthly interest</td></tr>`}).join("");
 }
