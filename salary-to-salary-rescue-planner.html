@@ -127,20 +127,25 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
   if(extra>0&&final<0)steps.push('Set optional extra debt payment to ₹0 until essentials and required payments are covered.');
   $('nextSteps').innerHTML='<ul>'+steps.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
   const recovery=[];
+  const monthlySalary=num('salary'),listedRequired=exp+debt,monthlyGap=listedRequired-monthlySalary;
+  const shortfall=Math.max(0,-final);
   if(final<0){
-   recovery.push('<li><strong>1. Pause optional payments now.</strong> Set extra debt payment to ₹0. Do not use money needed for food, medicines, housing, utilities or travel to work for extra repayment.</li>');
-   recovery.push('<li><strong>2. Contact each lender before the due date.</strong> Ask for the exact minimum amount, a due-date change aligned with salary day, or hardship/restructuring options in writing. Ask about fees and total interest before agreeing. Do not simply skip a contractual payment.</li>');
-   recovery.push('<li><strong>3. Make a due-date cash list.</strong> Pay for essential living needs and contractual minimums first; check which obligations are due before payday. Do not promise the same rupee to two creditors.</li>');
-   recovery.push('<li><strong>4. Reduce only flexible spending.</strong> Temporarily pause non-essential shopping, subscriptions, eating out and discretionary purchases. Do not assume this alone can cover a large gap.</li>');
-   recovery.push('<li><strong>5. Bridge the gap safely.</strong> Check whether an employer salary advance, an agreed payment extension, or a trusted family bridge with clear written terms is possible. Avoid instant-loan apps, cash advances and borrowing at higher interest to pay another loan.</li>');
-   recovery.push('<li><strong>6. Create extra cash within 7 days.</strong> Choose work with no upfront fee: commission-based sales, local business/hospital advertising leads, weekend sales shifts, or selling unused non-essential items. Count income only after it is confirmed, not as guaranteed money.</li>');
-   recovery.push('<li><strong>7. After this month, restructure the monthly load.</strong> List every debt with outstanding balance, APR/interest, EMI, minimum due and due date. Request lower EMI/longer tenure only after comparing total interest and fees. Once essentials and minimums are current, direct extra money to the highest-cost debt first.</li>');
-   recovery.push('<li><strong>Reality check:</strong> this tool cannot invent funds. If the required payments genuinely exceed both cash and income, a due-date extension or formal lender hardship arrangement is needed; budgeting alone will not close the gap.</li>');
+   recovery.push('<li><strong>आपकी कमी कितनी है:</strong> अभी भरे हुए खर्च, जरूरी EMI, सुरक्षा राशि और अतिरिक्त भुगतान के बाद '+money(shortfall)+' की कमी है। Extra debt payment ₹0 करें। सुरक्षा राशि से पहले भी नकदी '+money(Math.max(0,-afterRequired))+' कम पड़ रही है।</li>');
+   recovery.push('<li><strong>पहले जरूरी खर्च बचाएँ:</strong> घर/किराया, भोजन, दवा, बिजली-पानी और काम पर जाने का खर्च अलग रखें। फिर देय तारीख के अनुसार जरूरी न्यूनतम EMI भरें। एक ही रुपये को दो भुगतान के लिए न गिनें।</li>');
+   recovery.push('<li><strong>Due date से पहले lender से लिखित बात करें:</strong> वेतन आने के बाद की तारीख, अस्थायी hardship व्यवस्था या revised instalment माँगें। नई EMI, फीस, ब्याज और कुल repayment लिखित में लें। भुगतान चुपचाप छोड़ना समाधान नहीं है।</li>');
+   recovery.push('<li><strong>इस बार की कमी का सुरक्षित इंतजाम:</strong> employer salary advance, लिखित extension या भरोसेमंद परिवार से स्पष्ट repayment शर्तों वाला bridge देखें। पुष्टि न हुई मदद को उपलब्ध पैसा न मानें। ऊँचे ब्याज वाला नया loan लेकर पुराना loan न भरें।</li>');
+   recovery.push('<li><strong>बिना upfront fee के अतिरिक्त नकदी:</strong> मौजूदा contacts को sales/client follow-up सेवा दें, paid weekend shift पूछें या गैर-जरूरी unused सामान बेचें। लक्ष्य '+money(shortfall)+' की कमी भरना है—कमाई की गारंटी नहीं। पैसा मिलने के बाद ही उसे जोड़ें।</li>');
+   recovery.push('<li><strong>अगले वेतन से पहले पूरा debt map बनाएँ:</strong> हर कर्ज का बाकी balance, ब्याज/APR, EMI/minimum, due date और late fee लिखें। Lender से restructuring विकल्प पूछें; EMI घटने पर कुल ब्याज बढ़ सकता है, इसलिए पूरी repayment cost की तुलना करें।</li>');
+   recovery.push('<li><strong>कर्ज चुकाने का सही क्रम:</strong> जरूरी खर्च और सभी minimum payments चालू रखने के बाद ही अतिरिक्त रकम सबसे ऊँचे ब्याज/फीस वाले कर्ज पर डालें (avalanche तरीका)। अगर अभी shortfall है, तो extra repayment न करें।</li>');
+   if(monthlyGap>0)recovery.push('<li><strong>वेतन बनाम दर्ज भुगतान:</strong> इस अगले वेतन से पहले दर्ज खर्च और EMI '+money(listedRequired)+' हैं—दर्ज मासिक वेतन से '+money(monthlyGap)+' ज्यादा। लेकिन ये सिर्फ अगली salary date से पहले की entries हैं, पूरा महीने का बजट नहीं। बाकी पूरे महीने के खर्च भी जोड़कर ही असली मासिक घाटा तय करें।</li>');
+   else recovery.push('<li><strong>मासिक जाँच:</strong> दर्ज वेतन '+money(monthlySalary)+' है और अगली salary से पहले दर्ज खर्च/EMI '+money(listedRequired)+' हैं। इससे अकेले यह साबित नहीं होता कि पूरा महीना affordable है; बाकी bills और रोजमर्रा का खर्च भी जोड़ें।</li>');
+   recovery.push('<li><strong>सच्चाई:</strong> अगर जरूरी खर्च और contractual minimums भरोसेमंद आय से ज्यादा हैं, तो सिर्फ budgeting से समस्या हल नहीं होगी। लिखित lender arrangement, स्थायी खर्च कम करना या वास्तविक अतिरिक्त आय जरूरी होगी। Trading/investment return को पक्का पैसा न मानें।</li>');
   } else {
-   recovery.push('<li><strong>1. Protect essentials and required minimums.</strong> Keep the reserve only at a level your actual cash flow can support.</li>');
-   recovery.push('<li><strong>2. Avoid new high-interest borrowing.</strong> Do not make extra debt payments until all upcoming bills and minimums are covered.</li>');
-   recovery.push('<li><strong>3. Build a starter emergency reserve.</strong> Set aside a small repeatable amount each payday, then grow it gradually before investing.</li>');
-   recovery.push('<li><strong>4. Reduce expensive debt.</strong> Compare interest rates and fees; after minimums, prioritize the highest-cost balance.</li>');
+   recovery.push('<li><strong>अभी कितना बच रहा है:</strong> दर्ज भुगतानों, safety buffer और extra payment के बाद '+money(final)+' बचते हैं। यह तभी सही है जब कोई bill या रोजमर्रा का खर्च छूटा न हो।</li>');
+   recovery.push('<li><strong>पहले जरूरी भुगतान सुरक्षित रखें:</strong> किराया, भोजन, दवा, utilities, काम पर आने-जाने का खर्च और minimum EMI के पैसे से extra repayment न करें।</li>');
+   recovery.push('<li><strong>फिर महँगे कर्ज पर हमला करें:</strong> सभी जरूरी भुगतान पूरे होने के बाद वास्तविक surplus को सबसे ऊँचे ब्याज/फीस वाले कर्ज पर लगाएँ; बाकी कर्ज की minimum EMI जारी रखें।</li>');
+   recovery.push('<li><strong>छोटी emergency reserve बनाएँ:</strong> हर payday पर उतनी रकम अलग रखें जिसे लगातार बचा सकें। एक ही रकम को बचत और debt repayment दोनों में न गिनें।</li>');
+   recovery.push('<li><strong>पूरा महीना जाँचें:</strong> यह हिसाब सिर्फ अगली salary से पहले दर्ज payments का है। सभी मासिक खर्च, EMI और रोजमर्रा का खर्च जोड़कर ही extra repayment तय करें।</li>');
   }
   $('recoverySteps').innerHTML='<ol style="padding-left:20px;margin:10px 0">'+recovery.join('')+'</ol>'; incomePlan();
   $('nextSteps').innerHTML='<ul>'+steps.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
