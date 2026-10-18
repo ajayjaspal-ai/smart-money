@@ -111,17 +111,20 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
   const all=[...rows('expenses','expense'),...rows('debts','debt')];
   const invalid=[...document.querySelectorAll('.item')].some(r=>{const amount=Number(r.querySelector('.amount').value)||0;return amount>0&&(!r.querySelector('.due').value||r.querySelector('.due').value<today)});
   if(invalid){if(err){err.textContent='For each payment with an amount, choose a due date that is today or later.';err.classList.remove('hidden')}return}
-  const items=all.filter(x=>x.due>=today&&x.due<next).sort((a,b)=>a.due.localeCompare(b.due));
+  const nextDate=new Date(next+'T12:00:00');const periodEndDate=new Date(nextDate);periodEndDate.setMonth(periodEndDate.getMonth()+1);const periodEnd=localISO(periodEndDate);
+  const salary=num('salary');
+  const items=all.filter(x=>x.due>=today&&x.due<periodEnd).sort((a,b)=>a.due.localeCompare(b.due));
   const exp=items.filter(x=>x.kind==='expense').reduce((s,x)=>s+x.amount,0),debt=items.filter(x=>x.kind==='debt').reduce((s,x)=>s+x.amount,0);
-  const afterRequired=cash-exp-debt,afterBuffer=afterRequired-buffer,final=afterBuffer-extra;
+  const afterRequired=cash+salary-exp-debt,afterBuffer=afterRequired-buffer,final=afterBuffer-extra;
   $('available').textContent=money(cash);$('expenseTotal').textContent=money(exp);$('debtTotal').textContent=money(debt);$('bufferTotal').textContent=money(buffer);$('extraTotal').textContent=money(extra);
   $('leftover').textContent=money(final);$('leftover').classList.toggle('bad',final<0);$('status').className='status '+(final<0?'bad':'good');$('status').textContent=final<0?'SHORTFALL ESTIMATE':'PLAN BALANCES';
   $('resultIntro').textContent=final<0?'The amounts entered exceed available cash by '+money(-final)+'. Review optional payments and contact providers early if you may miss a due date.':'Estimated balance after listed payments, buffer and optional extra payment: '+money(final)+'.';
-  let running=cash,firstGap=null;const timeline=items.map(x=>{running-=x.amount;if(running<0&&!firstGap)firstGap=x;return '<div style="display:grid;grid-template-columns:75px minmax(0,1fr) auto;gap:7px;padding:8px 0;border-bottom:1px solid #e0eae3;font-size:12px"><span>'+fmt(x.due)+'</span><strong style="overflow-wrap:anywhere">'+esc(x.name)+'</strong><strong style="color:'+(running<0?'#a33131':'#176b45')+'">'+money(running)+'</strong></div>'});
-  const excluded=all.filter(x=>x.due>=next).sort((a,b)=>a.due.localeCompare(b.due));
-  const excludedNotice=excluded.length?'<div style="margin-top:12px;padding:12px;border:1px solid #f0d7a4;background:#fff8e8;border-radius:12px"><strong>⚠️ '+excluded.length+' payment(s) are after your next salary date and are NOT included in this shortfall total:</strong><ul style="margin:8px 0;padding-left:20px">'+excluded.map(x=>'<li>'+esc(x.name)+' — '+money(x.amount)+'; due '+fmt(x.due)+'</li>').join('')+'</ul><p style="margin:6px 0 0;font-size:13px">These payments still need to be planned for. If you intended them to be paid before salary, correct the dates. For a loan, enter the EMI/minimum amount actually due—not the full outstanding balance.</p></div>':'';
+  const events=items.map(x=>({...x,eventType:'payment'}));events.push({due:next,name:'Expected salary',amount:salary,kind:'income',eventType:'salary'});events.sort((a,b)=>a.due.localeCompare(b.due)||(a.eventType==='salary'?-1:1));
+  let running=cash,firstGap=null;const timeline=events.map(x=>{running+=x.eventType==='salary'?x.amount:-x.amount;if(running<0&&!firstGap)firstGap=x;return '<div style="display:grid;grid-template-columns:75px minmax(0,1fr) auto;gap:7px;padding:8px 0;border-bottom:1px solid #e0eae3;font-size:12px"><span>'+fmt(x.due)+'</span><strong style="overflow-wrap:anywhere">'+esc(x.name)+'</strong><strong style="color:'+(running<0?'#a33131':'#176b45')+'">'+money(running)+'</strong></div>'});
+  const excluded=all.filter(x=>x.due>=periodEnd).sort((a,b)=>a.due.localeCompare(b.due));
+  const excludedNotice=excluded.length?'<div style="margin-top:12px;padding:12px;border:1px solid #f0d7a4;background:#fff8e8;border-radius:12px"><strong>⚠️ '+excluded.length+' payment(s) are on or after the following salary cycle and are NOT included:</strong><ul style="margin:8px 0;padding-left:20px">'+excluded.map(x=>'<li>'+esc(x.name)+' — '+money(x.amount)+'; due '+fmt(x.due)+'</li>').join('')+'</ul><p style="margin:6px 0 0;font-size:13px">These payments still need to be planned for. If you intended them to be paid before salary, correct the dates. For a loan, enter the EMI/minimum amount actually due—not the full outstanding balance.</p></div>':'';
   const timelineEl=$('timeline');if(timelineEl)timelineEl.innerHTML=(timeline.length?timeline.join(''):'No payments due before the next salary date were entered.')+'<p style="font-size:12px;color:#63746a">Running balance after each dated payment. The monthly salary is not added to current cash because it may not arrive before the next payday.</p>'+excludedNotice;
-  const steps=['Planning period: today through the day before '+fmt(next)+'. Monthly salary ('+money(num('salary'))+') is shown for reference only.'];
+  const steps=['Planning period: today through the day before '+fmt(periodEnd)+'. Expected monthly salary ('+money(salary)+') is added on '+fmt(next)+'.'];
   if(firstGap)steps.push('First estimated cash shortfall: after '+firstGap.name+' on '+fmt(firstGap.due)+'. Confirm the date and exact minimum due before making decisions.');
   else steps.push('Listed payments fit current cash before the buffer and optional extra payment, assuming no other spending.');
   steps.push('After required payments, estimated cash is '+money(afterRequired)+'.');
@@ -129,7 +132,7 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
   if(extra>0&&final<0)steps.push('Set optional extra debt payment to ₹0 until essentials and required payments are covered.');
   $('nextSteps').innerHTML='<ul>'+steps.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
   const recovery=[];
-  const monthlySalary=num('salary'),listedRequired=exp+debt,monthlyGap=listedRequired-monthlySalary;
+  const monthlySalary=salary,listedRequired=exp+debt,monthlyGap=listedRequired-monthlySalary;
   const shortfall=Math.max(0,-final);
   if(final<0){
    recovery.push('<li><strong>आपकी कमी कितनी है:</strong> अभी भरे हुए खर्च, जरूरी EMI, सुरक्षा राशि और अतिरिक्त भुगतान के बाद '+money(shortfall)+' की कमी है। Extra debt payment ₹0 करें। सुरक्षा राशि से पहले भी नकदी '+money(Math.max(0,-afterRequired))+' कम पड़ रही है।</li>');
