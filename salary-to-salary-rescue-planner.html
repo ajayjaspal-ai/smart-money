@@ -71,17 +71,19 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
 <section class="panel">
 <h2>4. Optional extra debt payment</h2><p class="sub">Only enter an extra amount if it is genuinely affordable after essentials and required payments.</p>
 <div class="field"><label for="extra">Extra amount you want to pay (₹)</label><input id="extra" type="number" min="0" step="100" value="0" inputmode="decimal"></div>
-<button class="primary" type="button" id="buildPlan">Build my money plan</button>
+<div id="formError" class="plan hidden" role="alert" style="border-color:#e7b7b7;background:#fff3f3;color:#8a2525"></div><button class="primary" type="button" id="buildPlan">Build my money plan</button>
 </section>
 </div>
 <aside class="panel result" aria-live="polite" aria-atomic="true">
 <span id="status" class="status">READY TO PLAN</span><h2 style="margin-top:12px">Your money snapshot</h2>
 <div id="leftover" class="big">₹ —</div><p id="resultIntro" class="sub">Fill in your details and tap “Build my money plan”.</p>
-<div class="metric"><span>Money available this period</span><strong id="available">₹ —</strong></div>
+<div class="metric"><span>Cash available today</span><strong id="available">₹ —</strong></div>
+<div class="metric"><span>Expected salary added on payday</span><strong id="salaryTotal">₹ —</strong></div>
 <div class="metric"><span>Essential expenses</span><strong id="expenseTotal">₹ —</strong></div>
 <div class="metric"><span>Required debt payments</span><strong id="debtTotal">₹ —</strong></div>
 <div class="metric"><span>Safety buffer target</span><strong id="bufferTotal">₹ —</strong></div>
 <div class="metric"><span>Extra debt payment entered</span><strong id="extraTotal">₹ —</strong></div>
+<div class="plan"><h3>Cash-flow timeline</h3><p style="font-size:12px;color:#63746a;margin:0 0 8px">See how your balance changes on each payment date, including whether money runs short before salary arrives.</p><div id="timeline">Build your plan to see your dated cash-flow timeline.</div></div>
 <div class="plan action-plan"><h3>Your action plan</h3><p style="font-size:12px;color:#63746a;margin:0 0 8px">Practical next steps based on the shortfall you entered—not a promise that money will appear.</p><div id="nextSteps">Build your plan to see prioritized actions.</div><div id="recoverySteps"></div></div>
 <div class="actions"><button type="button" class="plain" id="printPlan">Print / Save PDF</button><button type="button" class="plain" id="resetPlan">Reset</button></div>
 <p class="warning">Estimate only, based on the amounts and dates you enter. It does not access bank accounts or verify due dates. Prioritize contractual minimums, essentials and urgent obligations; contact your lender early if a payment may be missed. This is educational information, not individualized financial, legal or debt-settlement advice. Investments and new borrowing are not recommended by this tool.</p>
@@ -116,9 +118,9 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
   const items=all.filter(x=>x.due>=today&&x.due<periodEnd).sort((a,b)=>a.due.localeCompare(b.due));
   const exp=items.filter(x=>x.kind==='expense').reduce((s,x)=>s+x.amount,0),debt=items.filter(x=>x.kind==='debt').reduce((s,x)=>s+x.amount,0);
   const afterRequired=cash+salary-exp-debt,afterBuffer=afterRequired-buffer,final=afterBuffer-extra;
-  $('available').textContent=money(cash);$('expenseTotal').textContent=money(exp);$('debtTotal').textContent=money(debt);$('bufferTotal').textContent=money(buffer);$('extraTotal').textContent=money(extra);
+  $('available').textContent=money(cash);$('salaryTotal').textContent=money(salary);$('expenseTotal').textContent=money(exp);$('debtTotal').textContent=money(debt);$('bufferTotal').textContent=money(buffer);$('extraTotal').textContent=money(extra);
   $('leftover').textContent=money(final);$('leftover').classList.toggle('bad',final<0);$('status').className='status '+(final<0?'bad':'good');$('status').textContent=final<0?'SHORTFALL ESTIMATE':'PLAN BALANCES';
-  $('resultIntro').textContent=final<0?'The amounts entered exceed available cash by '+money(-final)+'. Review optional payments and contact providers early if you may miss a due date.':'Estimated balance after listed payments, buffer and optional extra payment: '+money(final)+'.';
+  $('resultIntro').textContent=firstGap?'Timing warning: your balance first goes below ₹0 after '+firstGap.name+' on '+fmt(firstGap.due)+', even if the whole-period total is positive. Plan before that date.':(final<0?'The amounts entered exceed available money by '+money(-final)+'. Review optional payments and contact providers early if you may miss a due date.':'Estimated balance after listed payments, expected salary, buffer and optional extra payment: '+money(final)+'.');
   const events=items.map(x=>({...x,eventType:'payment'}));events.push({due:next,name:'Expected salary',amount:salary,kind:'income',eventType:'salary'});events.sort((a,b)=>a.due.localeCompare(b.due)||(a.eventType==='salary'?-1:1));
   let running=cash,firstGap=null;const timeline=events.map(x=>{running+=x.eventType==='salary'?x.amount:-x.amount;if(running<0&&!firstGap)firstGap=x;return '<div style="display:grid;grid-template-columns:75px minmax(0,1fr) auto;gap:7px;padding:8px 0;border-bottom:1px solid #e0eae3;font-size:12px"><span>'+fmt(x.due)+'</span><strong style="overflow-wrap:anywhere">'+esc(x.name)+'</strong><strong style="color:'+(running<0?'#a33131':'#176b45')+'">'+money(running)+'</strong></div>'});
   const excluded=all.filter(x=>x.due>=periodEnd).sort((a,b)=>a.due.localeCompare(b.due));
@@ -134,8 +136,10 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
   const recovery=[];
   const monthlySalary=salary,listedRequired=exp+debt,monthlyGap=listedRequired-monthlySalary;
   const shortfall=Math.max(0,-final);
-  if(final<0){
-   recovery.push('<li><strong>आपकी कमी कितनी है:</strong> अभी भरे हुए खर्च, जरूरी EMI, सुरक्षा राशि और अतिरिक्त भुगतान के बाद '+money(shortfall)+' की कमी है। Extra debt payment ₹0 करें। सुरक्षा राशि से पहले भी नकदी '+money(Math.max(0,-afterRequired))+' कम पड़ रही है।</li>');
+  if(final<0||firstGap){
+   if(firstGap) recovery.push('<li><strong>पहले नकदी कब कम पड़ेगी:</strong> '+esc(firstGap.name)+' की '+fmt(firstGap.due)+' वाली entry के बाद balance पहली बार ₹0 से नीचे जाता है। इस तारीख से पहले lender/provider से बात करें या खर्च की तारीख/रकम की पुष्टि करें।</li>');
+   if(final<0) recovery.push('<li><strong>पूरे प्लान की कुल कमी:</strong> दर्ज खर्च, जरूरी EMI, safety buffer और optional payment के बाद '+money(shortfall)+' की कमी है।</li>');
+   if(final<0) recovery.push('<li><strong>आपकी कमी कितनी है:</strong> अभी भरे हुए खर्च, जरूरी EMI, सुरक्षा राशि और अतिरिक्त भुगतान के बाद '+money(shortfall)+' की कमी है। Extra debt payment ₹0 करें। सुरक्षा राशि से पहले भी नकदी '+money(Math.max(0,-afterRequired))+' कम पड़ रही है।</li>');
    recovery.push('<li><strong>पहले जरूरी खर्च बचाएँ:</strong> घर/किराया, भोजन, दवा, बिजली-पानी और काम पर जाने का खर्च अलग रखें। फिर देय तारीख के अनुसार जरूरी न्यूनतम EMI भरें। एक ही रुपये को दो भुगतान के लिए न गिनें।</li>');
    recovery.push('<li><strong>Due date से पहले lender से लिखित बात करें:</strong> वेतन आने के बाद की तारीख, अस्थायी hardship व्यवस्था या revised instalment माँगें। नई EMI, फीस, ब्याज और कुल repayment लिखित में लें। भुगतान चुपचाप छोड़ना समाधान नहीं है।</li>');
    recovery.push('<li><strong>इस बार की कमी का सुरक्षित इंतजाम:</strong> employer salary advance, लिखित extension या भरोसेमंद परिवार से स्पष्ट repayment शर्तों वाला bridge देखें। पुष्टि न हुई मदद को उपलब्ध पैसा न मानें। ऊँचे ब्याज वाला नया loan लेकर पुराना loan न भरें।</li>');
@@ -201,9 +205,9 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
    if(row){row.querySelector('.name').value='';row.querySelector('.amount').value='';row.querySelector('.due').value='';}
   });
   const err=$('formError');if(err){err.textContent='';err.classList.add('hidden')}
-  ['available','expenseTotal','debtTotal','bufferTotal','extraTotal','leftover'].forEach(id=>{const el=$(id);if(el)el.textContent='—'});
+  ['available','salaryTotal','expenseTotal','debtTotal','bufferTotal','extraTotal','leftover'].forEach(id=>{const el=$(id);if(el)el.textContent='—'});
   const status=$('status');if(status){status.textContent='Awaiting your plan';status.className='status'}
-  ['actionPlan','incomeSteps'].forEach(id=>{const el=$(id);if(el)el.innerHTML=''});
+  ['actionPlan','incomeSteps','timeline','nextSteps','recoverySteps'].forEach(id=>{const el=$(id);if(el)el.innerHTML=''});
   const message=$('message');if(message)message.textContent='';
  }
  $('resetPlan').addEventListener('click',()=>{clearPlannerInputs()});
