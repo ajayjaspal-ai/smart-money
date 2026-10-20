@@ -137,6 +137,7 @@ const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Math.round(n));
 const number=id=>Math.max(0,Number($(id).value)||0);
 function calculate(){
+ if($('expenses').value.trim()===''){$('target').textContent='Enter monthly expenses';$('gap').textContent='—';$('coverage').textContent='—';$('time').textContent='—';$('percent').textContent='—';$('fill').style.width='0%';$('selected').textContent='—';$('monthlyExpense').textContent='—';$('suggested').textContent='—';$('status').textContent='Enter your essential monthly expenses first to calculate a meaningful emergency fund target.';$('tip').textContent='Use essential costs such as housing, food, utilities, transport, medical needs and required payments.';return}
  const expenses=number('expenses'),months=Number($('months').value)||6,saved=number('saved'),contribution=number('monthly');
  const target=expenses*months,gap=Math.max(0,target-saved),coverage=expenses>0?saved/expenses:0,pct=target>0?Math.min(100,saved/target*100):(saved>0?100:0);
  $('target').textContent=money(target);$('gap').textContent=money(gap);$('coverage').textContent=expenses>0?coverage.toFixed(1)+' months':'N/A';
