@@ -855,11 +855,13 @@ function showSmartMoneyTab(tab){
   });
   const hero=document.getElementById('home');
   const quick=document.querySelector('.quick-strip');
+  const problemFinder=document.querySelector('.problem-finder');
   const intro=document.getElementById('search-guide');
   const heading=document.querySelector('main .section-head');
   const titles={home:'Financial planning made simple',loans:'Loan Calculators',investments:'Investment Calculators',debt:'Debt-Free Planner',tools:'Budget & More Financial Tools',guides:'Financial Guides',about:'About Smart Money'};
   if(hero)hero.hidden=tab!=='home';
   if(quick)quick.hidden=tab!=='home';
+  if(problemFinder)problemFinder.hidden=tab!=='home';
   if(intro)intro.hidden=tab!=='home';
   if(heading){heading.hidden=tab==='home';heading.querySelector('h2').textContent=titles[tab]||'Smart Money';heading.querySelector('p').textContent=tab==='home'?'Choose a purpose from the tabs above.':'Choose a tool below. Your other sections stay tucked away in their own tabs.';}
   document.querySelectorAll('.tools > .card').forEach(card=>{
@@ -879,7 +881,7 @@ function showSmartMoneyTab(tab){
     history.pushState({smartMoneyTab:tab},'',nextUrl);
   }
 }
-document.querySelectorAll('.quick-strip [data-quick-tab]').forEach(button=>{
+document.querySelectorAll('[data-quick-tab]').forEach(button=>{
   button.addEventListener('click',()=>showSmartMoneyTab(button.dataset.quickTab));
 });
 document.querySelectorAll('.top-tabs [data-tab]').forEach((button,index)=>{
@@ -906,11 +908,13 @@ function restoreSmartMoneyTabFromUrl(){
   });
   const hero=document.getElementById('home');
   const quick=document.querySelector('.quick-strip');
+  const problemFinder=document.querySelector('.problem-finder');
   const intro=document.getElementById('search-guide');
   const heading=document.querySelector('main .section-head');
   const titles={home:'Financial planning made simple',loans:'Loan Calculators',investments:'Investment Calculators',debt:'Debt-Free Planner',tools:'Budget & More Financial Tools',guides:'Financial Guides',about:'About Smart Money'};
   if(hero)hero.hidden=tab!=='home';
   if(quick)quick.hidden=tab!=='home';
+  if(problemFinder)problemFinder.hidden=tab!=='home';
   if(intro)intro.hidden=tab!=='home';
   if(heading){heading.hidden=tab==='home';heading.querySelector('h2').textContent=titles[tab]||'Smart Money';heading.querySelector('p').textContent=tab==='home'?'Choose a purpose from the tabs above.':'Choose a tool below. Your other sections stay tucked away in their own tabs.';}
   document.querySelectorAll('.tools > .card').forEach(card=>{
