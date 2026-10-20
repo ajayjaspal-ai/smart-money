@@ -136,8 +136,11 @@ function calculate(){
  const pt=+document.getElementById("pt").value;
  const tds=+document.getElementById("tds").value;
  const other=+document.getElementById("other").value;
- if(annual<0||basicPct<0||basicPct>100||pfRate<0||pt<0||tds<0||other<0){
-   message.textContent="Please enter valid values."; return;
+ if(!Number.isFinite(annual)||annual<=0){
+   message.textContent="Enter your annual gross salary above ₹0 to estimate monthly in-hand pay."; return;
+ }
+ if(!Number.isFinite(basicPct)||basicPct<0||basicPct>100||!Number.isFinite(pfRate)||pfRate<0||!Number.isFinite(pt)||pt<0||!Number.isFinite(tds)||tds<0||!Number.isFinite(other)||other<0){
+   message.textContent="Please enter valid non-negative deduction values and a Basic Salary percentage from 0 to 100."; return;
  }
  const gross=annual/12;
  const basic=gross*basicPct/100;
