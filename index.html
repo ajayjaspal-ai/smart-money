@@ -637,6 +637,20 @@ body{
 }
 
 
+/* Problem-first navigation for visitors who know the problem, not the tool name */
+.problem-finder{margin:28px 0 30px;padding:clamp(20px,4vw,30px);background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.problem-finder-heading{max-width:760px;margin-bottom:18px}
+.problem-finder-heading h2{font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:-.7px;margin:5px 0 7px}
+.problem-finder-heading p{color:var(--muted);margin:0}
+.problem-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.problem-card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;min-height:205px;padding:18px;text-align:left;text-decoration:none;color:var(--ink);background:#f8fbf8;border:1px solid #dfe9e2;border-radius:16px;box-shadow:none;margin:0;width:100%;font:inherit;cursor:pointer}
+.problem-card:hover{border-color:#82c69b;background:#f0f8f2;transform:translateY(-2px)}
+.problem-icon{font-size:26px;line-height:1.2}
+.problem-card-title{font-weight:850;font-size:16px;line-height:1.35}
+.problem-card-copy{font-size:13px;color:#5c6d63;line-height:1.5}
+.problem-action{margin-top:auto;padding-top:5px;color:var(--green);font-weight:850;font-size:13px}
+@media(max-width:850px){.problem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.problem-grid{grid-template-columns:1fr}.problem-card{min-height:0}}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4183351109071590"
      crossorigin="anonymous"></script>
@@ -659,7 +673,7 @@ body{
     <button class="tab" type="button" role="tab" aria-selected="false" data-tab="about">ⓘ About</button>
   </nav>
 </header>
-<section class="hero" id="home"><span class="pill">FREE FINANCIAL TOOLS</span><h1>Make your money work smarter.</h1><p>Simple calculators to understand loans, savings and your financial future — built for everyday decisions.</p><strong>आपके पैसों की प्लानिंग, अब आसान।</strong>
+<section class="hero" id="home"><span class="pill">FREE FINANCIAL TOOLS</span><h1>Make your money work smarter.</h1><p>Salary se pehle paisa kam pad raha hai, EMI ka pressure hai, ya savings shuru karni hain? Apni money problem chunein — Smart Money aapko numbers samajhne aur agla practical step plan karne mein help karega.</p><strong>सिर्फ कैलकुलेटर नहीं — पैसों की समस्या समझने और अगला कदम तय करने में मदद।</strong>
 <div class="money-panel" aria-hidden="true">
   <div class="mp-label">SMART MONEY • FINANCIAL VIEW</div>
   <div class="mp-value">₹ PLAN • GROW • SAVE</div>
@@ -667,7 +681,14 @@ body{
   <div class="mp-foot"><span>Money clarity</span><span>↗ Long-term growth</span></div>
 </div>
 </section>
-<main id="calculators"><section class="featured-plan" aria-labelledby="featured-plan-title"><div class="featured-plan-copy"><span class="featured-badge">★ MOST IMPORTANT TOOL</span><h2 id="featured-plan-title">Salary-to-Salary Rescue Planner</h2><p>सैलरी, घर के खर्च और EMI को एक जगह जोड़ें। जानें अगली सैलरी तक कितना पैसा बचेगा और कहाँ कमी पड़ सकती है।</p><div class="featured-steps"><span>1. पैसा दर्ज करें</span><span>2. खर्च व EMI जोड़ें</span><span>3. अपनी योजना देखें</span></div></div><a class="featured-cta" href="salary-to-salary-rescue-planner.html">Build My Money Plan <span aria-hidden="true">→</span></a></section><div class="quick-strip" aria-label="Quick access to Smart Money features">
+<main id="calculators"><section class="featured-plan" aria-labelledby="featured-plan-title"><div class="featured-plan-copy"><span class="featured-badge">★ MOST IMPORTANT TOOL</span><h2 id="featured-plan-title">Salary-to-Salary Rescue Planner</h2><p>सैलरी, घर के खर्च और EMI को एक जगह जोड़ें। जानें अगली सैलरी तक कितना पैसा बचेगा और कहाँ कमी पड़ सकती है।</p><div class="featured-steps"><span>1. पैसा दर्ज करें</span><span>2. खर्च व EMI जोड़ें</span><span>3. अपनी योजना देखें</span></div></div><a class="featured-cta" href="salary-to-salary-rescue-planner.html">Build My Money Plan <span aria-hidden="true">→</span></a></section><section class="problem-finder" aria-labelledby="problem-finder-title"><div class="problem-finder-heading"><span class="tag">START WITH YOUR REAL-LIFE PROBLEM</span><h2 id="problem-finder-title">What do you need help with today?</h2><p>Calculator ka naam dhoondhne ki zaroorat nahi. Apni situation chunein aur relevant tool par jaiye.</p></div><div class="problem-grid">
+<a class="problem-card" href="salary-to-salary-rescue-planner.html"><span class="problem-icon">📅</span><span class="problem-card-title">Salary se pehle paisa khatam?</span><span class="problem-card-copy">Salary date, bills aur EMI ki dates milakar cash shortfall pehle dekhein.</span><span class="problem-action">Plan my cash flow →</span></a>
+<button type="button" class="problem-card" data-quick-tab="debt"><span class="problem-icon">💳</span><span class="problem-card-title">Karz ya credit card ka pressure?</span><span class="problem-card-copy">Debt planner mein repayment aur extra payment ka asar samjhein.</span><span class="problem-action">Open debt planner →</span></button>
+<a class="problem-card" href="smart_money_monthly_budget_planner.html"><span class="problem-icon">🧾</span><span class="problem-card-title">Mahine ka budget nahi banta?</span><span class="problem-card-copy">Income aur expenses ko organize karke dekhein kitna bachta hai.</span><span class="problem-action">Build my budget →</span></a>
+<button type="button" class="problem-card" data-quick-tab="loans"><span class="problem-icon">🏠</span><span class="problem-card-title">Loan ki EMI afford hogi?</span><span class="problem-card-copy">EMI, total interest aur repayment cost ka estimate nikalein.</span><span class="problem-action">Check loan cost →</span></button>
+<a class="problem-card" href="smart_money_emergency_fund_calculator.html"><span class="problem-icon">🛟</span><span class="problem-card-title">Emergency ke liye kitna chahiye?</span><span class="problem-card-copy">Zaroori monthly expenses ke hisaab se safety fund estimate karein.</span><span class="problem-action">Plan safety fund →</span></a>
+<button type="button" class="problem-card" data-quick-tab="investments"><span class="problem-icon">🌱</span><span class="problem-card-title">Savings aur future growth?</span><span class="problem-card-copy">SIP aur compounding tools se possible long-term growth explore karein.</span><span class="problem-action">Explore savings →</span></button>
+</div></section><div class="quick-strip" aria-label="Quick access to Smart Money features">
   <button type="button" class="quick-link" data-quick-tab="tools"><strong>₹ Smart Planning</strong><span>Loans • Savings • Wealth</span></button>
   <button type="button" class="quick-link" data-quick-tab="loans"><strong>⚡ Instant Estimates</strong><span>Calculate EMI &amp; loan costs</span></button>
   <button type="button" class="quick-link" data-quick-tab="tools"><strong>📱 Money Dashboard</strong><span>Open all money tools</span></button>
