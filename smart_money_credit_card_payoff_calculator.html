@@ -118,11 +118,11 @@ function money(n){return "₹"+Math.round(n).toLocaleString("en-IN")}
 function payoff(balance,apr,payment,extra){
  balance=Math.max(0,+balance-(+extra||0));apr=+apr;payment=+payment;
  if(balance<=0)return{months:0,interest:0,total:0};
- let r=apr/100/12;if(r===0){let m=Math.ceil(balance/payment);return{months:m,interest:0,total:balance}}
+ let r=apr/100/12;if(r===0){let m=Math.ceil(balance/payment);return{months:m,interest:0,total:balance+(+extra||0)}}
  if(payment<=balance*r)return null;
  let b=balance,iSum=0,total=0,m=0;
  while(b>.005&&m<1200){let i=b*r;let actual=Math.min(payment,b+i);iSum+=i;total+=actual;b=b+i-actual;m++}
- return{months:m,interest:iSum,total:total}
+ return{months:m,interest:iSum,total:total+(+extra||0)}
 }
 function calculate(){
  let b=Number(balance.value),a=Number(apr.value),p=Number(payment.value),e=Number(extra.value);error.textContent="";
