@@ -764,7 +764,38 @@ body{
 <label for="sipAmt">Monthly investment (₹)</label><input autocomplete="off" id="sipAmt" type="number" min="1">
 <label for="sipRate">Expected annual return (%)</label><input autocomplete="off" id="sipRate" type="number" min="0" step=".1">
 <label for="sipYears">Investment period (years)</label><input autocomplete="off" id="sipYears" type="number" min=".1" step=".5">
-<button onclick="calcSIP()">Calculate SIP</button><div class="result" id="sipResult" aria-live="polite">Your estimate will appear here.</div><p class="note">Returns are illustrative, not guaranteed.</p></section><section class="card">
+<button onclick="calcSIP()">Calculate SIP</button><div class="result" id="sipResult" aria-live="polite">Your estimate will appear here.</div><p class="note">Returns are illustrative, not guaranteed.</p></section><section class="card" id="sip-recommendation">
+  <span class="tag">GROWTH PLANNER</span>
+  <h3>🌱 SIP Suitability Guide</h3>
+  <p>Answer these quick questions to get general guidance on whether a market-linked SIP may fit your goal. This tool does not select or recommend a specific mutual fund.</p>
+  <label for="sipGoalYears">When will you need this money?</label>
+  <select id="sipGoalYears">
+    <option value="short">Within 3 years</option>
+    <option value="medium">In 3–5 years</option>
+    <option value="long" selected>In 5–7 years</option>
+    <option value="verylong">After 7 years</option>
+  </select>
+  <label for="sipRisk">How would you feel if your investment value fell temporarily?</label>
+  <select id="sipRisk">
+    <option value="low">I cannot accept much loss</option>
+    <option value="moderate" selected>I can accept some ups and downs</option>
+    <option value="high">I can tolerate large fluctuations</option>
+  </select>
+  <label for="sipEmergency">Do you have emergency savings for essential expenses?</label>
+  <select id="sipEmergency">
+    <option value="no">Not yet</option>
+    <option value="yes">Yes</option>
+  </select>
+  <label for="sipDebt">Do you have high-interest debt (such as credit-card debt)?</label>
+  <select id="sipDebt">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+  <button type="button" onclick="recommendSIP()">See my general guidance</button>
+  <div class="result" id="sipRecommendationResult" aria-live="polite">Your guidance will appear here after you answer the questions.</div>
+  <p class="note">Educational guidance only—not a personalised investment recommendation. Mutual fund returns are not guaranteed and losses are possible. Consider a SEBI-registered investment adviser for advice tailored to your circumstances.</p>
+</section>
+<section class="card">
   <span class="tag">SIP GUIDE</span>
   <h3>📈 SIP Calculator — How Does It Work?</h3>
 
@@ -984,6 +1015,36 @@ function calcDebt(){
  let payoff=debts.map(d=>`<tr><td>${escapeHtml(d.name)}</td><td>${money(d.paid)}</td><td>${money(d.interest)}</td></tr>`).join('');
  let checkpoints=schedule.filter((s,i)=>i===0||(i+1)%6===0||i===schedule.length-1).map(s=>`<tr><td>${s.month}</td><td>${money(s.balance)}</td><td>${money(s.interest)}</td></tr>`).join('');
  el('debtDetails').innerHTML=`<div class="summary-grid"><div><small>Monthly minimums entered</small><strong>${money(totalMin)}</strong></div><div><small>Extra per month</small><strong>${money(extra)}</strong></div><div><small>Months simulated</small><strong>${months}</strong></div></div><h4>Debt-by-debt payment estimate</h4><div class="table-wrap"><table><thead><tr><th>Debt</th><th>Paid toward debt</th><th>Interest accrued</th></tr></thead><tbody>${payoff}</tbody></table></div><h4>Progress checkpoints</h4><div class="table-wrap"><table><thead><tr><th>Month</th><th>Remaining balance</th><th>Cumulative interest</th></tr></thead><tbody>${checkpoints}</tbody></table></div>`;
+}
+function recommendSIP(){
+ const goal=el('sipGoalYears').value, risk=el('sipRisk').value, emergency=el('sipEmergency').value, debt=el('sipDebt').value;
+ let heading='', advice='';
+ if(emergency==='no'&&debt==='yes'){
+   heading='Build financial stability first';
+   advice='Consider starting with emergency savings and prioritising expensive debt repayments before committing money to a market-linked SIP. Keep essential expenses and required debt payments covered.';
+ }else if(emergency==='no'){
+   heading='Start with an emergency fund';
+   advice='Consider building accessible savings for essential expenses first. Money needed for emergencies should not depend on market performance.';
+ }else if(debt==='yes'){
+   heading='Review high-interest debt first';
+   advice='Compare the cost of your high-interest debt with the uncertainty of investment returns. Paying down expensive debt may deserve priority before increasing market-linked investments.';
+ }else if(goal==='short'){
+   heading='Short-term goal: be cautious with market risk';
+   advice='For money needed within 3 years, an equity-oriented SIP may be unsuitable because markets can fall just when you need the money. Explore lower-volatility options and understand their risks and terms.';
+ }else if(goal==='medium'){
+   heading='Medium-term goal: protect the goal amount';
+   advice='For a 3–5 year goal, consider how much loss you could tolerate and when the money must be available. Equity market risk may be too high for money you cannot afford to lose; compare suitable options carefully.';
+ }else if(risk==='low'){
+   heading='Lower risk tolerance';
+   advice='A high-equity SIP may not match your comfort with losses, even for a longer goal. Learn about different asset classes and consider professional guidance before choosing a product.';
+ }else if(goal==='long'&&risk==='moderate'){
+   heading='A long-term SIP may be worth exploring';
+   advice='With a 5–7 year horizon and some tolerance for fluctuations, you can learn about diversified mutual fund categories, costs, risk levels and drawdowns. This is not a recommendation to buy a particular scheme.';
+ }else{
+   heading='Long-term investing: compare options carefully';
+   advice='For a goal more than 7 years away, a diversified equity mutual fund SIP may be one option if you can tolerate substantial temporary losses and stay invested. Compare risk, costs, diversification and fund documents; do not choose on past returns alone.';
+ }
+ el('sipRecommendationResult').innerHTML='<strong>'+escapeHtml(heading)+'</strong><br>'+escapeHtml(advice)+'<br><br><span class="note">Market-linked investments can lose value. Past performance does not guarantee future returns.</span>';
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
