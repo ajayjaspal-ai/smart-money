@@ -899,7 +899,7 @@ function showSmartMoneyTab(tab){
     const tag=(card.querySelector('.tag')?.textContent||'').trim().toUpperCase();
     let view='tools';
     if(tag==='LOAN PLANNER'||tag==='EMI GUIDE'||tag==='HOME BUYER PLANNER'||tag==='HOME LOAN GUIDE')view='loans';
-    else if(tag==='INVESTMENT PLANNER'||tag==='SIP GUIDE')view='investments';
+    else if(tag==='INVESTMENT PLANNER'||tag==='GROWTH PLANNER'||tag==='SIP GUIDE')view='investments';
     else if(tag==='DEBT-FREE GUIDE'||card.id==='debt')view='debt';
     else if(tag==='MORE TOOLS')view='tools';
     else if(tag==='MONEY GUIDES')view='guides';
@@ -952,7 +952,7 @@ function restoreSmartMoneyTabFromUrl(){
     const tag=(card.querySelector('.tag')?.textContent||'').trim().toUpperCase();
     let view='tools';
     if(tag==='LOAN PLANNER'||tag==='EMI GUIDE'||tag==='HOME BUYER PLANNER'||tag==='HOME LOAN GUIDE')view='loans';
-    else if(tag==='INVESTMENT PLANNER'||tag==='SIP GUIDE')view='investments';
+    else if(tag==='INVESTMENT PLANNER'||tag==='GROWTH PLANNER'||tag==='SIP GUIDE')view='investments';
     else if(tag==='DEBT-FREE GUIDE'||card.id==='debt')view='debt';
     else if(tag==='MORE TOOLS')view='tools';
     else if(tag==='MONEY GUIDES')view='guides';
