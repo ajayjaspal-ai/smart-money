@@ -978,7 +978,7 @@ function calcSIP(){
  const n=Math.round(y*12),invested=p*n;
  function estimate(annual){const r=annual/1200;return r===0?invested:p*(Math.pow(1+r,n)-1)/r}
  const total=estimate(a),gain=total-invested;
- const scenarios=[0,6,8,10,12].filter((v,i,arr)=>arr.indexOf(v)===i).map(v=>({rate:v,value:estimate(v)}));
+ const scenarios=[...new Set([0,6,8,10,12,a])].sort((x,y)=>x-y).map(v=>({rate:v,value:estimate(v)}));
  let html='<p>Estimated value <span class="big">'+money(total)+'</span></p><p>Total invested: <b>'+money(invested)+'</b><br>Estimated gain: <b>'+money(gain)+'</b></p>';
  html+='<h4>How different return assumptions change the estimate</h4><div class="table-wrap"><table><thead><tr><th>Assumed annual return</th><th>Estimated future value</th><th>Gain / loss vs amount invested</th></tr></thead><tbody>';
  scenarios.forEach(s=>{html+='<tr><td>'+s.rate+'%</td><td>'+money(s.value)+'</td><td>'+money(s.value-invested)+'</td></tr>'});
