@@ -53,7 +53,8 @@ function calculate(){
  const L=P-d,n=Math.round(y*12),base=loanEstimate(L,r,n);
  loanOut.textContent=money(L);emiOut.textContent=money(base.emi);interestOut.textContent=money(base.interest);
  message.innerHTML='Estimated total repayment: <strong>'+money(base.total)+'</strong> · Down payment: <strong>'+money(d)+'</strong> · Total property outlay estimate: <strong>'+money(d+base.total)+'</strong>';
- const moreDown=Math.min(P-1-d,Math.max(10000,Math.round(P*.05/1000)*1000));
+ const maxExtraDown=Math.max(0,P-d-Math.max(1,P*.001));
+ const moreDown=Math.min(maxExtraDown,Math.max(10000,Math.round(P*.05/1000)*1000));
  const scenarios=[{name:'Your current plan',down:d,months:n},{name:'Higher down payment (+'+money(moreDown)+')',down:d+moreDown,months:n}];
  if(n>12)scenarios.push({name:'One year shorter tenure',down:d,months:n-12});
  if(n<480)scenarios.push({name:'One year longer tenure',down:d,months:n+12});
