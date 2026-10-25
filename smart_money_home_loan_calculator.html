@@ -53,8 +53,8 @@ function calculate(){
  const L=P-d,n=Math.round(y*12),base=loanEstimate(L,r,n);
  loanOut.textContent=money(L);emiOut.textContent=money(base.emi);interestOut.textContent=money(base.interest);
  message.innerHTML='Estimated total repayment: <strong>'+money(base.total)+'</strong> · Down payment: <strong>'+money(d)+'</strong> · Total property outlay estimate: <strong>'+money(d+base.total)+'</strong>';
- const moreDown=Math.min(P-d,Math.max(10000,Math.round(P*.05/1000)*1000));
- const scenarios=[{name:'Your current plan',down:d,months:n},{name:'5% higher property-price down payment',down:Math.min(P-1,d+moreDown),months:n}];
+ const moreDown=Math.min(P-1-d,Math.max(10000,Math.round(P*.05/1000)*1000));
+ const scenarios=[{name:'Your current plan',down:d,months:n},{name:'Higher down payment (+'+money(moreDown)+')',down:d+moreDown,months:n}];
  if(n>12)scenarios.push({name:'One year shorter tenure',down:d,months:n-12});
  if(n<480)scenarios.push({name:'One year longer tenure',down:d,months:n+12});
  let html='<h3>Compare your choices</h3><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:530px"><thead><tr><th>Scenario</th><th>EMI</th><th>Total interest</th><th>Interest vs current</th></tr></thead><tbody>';
