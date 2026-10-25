@@ -972,10 +972,20 @@ let x=loanMath(P,a,y);el('emiResult').innerHTML='Monthly EMI <span class="big">'
 function calcHome(){let price=+el('homePrice').value,down=+el('downPayment').value,a=+el('homeRate').value,y=+el('homeYears').value;
 if(!(price>0&&down>=0&&down<price&&a>=0&&y>0&&[price,down,a,y].every(Number.isFinite))){el('homeResult').textContent='Please enter valid values. Down payment must be less than property price.';return}
 let P=price-down,x=loanMath(P,a,y);el('homeResult').innerHTML='Estimated loan amount <span class="big">'+money(P)+'</span>Monthly EMI: <b>'+money(x.e)+'</b><br>Total interest: <b>'+money(x.interest)+'</b><br>Total loan repayment: <b>'+money(x.total)+'</b><br>Down payment: <b>'+money(down)+'</b><br>Estimated total property outlay: <b>'+money(down+x.total)+'</b>'}
-function calcSIP(){let p=+el('sipAmt').value,a=+el('sipRate').value,y=+el('sipYears').value;
-if(!(p>0&&a>=0&&y>0&&[p,a,y].every(Number.isFinite))){el('sipResult').textContent='Please enter valid values.';return}
-let n=Math.round(y*12),r=a/1200,invested=p*n,total=r===0?invested:p*(Math.pow(1+r,n)-1)/r;
-el('sipResult').innerHTML='Estimated value <span class="big">'+money(total)+'</span>Invested: <b>'+money(invested)+'</b><br>Estimated gain: <b>'+money(total-invested)+'</b>'}
+function calcSIP(){
+ const p=Number(el('sipAmt').value),a=Number(el('sipRate').value),y=Number(el('sipYears').value);
+ if(el('sipAmt').value.trim()===''||el('sipRate').value.trim()===''||el('sipYears').value.trim()===''||![p,a,y].every(Number.isFinite)||!(p>0&&a>=0&&a<=30&&y>0&&y<=50)){el('sipResult').textContent='Enter a monthly investment above ₹0, annual return from 0% to 30%, and a period from 0.1 to 50 years.';return}
+ const n=Math.round(y*12),invested=p*n;
+ function estimate(annual){const r=annual/1200;return r===0?invested:p*(Math.pow(1+r,n)-1)/r}
+ const total=estimate(a),gain=total-invested;
+ const scenarios=[0,6,8,10,12].filter((v,i,arr)=>arr.indexOf(v)===i).map(v=>({rate:v,value:estimate(v)}));
+ let html='<p>Estimated value <span class="big">'+money(total)+'</span></p><p>Total invested: <b>'+money(invested)+'</b><br>Estimated gain: <b>'+money(gain)+'</b></p>';
+ html+='<h4>How different return assumptions change the estimate</h4><div class="table-wrap"><table><thead><tr><th>Assumed annual return</th><th>Estimated future value</th><th>Gain / loss vs amount invested</th></tr></thead><tbody>';
+ scenarios.forEach(s=>{html+='<tr><td>'+s.rate+'%</td><td>'+money(s.value)+'</td><td>'+money(s.value-invested)+'</td></tr>'});
+ html+='</tbody></table></div>';
+ html+='<h4>What this means for your plan</h4><ul><li>You would contribute '+money(p)+' each month, or '+money(invested)+' over the full period if every instalment is made.</li><li>Compare the 6%, 8%, 10% and 12% scenarios rather than relying on one return assumption.</li><li>Market-linked returns are uneven and can be negative. These calculations are illustrations, not forecasts or guaranteed outcomes.</li><li>Keep emergency money accessible and consider expensive debt, goal timing, fund costs and taxes before investing.</li></ul><p class="note">This estimate assumes monthly contributions at the end of each month and a steady mathematical return. Real mutual fund returns vary, and actual values may be lower or higher. Taxes, fees and inflation are not included.</p>';
+ el('sipResult').innerHTML=html;
+}
 let debtId=0;
 function addDebt(name='',bal='',apr='',min=''){debtId++;let d=document.createElement('div');d.className='debt-row';d.innerHTML=`<div class="debt-name"><label>Debt name</label><input autocomplete="off" class="dname" placeholder="e.g. Personal loan"></div><div><label>Balance (₹)</label><input autocomplete="off" class="dbal" type="number" min="0.01" step="any" placeholder="100000"></div><div><label>APR (%)</label><input autocomplete="off" class="dapr" type="number" min="0" step=".01" placeholder="18"></div><div><label>Minimum (₹/mo)</label><input autocomplete="off" class="dmin" type="number" min="0" step="any" placeholder="5000"></div><button type="button" aria-label="Remove debt" onclick="this.parentElement.remove()">Remove</button>`;el('debtRows').appendChild(d)}
 function calcDebt(){
