@@ -136,13 +136,26 @@ button{border:0;border-radius:10px;padding:13px 18px;font-size:16px;font-weight:
 function money(n){return "₹"+Math.round(n).toLocaleString("en-IN")}
 function calc(P,r,t,n){let A=P*Math.pow(1+(r/100)/n,n*t);return{A,interest:A-P}}
 function calculate(){
- const P=+principal.value,r=+rate.value,t=+years.value,n=+frequency.value;
- if(P<=0||r<0||t<=0){message.textContent="Please enter valid values.";return}
+ const P=Number(principal.value),r=Number(rate.value),t=Number(years.value),n=Number(frequency.value);
+ if([principal,rate,years].some(x=>x.value.trim()==="")||
+    ![P,r,t,n].every(Number.isFinite)||P<=0||P>1e12||r<0||r>50||t<=0||t>100||![1,2,4,12].includes(n)){
+  message.textContent="Enter a deposit above ₹0 (up to ₹1,000 crore), an annual rate from 0% to 50%, a tenure above 0 and up to 100 years, and a valid compounding frequency.";
+  outPrincipal.textContent=outInterest.textContent=outMaturity.textContent="—";
+  comparison.innerHTML="";
+  return;
+ }
  const x=calc(P,r,t,n);
- outPrincipal.textContent=money(P);outInterest.textContent=money(x.interest);outMaturity.textContent=money(x.A);
- message.innerHTML="Estimated maturity after <strong>"+t+" years</strong>: <strong>"+money(x.A)+"</strong>.";
  const opts=[[1,"Yearly"],[2,"Half-yearly"],[4,"Quarterly"],[12,"Monthly"]];
- comparison.innerHTML=opts.map(o=>{let q=calc(P,r,t,o[0]);return `<tr><td>${o[1]}</td><td>${money(q.A)}</td><td>${money(q.interest)}</td></tr>`}).join("");
+ const comparisons=opts.map(o=>({label:o[1],result:calc(P,r,t,o[0])}));
+ if(!Number.isFinite(x.A)||!Number.isFinite(x.interest)||comparisons.some(o=>!Number.isFinite(o.result.A))){
+  message.textContent="These inputs produce a result too large to calculate reliably. Reduce the deposit, rate or tenure.";
+  outPrincipal.textContent=outInterest.textContent=outMaturity.textContent="—";
+  comparison.innerHTML="";
+  return;
+ }
+ outPrincipal.textContent=money(P);outInterest.textContent=money(x.interest);outMaturity.textContent=money(x.A);
+ message.innerHTML="Estimated maturity after <strong>"+t+" years</strong>: <strong>"+money(x.A)+"</strong>. This illustration assumes the selected compounding frequency and does not include tax, TDS, fees or premature-withdrawal penalties.";
+ comparison.innerHTML=comparisons.map(o=>`<tr><td>${o.label}</td><td>${money(o.result.A)}</td><td>${money(o.result.interest)}</td></tr>`).join("");
 }
 function resetForm(){principal.value='';rate.value='';years.value='';message.textContent='Enter your details and calculate.';outPrincipal.textContent='—';outInterest.textContent='—';outMaturity.textContent='—';comparison.innerHTML='';}
 </script>
