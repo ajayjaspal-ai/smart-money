@@ -102,17 +102,27 @@ canvas{width:100%;height:260px;border:1px solid #e2e7ef;border-radius:12px;backg
 <script>
 function money(n){return "₹"+Math.round(n).toLocaleString("en-IN")}
 function calculate(){
- const P=+principal.value,C=+contribution.value,annualRate=+rate.value/100,y=+years.value,n=+frequency.value,cf=+contribFreq.value;
- if(!Number.isFinite(P)||!Number.isFinite(C)||!Number.isFinite(annualRate)||!Number.isFinite(y)||P<0||C<0||annualRate<0||annualRate>10||y<=0||y>100||![1,2,4,12].includes(n)||![1,2,4,12].includes(cf)){message.textContent="Enter valid values. Rate must be 0–10, duration must be above 0 and no more than 100 years.";return}
+ const P=Number(principal.value),C=Number(contribution.value),annualRate=Number(rate.value)/100,y=Number(years.value),n=Number(frequency.value),cf=Number(contribFreq.value);
+ if([principal,contribution,rate,years].some(x=>x.value.trim()==="")||
+    ![P,C,annualRate,y,n,cf].every(Number.isFinite)||P<0||P>1e12||C<0||C>1e10||
+    P+C===0||annualRate<0||annualRate>0.30||y<=0||y>80||
+    ![1,2,4,12].includes(n)||![1,2,4,12].includes(cf)){
+  message.textContent="Enter valid values: at least one of initial investment or regular contribution must be above ₹0; annual rate 0–30%; duration above 0 and up to 80 years. Choose a valid compounding and contribution frequency.";
+  invested.textContent=interest.textContent=finalValue.textContent="—";tableBody.innerHTML="";drawChart([]);return;
+ }
  const months=Math.max(1,Math.round(y*12)),depositEvery=12/cf,monthlyGrowth=Math.pow(1+annualRate/n,n/12);
  let bal=P,total=P,rows=[];
  for(let m=1;m<=months;m++){
   bal*=monthlyGrowth;
   if(m%depositEvery===0){bal+=C;total+=C}
+  if(!Number.isFinite(bal)||!Number.isFinite(total)){
+   message.textContent="These inputs produce a result too large to calculate reliably. Reduce the investment, contribution, rate or duration.";
+   invested.textContent=interest.textContent=finalValue.textContent="—";tableBody.innerHTML="";drawChart([]);return;
+  }
   if(m%12===0||m===months){rows.push({year:Math.ceil(m/12),invested:total,value:bal,interest:bal-total})}
  }
  invested.textContent=money(total);interest.textContent=money(bal-total);finalValue.textContent=money(bal);
- message.innerHTML="Projected value after <strong>"+(months/12).toLocaleString("en-IN",{maximumFractionDigits:2})+" years</strong>: <strong>"+money(bal)+"</strong>. Regular contributions are assumed at the end of each selected contribution interval; actual returns may differ.";
+ message.innerHTML="Projected value after <strong>"+(months/12).toLocaleString("en-IN",{maximumFractionDigits:2})+" years</strong>: <strong>"+money(bal)+"</strong>. Returns are assumed to compound at the selected frequency; contributions are added at the end of each selected contribution interval. Taxes, fees and actual market returns are not included.";
  tableBody.innerHTML=rows.map(x=>"<tr><td>"+x.year+"</td><td>"+money(x.invested)+"</td><td>"+money(x.interest)+"</td><td>"+money(x.value)+"</td></tr>").join("");
  drawChart(rows)
 }
