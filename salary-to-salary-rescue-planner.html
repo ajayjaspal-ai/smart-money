@@ -95,9 +95,7 @@ main{max-width:1100px;margin:auto;padding:26px 18px 56px}.intro{background:linea
 (function(){
  const $=id=>document.getElementById(id);
  const localISO=d=>{const x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)};
- const today=localISO(new Date()),nextDefault=new Date();nextDefault.setDate(nextDefault.getDate()+30);
- $('salaryDate').value=localISO(nextDefault);
- document.querySelectorAll('.due').forEach(el=>el.value=localISO(new Date(Date.now()+86400000)));
+ const today=localISO(new Date());
  const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number.isFinite(n)?n:0);
  const num=id=>Math.max(0,Number($(id).value)||0);
  const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
