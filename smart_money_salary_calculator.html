@@ -154,7 +154,16 @@ function calculate(){
  const hra=gross-basic;
  const pf=basic*pfRate/100;
  const total=pf+pt+tds+other;
- const net=Math.max(0,gross-total);
+ if(!Number.isFinite(total)||total>gross){
+   message.textContent="Your entered monthly deductions exceed monthly gross salary. Check PF, professional tax, TDS and other deductions.";
+   document.getElementById("gross").textContent=money(gross);
+   document.getElementById("deductions").textContent=money(total);
+   document.getElementById("net").textContent="—";
+   document.getElementById("annualNet").textContent="—";
+   breakdown.innerHTML="";
+   return;
+ }
+ const net=gross-total;
  document.getElementById("gross").textContent=money(gross);
  document.getElementById("deductions").textContent=money(total);
  document.getElementById("net").textContent=money(net);
